@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+
+    {% block metatags %}{% endblock %}
+
+    <title>{% block title %}{{ _appName }}{% endblock %}</title>
+
+    <link rel="stylesheet" href="{{ asset('css/neumorphism.css') }}">
+    <link rel="stylesheet" href="{{ asset('css/styles.css') }}">
+    {% block stylesheets %}{% endblock %}
+
+    <link rel="icon" type="image/png" href="{{ asset('favicons/favicon-96x96.png?v=20260613') }}" sizes="96x96">
+    <link rel="shortcut icon" href="{{ asset('favicons/favicon.ico?v=20260613') }}">
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ asset('favicons/apple-touch-icon.png?v=20260613') }}">
+    <link rel="manifest" href="{{ app_url('/site.webmanifest?v=20260613') }}">
+</head>
+<body>
+    <header>
+        <div class="logo">
+            <a href="{{ route('home') }}">
+                <picture>
+                    <source srcset="{{ asset('img/logo-70x70.webp') }}" type="image/webp">
+                    <img src="{{ asset('img/logo-70x70.png') }}" alt="Beacon Logo">
+                </picture>
+            </a>
+            <div>
+                <span class="app-name">{{ _appName }}</span><br>
+                <span class="app-slogan">{{ _appSlogan }}</span>
+            </div>
+        </div>
+
+        <nav>
+            <div class="navbar">
+                {% if guest() %}
+                    <a href="{{ route('home') }}" class="{{ isActiveRoute('home') ? 'active' : '' }}">Home</a>
+                    <a href="{{ route('login') }}" class="{{ isActiveRoute('login') ? 'active' : '' }}">Login</a>
+                    <a href="{{ route('register') }}" class="{{ isActiveRoute('register') ? 'active' : '' }}">Register</a>
+                {% else %}
+                    <a href="{{ route('dashboard') }}" class="{{ isActiveRoute('dashboard') ? 'active' : '' }}">Dashboard</a>
+                    <a href="{{ route('logout') }}" class="{{ isActiveRoute('logout') ? 'active' : '' }}">Logout</a>
+                {% endif %}
+            </div>
+        </nav>
+    </header>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <div class="version">{{ _appName }} v{{ _appVersion }}</div>
+        <div class="copyright">{{ _appCopyright|raw }}</div>
+    </footer>
+
+    {% block footer_scripts %}{% endblock %}
+</body>
+</html>

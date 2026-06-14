@@ -1,0 +1,16 @@
+<?php
+
+use App\Database\Migration;
+
+return new class extends Migration
+{
+    public function up(): void
+    {
+        $this->schema()->dropIfExists('{{table}}');
+    }
+
+    public function down(): void
+    {
+        throw new RuntimeException('This migration cannot be automatically reversed.');
+    }
+};

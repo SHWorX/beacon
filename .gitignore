@@ -1,0 +1,6 @@
+.env
+.idea
+.ash_history
+.composer
+composer.lock
+vendor

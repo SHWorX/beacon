@@ -1,0 +1,121 @@
+{% extends 'layouts/layout.twig' %}
+
+{% block content %}
+    <section class="login">
+        <div class="card border-radius-md shadow-sm text-center">
+            <h1 class="pb-sm mb-sm bb-1">Register</h1>
+
+            {% if errors.auth_error is defined %}
+                <div class="error border-radius-sm">
+                    {{ errors.auth_error }}
+                </div>
+            {% endif %}
+
+            <form action="{{ route('register.post') }}" method="POST">
+                {{ csrf() }}
+
+                <label for="username" class="bold m-0-auto">Username</label>
+                <div class="spacer-xs"></div>
+                <input
+                        id="username"
+                        type="text"
+                        name="username"
+                        class="input{% if errors.username is defined %} field-error{% endif %}"
+                        placeholder="{{ old.name|default('Username')|e }}"
+                        autocomplete="on"
+                        required
+                >
+                {% if errors.username is defined %}
+                    <div class="form-error mt-xs">
+                        {% for error in errors.username %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <div class="spacer-md"></div>
+
+                <label for="email" class="bold m-0-auto">Email</label>
+                <div class="spacer-xs"></div>
+                <input
+                        id="email"
+                        type="email"
+                        name="email"
+                        class="input{% if errors.email is defined %} field-error{% endif %}"
+                        placeholder="{{ old.name|default('you@example.org')|e }}"
+                        autocomplete="on"
+                        required
+                >
+                {% if errors.email is defined %}
+                    <div class="form-error mt-xs">
+                        {% for error in errors.email %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <div class="spacer-md"></div>
+
+                <label for="password" class="bold">Password</label>
+                <div class="spacer-xs"></div>
+                <input
+                        id="password"
+                        type="password"
+                        name="password"
+                        class="input{% if errors.password is defined %} field-error{% endif %}"
+                        autocomplete="on"
+                        required
+                >
+                {% if errors.password is defined %}
+                    <div class="form-error mt-xs">
+                        {% for error in errors.password %}
+                            <span>{{ error }}</span><br>
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <div class="spacer-md"></div>
+
+                <label for="confirm_password" class="bold">Password Confirmation</label>
+                <div class="spacer-xs"></div>
+                <input
+                        id="confirm_password"
+                        type="password"
+                        name="confirm_password"
+                        class="input{% if errors.confirm_password is defined %} field-error{% endif %}"
+                        autocomplete="on"
+                        required
+                >
+                {% if errors.confirm_password is defined %}
+                    <div class="form-error mt-xs">
+                        <span>{{ errors.confirm_password|first }}</span>
+                    </div>
+                {% endif %}
+                <div id="password_mismatch" class="text-danger mt-xs">Passwords do not match</div>
+                <div class="pt-xs">
+                    <div class="has-popover text-primary" data-popover="">
+                        Password policy
+                    </div>
+                    <div id="popover">
+                        <div class="bb-1 pb-xs bold">Password policy</div>
+                        <ul class='pt-xs pl-sm pr-sm text-left'>
+                            <li>Min. 8 characters</li>
+                            <li>Min. 1 lowercase character</li>
+                            <li>Min. 1 uppercase character</li>
+                            <li>Min. 1 number</li>
+                            <li>Min. 1 special character</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="spacer-sm"></div>
+
+                <div class="row justify-center">
+                    <input type="reset" class="btn btn-danger shadow-sm mt-md" value="Reset">
+                    <input type="submit" class="btn btn-primary shadow-sm mt-md" value="Register">
+                </div>
+            </form>
+        </div>
+    </section>
+{% endblock %}
+
+{% block footer_scripts %}
+    <script src="{{ asset('js/popover.js') }}" defer></script>
+    <script src="{{ asset('js/password-mismatch.js') }}"></script>
+{% endblock %}

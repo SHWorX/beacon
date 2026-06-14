@@ -1,0 +1,43 @@
+services:
+  webserver:
+    build: ./docker
+    depends_on:
+      - maria
+      - mailpit
+    ports:
+      - "80:80"
+      - "443:443"
+    hostname: image-archive.local
+    working_dir: /var/www/main
+    tty: true
+    volumes:
+      - .:/var/www/main
+      - /tmp:/tmp
+      - ./docker/config/conf.d:/etc/nginx/conf.d
+      - ./docker/config/ssl:/etc/nginx/ssl
+      - ./docker/logs:/var/log/nginx
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+  maria:
+    build: ./docker/mariadb
+    tty: true
+    volumes:
+      - /etc/timezone:/etc/timezone:ro
+      - /etc/localtime:/etc/localtime:ro
+      - maria-storage:/var/lib/mysql
+    environment:
+      MYSQL_DATABASE: "${DB_DATABASE:-image_archive}"
+      MYSQL_USER: "${DB_USERNAME:-image_archive}"
+      MYSQL_PASSWORD: "${DB_PASSWORD:-secret}"
+      MYSQL_ROOT_PASSWORD: "${DB_ROOT_PASSWORD:-secret}"
+    ports:
+      - "3306:3306"
+  mailpit:
+      image: axllent/mailpit:latest
+      environment:
+          TZ: Asia/Kuala_Lumpur
+      ports:
+          - "8025:8025"
+          - "1025:1025"
+volumes:
+  maria-storage:

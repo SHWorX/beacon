@@ -1,0 +1,28 @@
+<!doctype html>
+
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>Verify your email address</title>
+</head>
+<body style="font-family: Arial, sans-serif; line-height: 1.6; color: #333333;">
+
+<h2>Welcome to {{ _appName }}!</h2>
+
+<p>Hi {{ username }},</p>
+<p>
+    Thank you for creating an account.<br>
+    To complete your registration, please verify your email address by clicking the link below:
+</p>
+<p><a href="{{ url }}">Verify Email Address</a></p>
+<p>If the link above does not work, copy and paste the following URL into your browser:</p>
+<p>{{ url }}</p>
+<p>
+    <b>Important:</b><br>
+    This verification link is valid for a limited time only.<br>
+    If you did not create an account, you can safely ignore this email.
+</p>
+<hr>
+<p style="font-size: 12px; color: #777777;">{{ _appName }} - {{ _appSlogan }}</p>
+</body>
+</html>

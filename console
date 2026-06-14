@@ -1,0 +1,19 @@
+#!/usr/bin/env php
+<?php
+/*
+ * Project:     Beacon
+ * File:        console.php
+ * Date:        2026-06-12
+ * Author:      Steffen Haase <shworx.development@gmail.com
+ * Copyright:   2026 SHWorX (Steffen Haase)
+ */
+
+use App\Console\Kernel;
+
+require_once __DIR__ . '/vendor/autoload.php';
+require_once __DIR__ . '/bootstrap/helpers.php';
+
+$container = require_once __DIR__ . '/bootstrap/app.php';
+$kernel = $container->make(Kernel::class);
+
+exit($kernel->handle($_SERVER['argv']));

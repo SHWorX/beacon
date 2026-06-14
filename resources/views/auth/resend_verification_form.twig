@@ -1,0 +1,45 @@
+{% extends 'layouts/layout.twig' %}
+
+{% block content %}
+    <section class="login">
+        <div class="card border-radius-md shadow-sm text-center">
+            <h1 class="pb-sm mb-sm">Resend Verification Email</h1>
+
+            <p class="bt-1 bb-1 pt-xs pb-xs">Please fill in your email address, which you have used to register an account.</p>
+
+            {% if errors.verification is defined %}
+                <div class="error border-radius-sm">
+                    {{ errors.verification }}
+                </div>
+            {% endif %}
+
+            <form action="{{ route('register.resend-verification') }}" method="POST">
+                {{ csrf() }}
+
+                <label for="email" class="bold m-0-auto">Email</label>
+                <div class="spacer-xs"></div>
+                <input
+                        id="email"
+                        type="email"
+                        name="email"
+                        class="input"
+                        placeholder="{{ old.name|default('you@example.org')|e }}"
+                        autocomplete="on"
+                        required
+                >
+                {% if errors.email is defined %}
+                    <div class="form-error mt-xs">
+                        {% for error in errors.email %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <div class="spacer-md"></div>
+
+                <div class="flex justify-center">
+                    <button class="btn shadow-sm mt-md">Resend</button>
+                </div>
+            </form>
+        </div>
+    </section>
+{% endblock %}

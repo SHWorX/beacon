@@ -1,0 +1,916 @@
+/*
+ * Project:     Beacon
+ * File:        neumorphism.css
+ * Date:        2026-06-09
+ * Author:      Steffen Haase <shworx.development@gmail.com
+ * Copyright:   2026 SHWorX (Steffen Haase)
+ */
+
+/* =============================================
+   GLOBAL
+   ============================================= */
+* {
+    margin: 0;
+    padding: 0;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+}
+
+:root {
+    /* Colors */
+    --bg: #e0e5ec;
+    --surface: #e0e5ec;
+    --surface-dark: #d5d7e0;
+    --text: #4a5568;
+    --text-light: #718096;
+    --border-color-light: rgba(163, 177, 198, 0.41);
+
+    --color-primary: #4c6ef5;
+    --color-success: #2f9e44;
+    --color-danger: #e03131;
+    --color-warn: #e09a31;
+
+
+    /* Shadows */
+    --shadow-light: #ffffff;
+    --shadow-dark: #a3b1c6;
+
+    /* Radius */
+    --radius-xs: 8px;
+    --radius-sm: 12px;
+    --radius-md: 20px;
+    --radius-lg: 30px;
+
+    /* Spacing */
+    --space-xs: 0.5rem;
+    --space-sm: 1rem;
+    --space-md: 1.5rem;
+    --space-lg: 2rem;
+
+    /* Animation */
+    --transition: 0.25s ease;
+}
+
+.row {
+    display: flex;
+    flex-flow: row wrap;
+    gap: 1rem;
+    align-items: start;
+    justify-content: space-evenly;
+}
+
+/* ==========================================
+   BASE NEUMORPHIC SURFACE
+   ========================================== */
+.neu {
+    background: var(--surface);
+    border: 1px solid var(--border-color-light);
+    box-shadow:
+            8px 8px 16px var(--shadow-dark),
+            -8px -8px 16px var(--shadow-light);
+}
+
+.neu-sm {
+    box-shadow:
+            4px 4px 8px var(--shadow-dark),
+            -4px -4px 8px var(--shadow-light);
+}
+
+.neu-lg {
+    box-shadow:
+            15px 15px 30px var(--shadow-dark),
+            -15px -15px 30px var(--shadow-light);
+}
+
+/* ==========================================
+   INSET / PRESSED
+   ========================================== */
+.neu-inset {
+    background: var(--surface);
+    box-shadow:
+            inset 6px 6px 12px var(--shadow-dark),
+            inset -6px -6px 12px var(--shadow-light);
+}
+
+/* ==========================================
+   CARD
+   ========================================== */
+.card {
+    padding: 1.5rem;
+    background: var(--surface);
+    border: 1px solid var(--border-color-light);
+    box-shadow:
+            12px 12px 24px var(--shadow-dark),
+            -12px -12px 24px var(--shadow-light);
+}
+
+.card h1 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+}
+
+.card h3 {
+    margin-top: 0;
+    margin-bottom: 0.5rem;
+}
+
+.card p {
+    margin-bottom: var(--space-xs);
+}
+
+/* ==========================================
+   BUTTONS
+   ========================================== */
+.btn {
+    appearance: none;
+    outline: none;
+    cursor: pointer;
+
+    padding: 1rem 1.5rem;
+
+    border-radius: var(--radius-sm);
+    border: 1px solid var(--border-color-light);
+    background: var(--surface);
+
+    color: var(--text);
+    font-size: 0.8rem;
+    font-weight: 700;
+
+    /*transition: all var(--transition);*/
+
+    box-shadow:
+            8px 8px 16px var(--shadow-dark),
+            -8px -8px 16px var(--shadow-light);
+}
+
+.btn:active {
+    /*transform: translateY(0);*/
+    box-shadow:
+            inset 6px 6px 12px var(--shadow-dark),
+            inset -6px -6px 12px var(--shadow-light);
+}
+
+.btn-primary {
+    color: var(--color-primary);
+}
+
+.btn-success {
+    color: var(--color-success);
+}
+
+.btn-danger {
+    color: var(--color-danger);
+}
+
+.btn:hover {
+    background: var(--surface-dark);
+}
+
+.btn:focus-visible {
+    outline: 2px solid var(--surface);
+    outline-offset: 2px;
+}
+
+.btn-primary:hover
+{
+    background: rgba(76, 110, 245, 0.1);
+}
+
+.btn-primary:focus-visible {
+    background: rgba(76, 110, 245, 0.1);
+    outline: 2px solid rgba(76, 110, 245, 0.4);
+    outline-offset: 2px;
+}
+
+.btn-success:hover {
+    background: rgba(47, 158, 68, .1);
+}
+
+.btn-success:focus-visible {
+    background: rgba(47, 158, 68, .1);
+    outline: 2px solid rgba(47, 158, 68, .4);
+    outline-offset: 2px;
+}
+
+.btn-danger:hover {
+    background: rgba(224, 49, 49, 0.1);
+}
+
+.btn-danger:focus-visible {
+    background: rgba(224, 49, 49, 0.1);
+    outline: 2px solid rgba(224, 49, 49, 0.4);
+    outline-offset: 2px;
+}
+
+/* ==========================================
+   INPUTS
+   ========================================== */
+.input,
+textarea,
+select {
+    width: 100%;
+
+    border: none;
+    outline: none;
+
+    padding: 1rem 1.25rem;
+
+    background: var(--surface);
+
+    border-radius: var(--radius-md);
+
+    color: var(--text);
+    font-size: 1rem;
+
+    box-shadow:
+            inset 6px 6px 12px var(--shadow-dark),
+            inset -6px -6px 12px var(--shadow-light);
+}
+
+select {
+    appearance: none;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+}
+
+.select-wrapper {
+    position: relative;
+}
+
+.select-wrapper::after {
+    content: "⌄";
+
+    position: absolute;
+    right: 1.25rem;
+    top: 50%;
+
+    transform: translateY(-50%);
+
+    pointer-events: none;
+
+    color: var(--text-light);
+    font-size: 1.5rem;
+}
+
+.input::placeholder,
+textarea::placeholder {
+    color: var(--text-light);
+}
+
+/* ==========================================
+   CHECKBOX
+   ========================================== */
+.checkbox-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+    cursor: pointer;
+}
+
+.checkbox {
+    display: none;
+}
+
+.checkmark {
+    width: 24px;
+    height: 24px;
+
+    position: relative;
+    flex-shrink: 0;
+
+    border: 1px solid var(--border-color-light);
+    border-radius: 8px;
+
+    background: var(--surface);
+
+    box-shadow:
+            5px 5px 10px var(--shadow-dark),
+            -5px -5px 10px var(--shadow-light);
+}
+
+/* SVG checkmark */
+.checkmark::after {
+    content: "";
+
+    position: absolute;
+    inset: 4px;
+
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: contain;
+
+    opacity: 0;
+    transform: scale(0.5);
+
+    transition:
+            opacity 0.2s ease,
+            transform 0.2s ease;
+
+    /*background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath fill='currentColor' d='M7.6 14.6L3.3 10.3l-1.4 1.4 5.7 5.7L18.1 6.9l-1.4-1.4z'/%3E%3C/svg%3E");*/
+
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M4 10 L8 14 L16 6' fill='none' stroke='%23718096' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");}
+
+/* Show SVG when checked */
+.checkbox:checked + .checkmark::after {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* ==========================================
+   TOGGLE SWITCH
+   ========================================== */
+.switch {
+    position: relative;
+
+    display: inline-block;
+
+    width: 60px;
+    height: 32px;
+}
+
+.switch input {
+    position: absolute;
+    opacity: 0;
+}
+
+.slider {
+    position: absolute;
+    inset: 0;
+
+    border-radius: 999px;
+
+    /*border: 1px solid rgba(255,255,255,.4);*/
+    border: 1px solid var(--border-color-light);
+    /*border: 1px solid rgba(255,255,255,.4);*/
+
+    background: var(--surface);
+
+    box-shadow:
+            inset 2px 2px 4px var(--shadow-dark),
+            inset -2px -2px 4px var(--shadow-light);
+
+    cursor: pointer;
+}
+
+.slider::before {
+    content: "";
+
+    position: absolute;
+
+    width: 22px;
+    height: 22px;
+
+    top: 4px;
+    left: 4px;
+
+    border-radius: 50%;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border-color-light);
+
+    box-shadow:
+            3px 3px 6px var(--shadow-dark),
+            -3px -3px 6px var(--shadow-light);
+
+    transition: transform 0.25s ease;
+}
+
+.switch input:checked + .slider::before {
+    transform: translateX(28px);
+    background: var(--text-light);
+    /*border: 1px solid var(--surface);*/
+}
+
+/* ==========================================
+   RADIO
+   ========================================== */
+.radio-wrapper {
+    display: flex;
+    align-items: center;
+    gap: 0.75rem;
+
+    cursor: pointer;
+
+    color: var(--text);
+}
+
+.radio {
+    display: none;
+}
+
+.radio-mark {
+    position: relative;
+
+    width: 24px;
+    height: 24px;
+
+    flex-shrink: 0;
+
+    border-radius: 50%;
+
+    background: var(--surface);
+
+    border: 1px solid var(--border-color-light);
+
+    box-shadow:
+            5px 5px 10px var(--shadow-dark),
+            -5px -5px 10px var(--shadow-light);
+
+    transition: all 0.2s ease;
+}
+
+.radio-mark::after {
+    content: "";
+
+    position: absolute;
+
+    top: 50%;
+    left: 50%;
+
+    width: 10px;
+    height: 10px;
+
+    border-radius: 50%;
+
+    background: var(--text-light);
+
+    transform: translate(-50%, -50%) scale(0);
+
+    opacity: 0;
+
+    transition:
+            transform 0.2s ease,
+            opacity 0.2s ease;
+}
+
+.radio:checked + .radio-mark::after {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+}
+/* ==========================================
+   PROGRESS BAR
+   ========================================== */
+.progress {
+    height: 20px;
+    overflow: hidden;
+
+    border: 1px solid var(--border-color-light);
+    border-radius: 50px;
+
+    box-shadow:
+            inset 4px 4px 8px var(--shadow-dark),
+            inset -4px -4px 8px var(--shadow-light);
+}
+
+.progress-bar {
+    height: 100%;
+    width: 60%;
+
+    border-radius: inherit;
+
+    background: linear-gradient(
+            90deg,
+            #5c7cfa,
+            #748ffc
+    );
+}
+
+/* ==========================================
+   AVATAR
+   ========================================== */
+.avatar {
+    width: 80px;
+    height: 80px;
+
+    border: 1px solid var(--border-color-light);
+    border-radius: 50%;
+
+    object-fit: cover;
+
+    box-shadow:
+            8px 8px 16px var(--shadow-dark),
+            -8px -8px 16px var(--shadow-light);
+}
+
+/* ==========================================
+   FLOATING ACTION BUTTON
+   ========================================== */
+.fab {
+    width: 60px;
+    height: 60px;
+
+    cursor: pointer;
+
+    border: 1px solid var(--border-color-light);
+    border-radius: 50%;
+
+    background: var(--surface);
+
+    box-shadow:
+            10px 10px 20px var(--shadow-dark),
+            -10px -10px 20px var(--shadow-light);
+
+    transition: var(--transition);
+}
+
+.fab:active {
+    box-shadow:
+            inset 6px 6px 12px var(--shadow-dark),
+            inset -6px -6px 12px var(--shadow-light);
+}
+
+/* ==========================================
+   TOOLTIP / POPOVER
+   ========================================== */
+#popover {
+    position: fixed;
+    z-index: 9999;
+
+    padding: 0.5rem 0.75rem;
+
+    background: var(--surface);
+    color: var(--text);
+
+    border-radius: var(--radius-md);
+
+    border: 1px solid rgba(255,255,255,.35);
+
+    box-shadow:
+            8px 8px 16px var(--shadow-dark),
+            -8px -8px 16px var(--shadow-light);
+
+    font-size: 0.85rem;
+
+    pointer-events: none;
+
+    opacity: 0;
+    transform: scale(0.95);
+
+    transition: opacity 0.12s ease, transform 0.12s ease;
+}
+
+#popover.show {
+    opacity: 1;
+    transform: scale(1);
+}
+
+/* ==========================================
+   SHADOW
+   ========================================== */
+.shadow-sm {
+    box-shadow:
+            4px 4px 8px var(--shadow-dark),
+            -4px -4px 8px var(--shadow-light);
+}
+
+.shadow-m {
+    box-shadow:
+            8px 8px 16px var(--shadow-dark),
+            -8px -8px 16px var(--shadow-light);
+}
+
+.shadow-lg {
+    box-shadow:
+            15px 15px 30px var(--shadow-dark),
+            -15px -15px 30px var(--shadow-light);
+}
+
+.inset-sm {
+    box-shadow:
+            inset 4px 4px 8px var(--shadow-dark),
+            inset -4px -4px 8px var(--shadow-light);
+}
+
+.inset-lg {
+    box-shadow:
+            inset 15px 15px 30px var(--shadow-dark),
+            inset -15px -15px 30px var(--shadow-light);
+}
+
+/* ==========================================
+   FLEX
+   ========================================== */
+.flex {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.nowrap {
+    flex-wrap: nowrap;
+}
+
+/* ==========================================
+   BORDER
+   ========================================== */
+.bb-1 {
+    border-bottom: 1px solid var(--text-light);
+}
+
+.bt-1 {
+    border-top: 1px solid var(--text-light);
+}
+/* ==========================================
+   BORDER RADIUS
+   ========================================== */
+.border-radius-xs {
+    border-radius: var(--radius-xs);
+}
+
+.border-radius-sm {
+    border-radius: var(--radius-sm);
+}
+
+.border-radius-md {
+    border-radius: var(--radius-md);
+}
+
+.border-radius-lg {
+    border-radius: var(--radius-lg);
+}
+
+/* ==========================================
+   SPACING
+   ========================================== */
+/* Margins */
+.m-0 {
+    margin: 0;
+}
+
+.m-xs {
+    margin: var(--space-xs);
+}
+
+.m-sm {
+    margin: var(--space-sm);
+}
+
+.m-md {
+    margin: var(--space-md);
+}
+
+.m-lg {
+    margin: var(--space-lg);
+}
+
+.mt-6pc {
+    margin-top: 6%;
+}
+
+.mt-xs {
+    margin-top: var(--space-xs);
+}
+
+.mt-sm {
+    margin-top: var(--space-sm);
+}
+
+.mt-md {
+    margin-top: var(--space-md);
+}
+
+.mt-lg {
+    margin-top: var(--space-lg);
+}
+
+.mr-xs {
+    margin-right: var(--space-xs);
+}
+
+.mr-sm {
+    margin-right: var(--space-sm);
+}
+
+.mr-md {
+    margin-right: var(--space-md);
+}
+
+.mr-lg {
+    margin-right: var(--space-lg);
+}
+
+.ml-xs {
+    margin-left: var(--space-xs);
+}
+
+.ml-sm {
+    margin-left: var(--space-sm);
+}
+
+.ml-md {
+    margin-left: var(--space-md);
+}
+
+.ml-lg {
+    margin-left: var(--space-lg);
+}
+
+.mb-xs {
+    margin-bottom: var(--space-xs);
+}
+
+.mb-sm {
+    margin-bottom: var(--space-sm);
+}
+
+.mb-md {
+    margin-bottom: var(--space-md);
+}
+
+.mb-lg {
+    margin-bottom: var(--space-lg);
+}
+
+/* Paddings */
+.p-0 {
+    padding: 0;
+}
+
+.p-xs {
+    padding: var(--space-xs);
+}
+
+.p-sm {
+    padding: var(--space-sm);
+}
+
+.p-md {
+    padding: var(--space-md);
+}
+
+.p-lg {
+    padding: var(--space-lg);
+}
+
+.pt-xs {
+    padding-top: var(--space-xs);
+}
+
+.pt-sm {
+    padding-top: var(--space-sm);
+}
+
+.pt-md {
+    padding-top: var(--space-md);
+}
+
+.pt-lg {
+    padding-top: var(--space-lg);
+}
+
+.pl-xs {
+    padding-left: var(--space-xs);
+}
+
+.pl-sm {
+    padding-left: var(--space-sm);
+}
+
+.pl-md {
+    padding-left: var(--space-md);
+}
+
+.pl-lg {
+    padding-left: var(--space-lg);
+}
+
+.pr-xs {
+    padding-right: var(--space-xs);
+}
+
+.pr-sm {
+    padding-right: var(--space-sm);
+}
+
+.pr-md {
+    padding-right: var(--space-md);
+}
+
+.pr-lg {
+    padding-right: var(--space-lg);
+}
+
+.pb-xs {
+    padding-bottom: var(--space-xs);
+}
+
+.pb-sm {
+    padding-bottom: var(--space-sm);
+}
+
+.pb-md {
+    padding-bottom: var(--space-md);
+}
+
+.pb-lg {
+    padding-bottom: var(--space-lg);
+}
+
+/* ==========================================
+   TEXT ALIGNMENTS
+   ========================================== */
+.text-center {
+    text-align: center;
+}
+
+.text-left {
+    text-align: left;
+}
+
+.text-right {
+    text-align: right;
+}
+
+/* ==========================================
+   TEXT COLORS
+   ========================================== */
+.text-primary {
+    color: var(--color-primary);
+}
+
+.text-success {
+    color: var(--color-success);
+}
+
+.text-warn {
+    color: var(--color-warn);
+}
+
+.text-danger {
+    color: var(--color-danger);
+}
+
+/* ==========================================
+   FONT WEIGHTS
+   ========================================== */
+.bold {
+    font-weight: 600;
+}
+
+.bolder {
+    font-weight: 700;
+}
+
+/* ==========================================
+   SPACERS & DEVIDERS
+   ========================================== */
+.spacer-xs {
+    height: var(--space-xs);
+}
+
+.spacer-sm {
+    height: var(--space-sm);
+}
+
+.spacer-md {
+    height: var(--space-md);
+}
+
+.spacer-lg {
+    height: var(--space-lg);
+}
+
+.divider {
+    height: 1px;
+    color: var(--text-light);
+}
+
+/* ==========================================
+   LINKS
+   ========================================== */
+a {
+    color: var(--text);
+    font-weight: 600;
+}
+
+a.btn {
+    display: inline-block;
+}
+
+/* ==========================================
+   ERRORS
+   ========================================== */
+.error {
+    border: 1px solid var(--color-danger);
+    background-color: rgba(255, 0, 0, 0.1);
+    color: var(--color-danger);
+    padding: var(--space-xs);
+    margin-bottom: var(--space-xs);
+}
+
+.form-error {
+    color: var(--color-danger);
+}
+
+.field-error {
+    border: 1px solid var(--color-danger);
+}
+

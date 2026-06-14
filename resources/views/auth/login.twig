@@ -1,0 +1,74 @@
+{% extends 'layouts/layout.twig' %}
+
+{% block content %}
+    <section class="login">
+        <div class="card border-radius-md shadow-sm text-center">
+            <h1 class="pb-sm mb-sm bb-1">Login</h1>
+
+            {% if errors.auth_error is defined %}
+                <div class="error border-radius-sm">
+                    {{ errors.auth_error|raw }}
+                </div>
+            {% endif %}
+
+            <form action="{{ route('login.post') }}" method="POST">
+                {{ csrf() }}
+
+                <label for="email" class="bold m-0-auto">Email</label>
+                <div class="spacer-xs"></div>
+                <input
+                        id="email"
+                        type="email"
+                        name="email"
+                        class="input"
+                        placeholder="{{ old.name|default('you@example.org')|e }}"
+                        autocomplete="on"
+                        required
+                >
+                {% if errors.email is defined %}
+                    <div class="form-error mt-xs">
+                        {% for error in errors.email %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+                <div class="spacer-md"></div>
+
+                <label for="password" class="bold">Password</label>
+                <div class="spacer-xs"></div>
+                <input
+                        id="password"
+                        type="password"
+                        name="password"
+                        class="input"
+                        autocomplete="on"
+                        required
+                >
+                {% if errors.password is defined %}
+                    <div class="form-error mt-xs">
+                        <span>{{ errors.password|first|raw }}</span>
+                    </div>
+                {% endif %}
+                <div class="spacer-sm"></div>
+
+                <div class="row justify-center">
+                    <label class="checkbox-wrapper">
+                        <input type="checkbox" name="remember" class="checkbox" value="1">
+                        <span class="checkmark"></span>
+                        Remember me
+                    </label>
+                </div>
+                <div class="spacer-sm"></div>
+
+                <div class="row justify-center">
+                    <a href="{{ route('forgotten') }}">Forgotten password?</a>
+                    <a href="{{ route('register') }}">Create new account</a>
+                </div>
+
+                <div class="flex justify-center">
+                    <input type="submit" class="btn btn-primary shadow-sm mt-md" value="Login">
+                </div>
+            </form>
+        </div>
+    </section>
+{% endblock %}

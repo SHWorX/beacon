@@ -1,0 +1,69 @@
+{% extends 'layouts/layout.twig' %}
+
+{% block content %}
+    <section>
+        <div class="row justify-center">
+            <div class="card border-radius-lg shadow-sm p-sm">
+                <picture>
+                    <source srcset="{{ asset('img/logo-brand-and-slogan-800x237.webp') }}" type="image/webp" media="(width >= 900px)">
+                    <source srcset="{{ asset('img/logo-brand-and-slogan-800x237.png') }}" type="image/png" media="(width >= 900px)">
+                    <source srcset="{{ asset('img/logo-brand-and-slogan-400x118.webp') }}" type="image/webp" media="(width <= 900px)">
+                    <source srcset="{{ asset('img/logo-brand-and-slogan-400x118.png') }}" type="image/png" media="(width <= 900px)">
+                    <img src="{{ asset('img/logo-brand-and-slogan-800x237.png') }}" class="logo-brand-slogan border-radius-lg" alt="Beacon Logo">
+                </picture>
+            </div>
+        </div>
+    </section>
+
+    <section class="mt-lg">
+        <div class="row">
+            <div id="about-beacon" class="card border-radius-lg shadow-sm">
+                <h2>About Beacon</h2>
+
+                <p class="pt-sm">
+                    Beacon is a modern PHP application starter framework designed for developers who value simplicity,
+                    maintainability, and rapid development.
+                </p>
+                <p>
+                    It combines proven architectural concepts such as dependency injection, service providers, middleware,
+                    routing, validation, authentication, database migrations, and Eloquent ORM into a clean, lightweight,
+                    and developer-friendly foundation.
+                </p>
+                <p>
+                    Unlike many frameworks that require extensive initial setup, Beacon is distributed as a complete
+                    project skeleton, including a fully integrated authentication system with user registration, login,
+                    password reset, remember-me functionality, and email verification. This allows developers to focus
+                    on building their applications rather than spending time on repetitive boilerplate configuration.
+                </p>
+                <p>
+                    Beacon also includes a lightweight Neumorphism-based CSS starter design featuring commonly used UI
+                    components such as cards, buttons, form controls, alerts, and popovers. The design serves as a
+                    practical starting point and can be customized or replaced entirely to suit your project's requirements.
+                </p>
+                <p>
+                    Whether you're building a personal website, business application, administration panel, or custom
+                    web platform, Beacon provides a solid and extensible foundation to get started quickly.
+                </p>
+            </div>
+
+            <div id="features" class="card border-radius-lg shadow-sm">
+                <h2>Some Beacon Features</h2>
+
+                <ul class="pt-sm pl-sm pr-sm">
+                    <li>Modern MVC architecture</li>
+                    <li>Service Providers</li>
+                    <li>Middleware Pipeline</li>
+                    <li>Named Routes</li>
+                    <li>Twig Templating</li>
+                    <li>Eloquent ORM</li>
+                    <li>DTO-based Validation</li>
+                    <li>Flash Messages</li>
+                    <li>Console Commands</li>
+                </ul>
+
+                <p class="pt-xs">Please refer to the README.md for a full list of the features.</p>
+            </div>
+        </div>
+
+    </section>
+{% endblock %}
