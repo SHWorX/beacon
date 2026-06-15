@@ -1,0 +1,17 @@
+<?php
+
+namespace {{ namespace }};
+
+use App\Models\Traits\HasUuid;
+use Illuminate\Database\Eloquent\Model;
+
+class {{ class }} extends Model
+{
+    use HasUuid;
+
+    protected $table = '{{ table }}';
+    protected $primaryKey = 'id';
+    protected $fillable = [
+        //
+    ];
+}

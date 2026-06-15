@@ -7,7 +7,7 @@
  * Copyright:   2026 SHWorX (Steffen Haase)
  */
 
-namespace App\Console\Commands;
+namespace App\Console\Commands\Beacon;
 
 use App\Console\Command;
 use App\Database\MigrationRepository;

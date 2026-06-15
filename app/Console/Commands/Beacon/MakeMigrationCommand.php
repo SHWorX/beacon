@@ -7,7 +7,7 @@
  * Copyright:   2026 SHWorX (Steffen Haase)
  */
 
-namespace App\Console\Commands;
+namespace App\Console\Commands\Beacon;
 
 use App\Console\Command;
 use App\Exceptions\NotFoundException;
@@ -15,16 +15,19 @@ use App\Exceptions\NotFoundException;
 final class MakeMigrationCommand extends Command
 {
     protected string $signature = 'make:migration {name} {--table=}';
-    protected string $description = 'Create a new migration';
+    protected string $description = 'Create a new migration file';
 
     public function handle(): int
     {
         $name = $this->argument('name');
         $table = $this->option('table');
+        if ($table === true || $table === null) {
+            $this->error('Table option must be passed with a name (example: --table=my_table)');
+            return 1;
+        }
 
         if (!$name) {
             $this->error('Migration name required.');
-
             return 1;
         }
 

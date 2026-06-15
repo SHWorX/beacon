@@ -53,7 +53,7 @@ abstract class Command
             $item = substr($item, 2);
             if (str_contains($item, '=')) {
                 [$name, $value] = explode('=', $item, 2);
-                $this->options[$name] = $value;
+                $this->options[$name] = empty($value) ? null : $value;
                 continue;
             }
 
@@ -94,13 +94,18 @@ abstract class Command
     /**
      * Returns the value of an option
      *
-     * @param string $name Option name (without --)
-     * @param mixed|null $default [optional] Default value
+     * Returns `null` if option does not exist.<br>
+     * Returns `true` if option is passed without a value (e.g. `--my-option`).
+     * In all other cases it will return the value of the option (e.g. `--my-option=value`),<br>
+     * or the default value.
      *
-     * @return mixed
+     * @param string $name Option name (without --)
+     * @param string|null $default [optional] Default value
+     *
+     * @return true|string|null
      * @author SteffenHaase <shworx.development@gmail.com>
      */
-    protected function option(string $name, mixed $default = null): mixed
+    protected function option(string $name, ?string $default = null): true|string|null
     {
         return $this->options[$name] ?? $default;
     }

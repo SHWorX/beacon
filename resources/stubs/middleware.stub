@@ -1,0 +1,19 @@
+<?php
+
+namespace {{ namespace }};
+
+use App\Http\Request;
+use App\Http\Response;
+use Closure;
+
+final class {{ class }}
+{
+    public function handle(
+        Request $request,
+        Closure $next
+    ): Response {
+        //
+
+        return $next($request);
+    }
+}

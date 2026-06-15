@@ -7,18 +7,26 @@
  * Copyright:   2026 SHWorX (Steffen Haase)
  */
 
-use App\Console\Commands\GenerateAppSecret;
-use App\Console\Commands\GeneratePasswordHash;
-use App\Console\Commands\GenerateUuid;
-use App\Console\Commands\MakeMigrationCommand;
-use App\Console\Commands\MigrateCommand;
-use App\Console\Commands\MigrateRollbackCommand;
+use App\Console\Commands\Beacon\GenerateAppSecretCommand;
+use App\Console\Commands\Beacon\GeneratePasswordHashCommand;
+use App\Console\Commands\Beacon\GenerateUuidCommand;
+use App\Console\Commands\Beacon\MakeControllerCommand;
+use App\Console\Commands\Beacon\MakeMiddlewareCommand;
+use App\Console\Commands\Beacon\MakeMigrationCommand;
+use App\Console\Commands\Beacon\MakeModelCommand;
+use App\Console\Commands\Beacon\MakeProviderCommand;
+use App\Console\Commands\Beacon\MigrateCommand;
+use App\Console\Commands\Beacon\MigrateRollbackCommand;
 
 return [
-    GenerateAppSecret::class,
+    GenerateAppSecretCommand::class,
     MakeMigrationCommand::class,
+    MakeControllerCommand::class,
+    MakeMiddlewareCommand::class,
+    MakeModelCommand::class,
+    MakeProviderCommand::class,
     MigrateCommand::class,
     MigrateRollbackCommand::class,
-    GeneratePasswordHash::class,
-    GenerateUuid::class,
+    GeneratePasswordHashCommand::class,
+    GenerateUuidCommand::class,
 ];

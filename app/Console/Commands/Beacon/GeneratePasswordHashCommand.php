@@ -1,17 +1,17 @@
 <?php
 /*
  * Project:     Beacon
- * File:        GeneratePasswordHash.php
+ * File:        GeneratePasswordHashCommand.php
  * Date:        2026-06-13
  * Author:      Steffen Haase <shworx.development@gmail.com
  * Copyright:   2026 SHWorX (Steffen Haase)
  */
 
-namespace App\Console\Commands;
+namespace App\Console\Commands\Beacon;
 
 use App\Console\Command;
 
-class GeneratePasswordHash extends Command
+class GeneratePasswordHashCommand extends Command
 {
 
     protected string $signature = 'generate:password-hash {password}';

@@ -1,18 +1,18 @@
 <?php
 /*
  * Project:     Beacon
- * File:        GenerateAppSecret.php
+ * File:        GenerateAppSecretCommand.php
  * Date:        2026-06-12
  * Author:      Steffen Haase <shworx.development@gmail.com
  * Copyright:   2026 SHWorX (Steffen Haase)
  */
 
-namespace App\Console\Commands;
+namespace App\Console\Commands\Beacon;
 
 use App\Console\Command;
 use Random\RandomException;
 
-class GenerateAppSecret extends Command
+class GenerateAppSecretCommand extends Command
 {
     protected string $signature = 'app:secret';
 
