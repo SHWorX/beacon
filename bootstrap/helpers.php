@@ -65,6 +65,22 @@ if (!function_exists('config_path')) {
     }
 }
 
+if (!function_exists('app_path')) {
+    /**
+     * Returns the app path
+     *
+     * @param string $path Sub path under app path
+     *
+     * @return string
+     * @author Steffen Haase <shworx.development@gmail.com
+     */
+    function app_path(string $path = ''): string
+    {
+        $path = strip_first_slash($path);
+        return base_path('app') . ($path ? '/' . $path : '');
+    }
+}
+
 if (!function_exists('storage_path')) {
     /**
      * Returns the storage path

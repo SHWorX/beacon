@@ -44,5 +44,10 @@
     },
     "require-dev": {
         "phpunit/phpunit": "^13.2.0"
+    },
+    "scripts": {
+        "post-create-project-cmd": [
+            "@php bin/setup.php"
+        ]
     }
 }
