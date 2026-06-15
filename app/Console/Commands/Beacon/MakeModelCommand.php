@@ -13,7 +13,7 @@ use App\Console\Command;
 
 final class MakeModelCommand extends Command
 {
-    protected string $signature = 'make:model {name} {--standard} {--uuid} {--migration} {--controller} {--all}';
+    protected string $signature = 'make:model {name} {--standard} {--uuid}';
     protected string $description = 'Create a new Eloquent model';
 
     public function handle(): int
@@ -75,22 +75,7 @@ final class MakeModelCommand extends Command
             $isUuid ? 'UUID' : 'Standard'
         ));
 
-        if ($this->hasOption('migration') || $this->hasOption('all')) {
-            $this->createMigration($class);
-        }
-
-        if ($this->hasOption('controller') || $this->hasOption('all')) {
-            $this->createController($class);
-        }
-
         return 0;
-    }
-
-    private function createMigration(string $class): void
-    {
-        $table = $this->guessTableName($class);
-        $migrationName = "create_{$table}_table";
-        $command = app()->make(MakeMigrationCommand::class);
     }
 
     /**

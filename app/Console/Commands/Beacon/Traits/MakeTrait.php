@@ -30,8 +30,8 @@ trait MakeTrait
     ): int {
         $class = basename(str_replace('\\', '/', $name));
         $subNamespace = dirname(str_replace('\\', '/', $name));
-        $namespace = "App\\{$baseNamespace}";
 
+        $namespace = "App\\{$baseNamespace}";
         if ($subNamespace !== '.') {
             $namespace .= '\\' . str_replace('/', '\\', $subNamespace);
         }
@@ -46,7 +46,6 @@ trait MakeTrait
         }
 
         $file = $directory . '/' . $class . '.php';
-
         if (file_exists($file)) {
             $this->error("File already exists.");
 
@@ -54,7 +53,6 @@ trait MakeTrait
         }
 
         $stub = file_get_contents($stubFile);
-
         $stub = str_replace(
             ['{{ namespace }}', '{{ class }}'],
             [$namespace, $class],
