@@ -593,6 +593,26 @@ textarea::placeholder {
 }
 
 /* ==========================================
+   HIERARCHY ORDERED LISTS
+   ========================================== */
+.hierarchy,
+.hierarchy ol {
+    counter-reset: item;
+    list-style: none;
+    padding-left: 2rem;
+}
+
+.hierarchy li {
+    display: block;
+}
+
+.hierarchy li::before {
+    content: counters(item, ".") ". ";
+    counter-increment: item;
+    font-weight: bold;
+}
+
+/* ==========================================
    FLEX
    ========================================== */
 .flex {
