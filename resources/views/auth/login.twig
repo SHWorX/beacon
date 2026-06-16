@@ -7,7 +7,7 @@
 
             {% if errors.auth_error is defined %}
                 <div class="error border-radius-sm">
-                    {{ errors.auth_error|raw }}
+                    {{ errors.auth_error|first|raw }}
                 </div>
             {% endif %}
 
