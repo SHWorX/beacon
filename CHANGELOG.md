@@ -2,6 +2,17 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.0] - 2026-05-14
+
+### Added
+
+- New command `make:dto`
+- New CSS classes for a hierarchy ordered list
+
+### Fixed
+- Fixed code in `RegisterDto.php`
+- Fixed frontend error handling for `auth_errors` in `login.twig`
+
 ## [1.1.0] - 2026-05-14
 
 ### Added
