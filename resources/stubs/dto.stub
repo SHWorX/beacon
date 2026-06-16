@@ -3,9 +3,24 @@
 namespace App\DTO;
 
 use Symfony\Component\Validator\Constraints as Assert;
+
 class {{ class }}
 {
     public function __construct(
 
     ) { }
+
+    public static function fromArray(array $data): self
+    {
+        return new self(
+
+        );
+    }
+
+    public function toArray(): array
+    {
+        return [
+
+        ];
+    }
 }
