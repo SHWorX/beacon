@@ -125,7 +125,7 @@ class RegisterDto
     public static function fromArray(array $data): self
     {
         return new self(
-            username: $data['username'],
+            username: $data['username'] ?? '',
             email: trim($data['email'] ?? ''),
             password: $data['password'] ?? '',
             confirm_password: $data['confirm_password'] ?? '',
