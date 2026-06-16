@@ -11,6 +11,7 @@ use App\Console\Commands\Beacon\GenerateAppSecretCommand;
 use App\Console\Commands\Beacon\GeneratePasswordHashCommand;
 use App\Console\Commands\Beacon\GenerateUuidCommand;
 use App\Console\Commands\Beacon\MakeControllerCommand;
+use App\Console\Commands\Beacon\MakeDtoCommand;
 use App\Console\Commands\Beacon\MakeMiddlewareCommand;
 use App\Console\Commands\Beacon\MakeMigrationCommand;
 use App\Console\Commands\Beacon\MakeModelCommand;
@@ -22,6 +23,7 @@ return [
     GenerateAppSecretCommand::class,
     MakeMigrationCommand::class,
     MakeControllerCommand::class,
+    MakeDtoCommand::class,
     MakeMiddlewareCommand::class,
     MakeModelCommand::class,
     MakeProviderCommand::class,

@@ -42,12 +42,15 @@ trait MakeTrait
         }
 
         if (!is_dir($directory)) {
-            mkdir($directory, 0755, true);
+            if (mkdir($directory, 0755, true)) {
+                $this->error('Can not create directory ' . $directory);
+                return 1;
+            }
         }
 
         $file = $directory . '/' . $class . '.php';
         if (file_exists($file)) {
-            $this->error("File already exists.");
+            $this->error("File {$file} already exists.");
 
             return 1;
         }
@@ -59,7 +62,9 @@ trait MakeTrait
             $stub
         );
 
-        file_put_contents($file, $stub);
+        if (!file_put_contents($file, $stub)) {
+            $this->error("Can not write file {$file}");
+        }
 
         $this->success("Created: {$file}");
 
