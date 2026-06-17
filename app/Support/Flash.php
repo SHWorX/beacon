@@ -61,23 +61,49 @@ class Flash
         return $value;
     }
 
-//    public function old(string $key, mixed $default = null): mixed
-    public function old(): mixed
+    /**
+     * Returns the content of "old" array in flash data
+     *
+     * @return array
+     * @author SteffenHaase <shworx.development@gmail.com>
+     */
+    public function old(): array
     {
-//        return ($_SESSION['_flash']['old'][$key] ?? $default);
         return $this->get('old', []);
     }
 
+    /**
+     * Returns the content of "errors" array in flash data
+     *
+     * @return array
+     * @author SteffenHaase <shworx.development@gmail.com>
+     */
     public function errors(): array
     {
         return $this->get('errors', []);
     }
 
+    /**
+     * Set data for flash "errors"
+     *
+     * @param string|array $data
+     *
+     * @return void
+     * @author SteffenHaase <shworx.development@gmail.com>
+     */
     public function error(string|array $data): void
     {
         $this->set('errors', $data);
     }
 
+    /**
+     * Set data for flash "success"
+     *
+     * @param string|array $data
+     *
+     * @return void
+     * @author SteffenHaase <shworx.development@gmail.com>
+     */
     public function success(string|array $data): void
     {
         $this->set('success', $data);

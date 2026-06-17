@@ -63,13 +63,12 @@ class AppExtension extends AbstractExtension
      * Returns the "old" form field values
      *
      * @param string $field
-     * @param mixed|null $default
      *
      * @return mixed
      * @author Steffen Haase <shworx.development@gmail.com
      */
-    public function old(string $field, mixed $default = null): mixed {
-        return $this->flash->old($field, $default);
+    public function old(string $field): mixed {
+        return $this->flash->old()[$field] ?? null;
     }
 
 
