@@ -153,7 +153,7 @@ $router->group(
 Generate URLs in Twig:
 ```html
 <a href="{{ route('home') }}">Home</a>
-<a href="{{ route('my-name', ['first' => 'first_value', 'second' => 'second_value']) }}"
+<a href="{{ route('my-name', {'first' : 'first_value', 'second' : 'second_value'}) }}"
 ```
 ## Validation
 Beacon integrates Symfony Validator with DTO-based validation.
