@@ -37,7 +37,7 @@ trait AuthTrait
         string $email,
         string $token
     ): void {
-        $url = app_url(route('register.verify', ['token' => urlencode($token)]));
+        $url = app_url(route('register.verify', ['token' => $token]));
         $message = $this->view->render('mail/verify_email.twig', [
             'username' => $username,
             'url' => $url,
@@ -69,7 +69,7 @@ trait AuthTrait
         string $email,
         string $token
     ): void {
-        $url = app_url(route('reset.token', ['token' => urlencode($token)]));
+        $url = app_url(route('reset.token', ['token' => $token]));
         $message = $this->view->render('mail/reset_password.twig', [
             'username' => $username,
             'url' => $url,

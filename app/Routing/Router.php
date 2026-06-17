@@ -206,7 +206,7 @@ class Router
         $uri = $this->namedRoutes[$name];
 
         foreach ($parameters as $key => $value) {
-            $uri = str_replace('{' . $key . '}', (string)$value, $uri);
+            $uri = str_replace('{' . $key . '}', urlencode((string)$value), $uri);
         }
 
         return $uri;
