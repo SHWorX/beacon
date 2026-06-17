@@ -43,9 +43,10 @@ if (!function_exists('base_path')) {
      */
     function base_path(string $path = ''): string
     {
+        $path = strip_first_slash($path);
         $base = dirname(__DIR__);
 
-        return $path === '' ? $base : $base . '/' . strip_first_slash($path);
+        return $base . ($path ? '/' . $path : '');
     }
 }
 
