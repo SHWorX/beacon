@@ -624,6 +624,18 @@ textarea::placeholder {
     justify-content: center;
 }
 
+.justify-start {
+    justify-content: start;
+}
+
+.justify-space-between {
+    justify-content: space-between;
+}
+
+.justify-end {
+    justify-content: end;
+}
+
 .nowrap {
     flex-wrap: nowrap;
 }
