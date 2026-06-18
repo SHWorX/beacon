@@ -17,7 +17,7 @@ use Random\RandomException;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-readonly class AppExtension extends AbstractExtension
+class AppExtension extends AbstractExtension
 {
     public function __construct(
         private Router      $router,
