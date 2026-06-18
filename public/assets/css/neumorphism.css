@@ -628,12 +628,16 @@ textarea::placeholder {
     justify-content: start;
 }
 
+.justify-end {
+    justify-content: end;
+}
+
 .justify-space-between {
     justify-content: space-between;
 }
 
-.justify-end {
-    justify-content: end;
+.justify-space-evenly {
+    justify-content: space-evenly;
 }
 
 .nowrap {
