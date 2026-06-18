@@ -2,6 +2,14 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.2.5] - 2026-06-18
+
+This is just a re-tagged version 1.2.3 due to some issues with packagist.
+
+## [1.2.4] - 2026-06-18
+
+This is just a re-tagged version 1.2.3 due to some issues with packagist.
+
 ## [1.2.3] - 2026-06-18
 
 ### Fixed
