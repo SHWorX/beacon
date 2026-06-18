@@ -133,7 +133,7 @@ class AppExtension extends AbstractExtension
      */
     public function isActiveRoute(string $name): bool
     {
-        return $this->currentRoute() === route($name);
+        return $this->currentRoute() === $name;
     }
 
     /**
