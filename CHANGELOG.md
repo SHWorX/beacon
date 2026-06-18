@@ -9,10 +9,6 @@ All notable changes to this project will be documented in this file.
 - Fixed a bug in the Twig helper functions `isActiveRoute()` and `currentRoute()`
 - Fixed wrong release date in CHANGELOG.md for release `1.2.1`
 
-### Changes
-
-- Made `App\View\ViewAppExtension` class readonly
-
 ## [1.2.2] - 2026-06-18
 
 ### Added
