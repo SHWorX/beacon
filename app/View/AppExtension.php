@@ -118,7 +118,7 @@ class AppExtension extends AbstractExtension
      */
     public function currentRoute(): ?string
     {
-        return $_SERVER['_current_route'] ?? null;
+        return current_route();
     }
 
     /**
