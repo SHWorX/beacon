@@ -2,7 +2,22 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.2.0] - 2026-05-14
+## [1.2.2] - 2026-05-14
+
+### Added
+
+- Few `justify-content-*` CSS helpers
+
+## [1.2.1] - 2026-06-18
+
+### Fixed
+Fixed some code issues in Flash class and related methods/functions
+Fixed wrong `route()` Twig code example in README.md
+
+### Changed
+Url encode route parameter values by default in `App\Routing\Router::route()`
+
+## [v1.2.0] - 2026-05-14
 
 ### Added
 
