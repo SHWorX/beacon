@@ -2,13 +2,24 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.2.2] - 2026-05-14
+## [1.2.3] - 2026-06-18
+
+### Fixed
+
+- Fixed a bug in the Twig helper functions `isActiveRoute()` and `currentRoute()`
+- Fixed wrong release date in CHANGELOG.md for release `1.2.1`
+
+### Changes
+
+- Made `App\View\ViewAppExtension` class readonly
+
+## [1.2.2] - 2026-06-18
 
 ### Added
 
 - Few `justify-content-*` CSS helpers
 
-## [1.2.1] - 2026-06-18
+## [1.2.1] - 2026-06-17
 
 ### Fixed
 Fixed some code issues in Flash class and related methods/functions
