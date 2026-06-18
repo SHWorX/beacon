@@ -17,13 +17,13 @@ use Random\RandomException;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-class AppExtension extends AbstractExtension
+readonly class AppExtension extends AbstractExtension
 {
     public function __construct(
-        private readonly Router $router,
-        private readonly CsrfService $csrf,
-        private readonly Flash $flash,
-        private readonly AuthService $auth,
+        private Router      $router,
+        private CsrfService $csrf,
+        private Flash       $flash,
+        private AuthService $auth,
     ) { }
 
     public function getFunctions(): array
