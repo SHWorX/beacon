@@ -129,26 +129,19 @@
     appearance: none;
     outline: none;
     cursor: pointer;
-
     padding: 1rem 1.5rem;
-
     border-radius: var(--radius-sm);
     border: 1px solid var(--border-color-light);
     background: var(--surface);
-
     color: var(--text);
     font-size: 0.8rem;
     font-weight: 700;
-
-    /*transition: all var(--transition);*/
-
     box-shadow:
             8px 8px 16px var(--shadow-dark),
             -8px -8px 16px var(--shadow-light);
 }
 
 .btn:active {
-    /*transform: translateY(0);*/
     box-shadow:
             inset 6px 6px 12px var(--shadow-dark),
             inset -6px -6px 12px var(--shadow-light);
@@ -213,19 +206,13 @@
 textarea,
 select {
     width: 100%;
-
     border: none;
     outline: none;
-
     padding: 1rem 1.25rem;
-
     background: var(--surface);
-
     border-radius: var(--radius-md);
-
     color: var(--text);
     font-size: 1rem;
-
     box-shadow:
             inset 6px 6px 12px var(--shadow-dark),
             inset -6px -6px 12px var(--shadow-light);
@@ -243,15 +230,11 @@ select {
 
 .select-wrapper::after {
     content: "⌄";
-
     position: absolute;
     right: 1.25rem;
     top: 50%;
-
     transform: translateY(-50%);
-
     pointer-events: none;
-
     color: var(--text-light);
     font-size: 1.5rem;
 }
@@ -271,22 +254,24 @@ textarea::placeholder {
     cursor: pointer;
 }
 
+/*.checkbox {*/
+/*    display: none;*/
+/*}*/
+
 .checkbox {
-    display: none;
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
 }
 
 .checkmark {
     width: 24px;
     height: 24px;
-
     position: relative;
     flex-shrink: 0;
-
     border: 1px solid var(--border-color-light);
     border-radius: 8px;
-
     background: var(--surface);
-
     box-shadow:
             5px 5px 10px var(--shadow-dark),
             -5px -5px 10px var(--shadow-light);
@@ -295,23 +280,14 @@ textarea::placeholder {
 /* SVG checkmark */
 .checkmark::after {
     content: "";
-
     position: absolute;
     inset: 4px;
-
     background-repeat: no-repeat;
     background-position: center;
     background-size: contain;
-
     opacity: 0;
     transform: scale(0.5);
-
-    transition:
-            opacity 0.2s ease,
-            transform 0.2s ease;
-
-    /*background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath fill='currentColor' d='M7.6 14.6L3.3 10.3l-1.4 1.4 5.7 5.7L18.1 6.9l-1.4-1.4z'/%3E%3C/svg%3E");*/
-
+    transition: opacity 0.2s ease, transform 0.2s ease;
     background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 20 20'%3E%3Cpath d='M4 10 L8 14 L16 6' fill='none' stroke='%23718096' stroke-width='5' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");}
 
 /* Show SVG when checked */
@@ -320,14 +296,21 @@ textarea::placeholder {
     transform: scale(1);
 }
 
+.checkbox:focus-visible + .checkmark {
+    border-color: rgba(76, 110, 245, 0.5);
+
+    box-shadow:
+            0 0 0 3px rgba(76, 110, 245, 0.15),
+            5px 5px 10px var(--shadow-dark),
+            -5px -5px 10px var(--shadow-light);
+}
+
 /* ==========================================
    TOGGLE SWITCH
    ========================================== */
 .switch {
     position: relative;
-
     display: inline-block;
-
     width: 60px;
     height: 32px;
 }
@@ -340,15 +323,9 @@ textarea::placeholder {
 .slider {
     position: absolute;
     inset: 0;
-
     border-radius: 999px;
-
-    /*border: 1px solid rgba(255,255,255,.4);*/
     border: 1px solid var(--border-color-light);
-    /*border: 1px solid rgba(255,255,255,.4);*/
-
     background: var(--surface);
-
     box-shadow:
             inset 2px 2px 4px var(--shadow-dark),
             inset -2px -2px 4px var(--shadow-light);
@@ -358,21 +335,14 @@ textarea::placeholder {
 
 .slider::before {
     content: "";
-
     position: absolute;
-
     width: 22px;
     height: 22px;
-
     top: 4px;
     left: 4px;
-
     border-radius: 50%;
-
     background: var(--surface);
-
     border: 1px solid var(--border-color-light);
-
     box-shadow:
             3px 3px 6px var(--shadow-dark),
             -3px -3px 6px var(--shadow-light);
@@ -386,6 +356,26 @@ textarea::placeholder {
     /*border: 1px solid var(--surface);*/
 }
 
+/*.switch input:focus-visible + .slider {*/
+/*    border-color: rgba(76, 110, 245, 0.5);*/
+
+/*    box-shadow:*/
+/*            0 0 0 3px rgba(76, 110, 245, 0.15),*/
+/*            inset 2px 2px 4px var(--shadow-dark),*/
+/*            inset -2px -2px 4px var(--shadow-light);*/
+/*}*/
+
+.switch input:focus-visible + .slider {
+    border-color: rgba(76, 110, 245, 0.5);
+}
+
+.switch input:focus-visible + .slider::before {
+    box-shadow:
+            0 0 0 3px rgba(76, 110, 245, 0.15),
+            3px 3px 6px var(--shadow-dark),
+            -3px -3px 6px var(--shadow-light);
+}
+
 /* ==========================================
    RADIO
    ========================================== */
@@ -393,56 +383,41 @@ textarea::placeholder {
     display: flex;
     align-items: center;
     gap: 0.75rem;
-
     cursor: pointer;
-
     color: var(--text);
 }
 
 .radio {
-    display: none;
+    position: absolute;
+    opacity: 0;
+    pointer-events: none;
 }
 
 .radio-mark {
     position: relative;
-
     width: 24px;
     height: 24px;
-
     flex-shrink: 0;
-
     border-radius: 50%;
-
     background: var(--surface);
-
     border: 1px solid var(--border-color-light);
-
     box-shadow:
             5px 5px 10px var(--shadow-dark),
             -5px -5px 10px var(--shadow-light);
-
     transition: all 0.2s ease;
 }
 
 .radio-mark::after {
     content: "";
-
     position: absolute;
-
     top: 50%;
     left: 50%;
-
     width: 10px;
     height: 10px;
-
     border-radius: 50%;
-
     background: var(--text-light);
-
     transform: translate(-50%, -50%) scale(0);
-
     opacity: 0;
-
     transition:
             transform 0.2s ease,
             opacity 0.2s ease;
@@ -452,16 +427,23 @@ textarea::placeholder {
     opacity: 1;
     transform: translate(-50%, -50%) scale(1);
 }
+
+.radio:focus-visible + .radio-mark {
+    border-color: rgba(76, 110, 245, 0.5);
+
+    box-shadow:
+            0 0 0 3px rgba(76, 110, 245, 0.15),
+            5px 5px 10px var(--shadow-dark),
+            -5px -5px 10px var(--shadow-light);
+}
 /* ==========================================
    PROGRESS BAR
    ========================================== */
 .progress {
     height: 20px;
     overflow: hidden;
-
     border: 1px solid var(--border-color-light);
     border-radius: 50px;
-
     box-shadow:
             inset 4px 4px 8px var(--shadow-dark),
             inset -4px -4px 8px var(--shadow-light);
@@ -470,9 +452,7 @@ textarea::placeholder {
 .progress-bar {
     height: 100%;
     width: 60%;
-
     border-radius: inherit;
-
     background: linear-gradient(
             90deg,
             #5c7cfa,
@@ -480,18 +460,88 @@ textarea::placeholder {
     );
 }
 
+.slider-input {
+    width: 100%;
+    height: 8px;
+    appearance: none;
+    -webkit-appearance: none;
+    border-radius: 999px;
+    background: var(--surface);
+    box-shadow:
+            inset 2px 2px 4px var(--shadow-dark),
+            inset -2px -2px 4px var(--shadow-light);
+
+    outline: none;
+    cursor: pointer;
+}
+
+.slider-input::-webkit-slider-thumb {
+    appearance: none;
+    -webkit-appearance: none;
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    /*border: 1px solid rgba(255,255,255,.35);*/
+    border: 1px solid var(--border-color-light);
+    background: var(--surface);
+    box-shadow:
+            4px 4px 8px var(--shadow-dark),
+            -4px -4px 8px var(--shadow-light);
+    cursor: pointer;
+    transition: transform .15s ease;
+}
+
+.slider-input::-webkit-slider-thumb:hover {
+    transform: scale(1.08);
+}
+
+.slider-input::-webkit-slider-thumb:active {
+    transform: scale(0.95);
+}
+
+.slider-input::-moz-range-thumb {
+    width: 22px;
+    height: 22px;
+    border-radius: 50%;
+    /*border: 1px solid rgba(255,255,255,.35);*/
+    border: 1px solid var(--border-color-light);
+    background: var(--surface);
+    box-shadow:
+            4px 4px 8px var(--shadow-dark),
+            -4px -4px 8px var(--shadow-light);
+    cursor: pointer;
+}
+
+.slider-input::-moz-range-track {
+    height: 8px;
+    border-radius: 999px;
+    background: var(--surface);
+    box-shadow:
+            inset 2px 2px 4px var(--shadow-dark),
+            inset -2px -2px 4px var(--shadow-light);
+}
+
+.slider-input:focus-visible::-webkit-slider-thumb {
+    border-color: rgba(76,110,245,.5);
+}
+
+.slider-input:focus-visible::-moz-range-thumb {
+    border-color: rgba(76,110,245,.5);
+}
 /* ==========================================
    AVATAR
    ========================================== */
+.avatar-wrapper {
+    position: relative;
+    display: inline-block;
+}
+
 .avatar {
     width: 80px;
     height: 80px;
-
     border: 1px solid var(--border-color-light);
     border-radius: 50%;
-
     object-fit: cover;
-
     box-shadow:
             8px 8px 16px var(--shadow-dark),
             -8px -8px 16px var(--shadow-light);
@@ -503,18 +553,13 @@ textarea::placeholder {
 .fab {
     width: 60px;
     height: 60px;
-
     cursor: pointer;
-
     border: 1px solid var(--border-color-light);
     border-radius: 50%;
-
     background: var(--surface);
-
     box-shadow:
             10px 10px 20px var(--shadow-dark),
             -10px -10px 20px var(--shadow-light);
-
     transition: var(--transition);
 }
 
@@ -530,27 +575,18 @@ textarea::placeholder {
 #popover {
     position: fixed;
     z-index: 9999;
-
     padding: 0.5rem 0.75rem;
-
     background: var(--surface);
     color: var(--text);
-
     border-radius: var(--radius-md);
-
     border: 1px solid rgba(255,255,255,.35);
-
     box-shadow:
             8px 8px 16px var(--shadow-dark),
             -8px -8px 16px var(--shadow-light);
-
     font-size: 0.85rem;
-
     pointer-events: none;
-
     opacity: 0;
     transform: scale(0.95);
-
     transition: opacity 0.12s ease, transform 0.12s ease;
 }
 
@@ -593,6 +629,128 @@ textarea::placeholder {
 }
 
 /* ==========================================
+   BADGES
+   ========================================== */
+.badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    padding: 0.35rem 0.75rem;
+    font-size: 0.75rem;
+    font-weight: 600;
+    line-height: 1;
+    color: var(--text);
+    background: var(--surface);
+    border: 1px solid rgba(255,255,255,.35);
+    border-radius: 999px;
+    box-shadow:
+            3px 3px 6px var(--shadow-dark),
+            -3px -3px 6px var(--shadow-light);
+}
+
+.badge-primary {
+    color: #4c6ef5;
+    background-color: rgba(76,110,245,.10);
+}
+
+.badge-success {
+    color: #2f9e44;
+    background-color: rgba(47,158,68,.10);
+}
+
+.badge-danger {
+    color: #e03131;
+    background-color: rgba(224,49,49,.10);
+}
+
+.badge-dot {
+    display: inline-block;
+    width: 10px;
+    height: 10px;
+    border-radius: 50%;
+    margin-right: .4rem;
+}
+
+.badge-dot-success {
+    background: #2f9e44;
+}
+
+.badge-dot-danger {
+    background: #e03131;
+}
+
+.badge-dot-primary {
+    background: #4c6ef5;
+}
+
+.badge-outline {
+    background: transparent;
+    box-shadow: none;
+    color: var(--text);
+    border: 1px solid rgba(74, 85, 104, 0.35);
+}
+
+.badge-outline-primary {
+    color: #4c6ef5;
+    border: 1px solid rgba(76,110,245,.35);
+}
+
+.badge-outline-success {
+    color: #2f9e44;
+    border: 1px solid rgba(47, 158, 68, 0.35);
+}
+
+.badge-outline-danger {
+    color: #e03131;
+    border: 1px solid rgba(224, 49, 49, 0.35);
+}
+
+.badge-tag {
+    gap: .5rem;
+}
+
+.badge-tag button {
+    border: 0;
+    background: transparent;
+    cursor: pointer;
+    color: inherit;
+    font-weight: bold;
+    padding: 0;
+}
+
+.avatar-badge {
+    position: absolute;
+    right: 2px;
+    top: 2px;
+    width: 18px;
+    height: 18px;
+    font-size: .75rem;
+    font-weight: bold;
+    border-radius: 50%;
+    background: var(--surface);
+    border: 2px solid var(--surface);
+    box-shadow:
+            2px 2px 4px var(--shadow-dark),
+            -2px -2px 4px var(--shadow-light);
+}
+
+.avatar-badge-success {
+    background-color: #2f9e44;
+}
+
+.avatar-badge-danger {
+    background-color: #e03131;
+}
+
+.avatar-badge-primary {
+    background-color: #4c6ef5;
+}
+
+.avatar-badge-warning {
+    background-color: #fd7e14;
+}
+
+/* ==========================================
    HIERARCHY ORDERED LISTS
    ========================================== */
 .hierarchy,
@@ -610,6 +768,17 @@ textarea::placeholder {
     content: counters(item, ".") ". ";
     counter-increment: item;
     font-weight: bold;
+}
+
+/* ==========================================
+   CODE
+   ========================================== */
+code {
+    background: #575757;
+    color: #ffffff;
+    padding: 1px 2px;
+    border-radius: 4px;
+    margin-bottom: 10px;
 }
 
 /* ==========================================
@@ -647,6 +816,10 @@ textarea::placeholder {
 /* ==========================================
    BORDER
    ========================================== */
+.b-1 {
+    border: 1px solid var(--text-light);
+}
+
 .bb-1 {
     border-bottom: 1px solid var(--text-light);
 }
@@ -654,6 +827,7 @@ textarea::placeholder {
 .bt-1 {
     border-top: 1px solid var(--text-light);
 }
+
 /* ==========================================
    BORDER RADIUS
    ========================================== */
@@ -896,7 +1070,7 @@ textarea::placeholder {
 }
 
 /* ==========================================
-   SPACERS & DEVIDERS
+   SPACERS & DIVIDERS
    ========================================== */
 .spacer-xs {
     height: var(--space-xs);
