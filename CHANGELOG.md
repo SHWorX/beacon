@@ -4,6 +4,21 @@ All notable changes to this project will be documented in this file.
 
 ## [1.2.5] - 2026-06-18
 
+### Added
+- New Neumorphism components:
+  - Slider
+  - Badges
+- Highlighting now all components, which are navigable via TAB key (some components did miss the highlights)
+
+### Fixed
+- Fixed `@author` tags in PHP files (added missing > after email address)
+
+### Other
+- Removed empty lines from `neumorphism.css` file
+
+
+## [1.2.5] - 2026-06-18
+
 This is just a re-tagged version 1.2.3 due to some issues with packagist.
 
 ## [1.2.4] - 2026-06-18
