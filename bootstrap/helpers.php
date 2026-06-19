@@ -20,7 +20,7 @@ if (!function_exists('strip_first_slash')) {
      * @param string $path
      *
      * @return string
-     * @author Steffen Haase <shworx.development@gmail.com
+     * @author Steffen Haase <shworx.development@gmail.com>
      */
     function strip_first_slash(string $path): string
     {
@@ -39,7 +39,7 @@ if (!function_exists('base_path')) {
      * @param string $path Sub path under base path
      *
      * @return string
-     * @author Steffen Haase <shworx.development@gmail.com
+     * @author Steffen Haase <shworx.development@gmail.com>
      */
     function base_path(string $path = ''): string
     {
@@ -57,7 +57,7 @@ if (!function_exists('config_path')) {
      * @param string $path Sub path under config path
      *
      * @return string
-     * @author Steffen Haase <shworx.development@gmail.com
+     * @author Steffen Haase <shworx.development@gmail.com>
      */
     function config_path(string $path = ''): string
     {
@@ -73,7 +73,7 @@ if (!function_exists('app_path')) {
      * @param string $path Sub path under app path
      *
      * @return string
-     * @author Steffen Haase <shworx.development@gmail.com
+     * @author Steffen Haase <shworx.development@gmail.com>
      */
     function app_path(string $path = ''): string
     {
@@ -89,7 +89,7 @@ if (!function_exists('storage_path')) {
      * @param string $path
      *
      * @return string
-     * @author Steffen Haase <shworx.development@gmail.com
+     * @author Steffen Haase <shworx.development@gmail.com>
      */
     function storage_path(string $path = ''): string
     {
@@ -105,7 +105,7 @@ if (!function_exists('resource_path')) {
      * @param string $path
      *
      * @return string
-     * @author Steffen Haase <shworx.development@gmail.com
+     * @author Steffen Haase <shworx.development@gmail.com>
      */
     function resource_path(string $path = ''): string
     {
@@ -121,7 +121,7 @@ if (!function_exists('database_path')) {
      * @param string $path
      *
      * @return string
-     * @author Steffen Haase <shworx.development@gmail.com
+     * @author Steffen Haase <shworx.development@gmail.com>
      */
     function database_path(string $path = ''): string
     {
@@ -282,7 +282,7 @@ if (!function_exists('auth')) {
     try {
         /**
          * @return AuthService
-         * @author Steffen Haase <shworx.development@gmail.com
+         * @author Steffen Haase <shworx.development@gmail.com>
          */
         function auth(): AuthService
         {
@@ -302,7 +302,7 @@ if (!function_exists('route')) {
          * @param array $parameters [optional]
          *
          * @return string
-         * @author Steffen Haase <shworx.development@gmail.com
+         * @author Steffen Haase <shworx.development@gmail.com>
          */
         function route(string $name, array $parameters = []): string
         {
@@ -320,7 +320,7 @@ if (!function_exists('current_route')) {
      * Returns the current route
      *
      * @return string|null
-     * @author Steffen Haase <shworx.development@gmail.com
+     * @author Steffen Haase <shworx.development@gmail.com>
      */
     function current_route(): ?string
     {

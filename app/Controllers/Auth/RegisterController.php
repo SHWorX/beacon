@@ -34,7 +34,7 @@ class RegisterController extends Controller
      * Show registration form
      *
      * @return Response
-     * @author Steffen Haase <shworx.development@gmail.com
+     * @author Steffen Haase <shworx.development@gmail.com>
      */
     public function index(): Response
     {

@@ -49,7 +49,7 @@ class AppExtension extends AbstractExtension
      * @param array $parameters
      *
      * @return string
-     * @author Steffen Haase <shworx.development@gmail.com
+     * @author Steffen Haase <shworx.development@gmail.com>
      */
     public function route(
         string $name,
@@ -65,7 +65,7 @@ class AppExtension extends AbstractExtension
      * @param string $field
      *
      * @return mixed
-     * @author Steffen Haase <shworx.development@gmail.com
+     * @author Steffen Haase <shworx.development@gmail.com>
      */
     public function old(string $field): mixed {
         return $this->flash->old()[$field] ?? null;
@@ -78,7 +78,7 @@ class AppExtension extends AbstractExtension
      * @param string $field
      *
      * @return string|null
-     * @author Steffen Haase <shworx.development@gmail.com
+     * @author Steffen Haase <shworx.development@gmail.com>
      */
     public function error(string $field): mixed
     {
@@ -92,7 +92,7 @@ class AppExtension extends AbstractExtension
      * @param mixed|null $default
      *
      * @return mixed
-     * @author Steffen Haase <shworx.development@gmail.com
+     * @author Steffen Haase <shworx.development@gmail.com>
      */
     public function flash(string $key, mixed $default = null): mixed
     {
@@ -103,7 +103,7 @@ class AppExtension extends AbstractExtension
      * Checks if a user is a guest or not
      *
      * @return bool
-     * @author Steffen Haase <shworx.development@gmail.com
+     * @author Steffen Haase <shworx.development@gmail.com>
      */
     public function guest(): bool
     {
@@ -114,7 +114,7 @@ class AppExtension extends AbstractExtension
      * Returns the current route
      *
      * @return string|null
-     * @author Steffen Haase <shworx.development@gmail.com
+     * @author Steffen Haase <shworx.development@gmail.com>
      */
     public function currentRoute(): ?string
     {
@@ -129,7 +129,7 @@ class AppExtension extends AbstractExtension
      * @param string $name
      *
      * @return bool
-     * @author Steffen Haase <shworx.development@gmail.com
+     * @author Steffen Haase <shworx.development@gmail.com>
      */
     public function isActiveRoute(string $name): bool
     {

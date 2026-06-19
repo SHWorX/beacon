@@ -23,7 +23,7 @@ final readonly class MigrationRepository
      * Creates the migration table
      * 
      * @return void
-     * @author Steffen Haase <shworx.development@gmail.com
+     * @author Steffen Haase <shworx.development@gmail.com>
      */
     public function createRepository(): void
     {
@@ -48,7 +48,7 @@ final readonly class MigrationRepository
      * @param string $migration
      *
      * @return bool
-     * @author Steffen Haase <shworx.development@gmail.com
+     * @author Steffen Haase <shworx.development@gmail.com>
      */
     public function hasRun(string $migration): bool
     {
@@ -65,7 +65,7 @@ final readonly class MigrationRepository
      * @param int $batch
      *
      * @return void
-     * @author Steffen Haase <shworx.development@gmail.com
+     * @author Steffen Haase <shworx.development@gmail.com>
      */
     public function log(string $migration, int $batch): void
     {
@@ -82,7 +82,7 @@ final readonly class MigrationRepository
      * @param string $migration
      *
      * @return void
-     * @author Steffen Haase <shworx.development@gmail.com
+     * @author Steffen Haase <shworx.development@gmail.com>
      */
     public function remove(string $migration): void
     {
@@ -96,7 +96,7 @@ final readonly class MigrationRepository
      * Returns the next batch number
      *
      * @return int
-     * @author Steffen Haase <shworx.development@gmail.com
+     * @author Steffen Haase <shworx.development@gmail.com>
      */
     public function nextBatchNumber(): int
     {
@@ -110,7 +110,7 @@ final readonly class MigrationRepository
      * Returns the last batch
      *
      * @return array
-     * @author Steffen Haase <shworx.development@gmail.com
+     * @author Steffen Haase <shworx.development@gmail.com>
      */
     public function lastBatch(): array
     {

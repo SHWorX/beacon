@@ -30,7 +30,7 @@ class LoginController extends Controller
      * Show login form
      *
      * @return Response
-     * @author Steffen Haase <shworx.development@gmail.com
+     * @author Steffen Haase <shworx.development@gmail.com>
      */
     public function index(): Response
     {
@@ -48,7 +48,7 @@ class LoginController extends Controller
      * @return Response
      * @throws ValidationException
      * @throws RandomException
-     * @author Steffen Haase <shworx.development@gmail.com
+     * @author Steffen Haase <shworx.development@gmail.com>
      */
     public function login(
         Request $request,

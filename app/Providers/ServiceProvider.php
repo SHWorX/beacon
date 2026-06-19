@@ -30,13 +30,13 @@ abstract readonly class ServiceProvider
 
     /**
      * @return void
-     * @author Steffen Haase <shworx.development@gmail.com
+     * @author Steffen Haase <shworx.development@gmail.com>
      */
     abstract public function register(): void;
 
     /**
      * @return void
-     * @author Steffen Haase <shworx.development@gmail.com
+     * @author Steffen Haase <shworx.development@gmail.com>
      */
     public function boot(): void
     {

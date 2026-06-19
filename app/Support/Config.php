@@ -20,7 +20,7 @@ final readonly class Config
      * @param mixed|null $default
      *
      * @return mixed
-     * @author Steffen Haase <shworx.development@gmail.com
+     * @author Steffen Haase <shworx.development@gmail.com>
      */
     public function get(string $key, mixed $default = null): mixed
     {

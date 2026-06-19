@@ -21,7 +21,7 @@ class LogoutController extends Controller
      * @param AuthService $auth
      *
      * @return Response
-     * @author Steffen Haase <shworx.development@gmail.com
+     * @author Steffen Haase <shworx.development@gmail.com>
      */
     public function logout(
         AuthService $auth,

@@ -19,7 +19,7 @@ final readonly class StringHelper
      *
      * @return string
      * @throws RandomException
-     * @author Steffen Haase <shworx.development@gmail.com
+     * @author Steffen Haase <shworx.development@gmail.com>
      */
     public static function generateToken(): string
     {

@@ -40,7 +40,7 @@ class Cookie
      * @param int|null $expires [optional] Cookie expiry
      *
      * @return bool
-     * @author Steffen Haase <shworx.development@gmail.com
+     * @author Steffen Haase <shworx.development@gmail.com>
      */
     public static function set(
         string $name,
@@ -64,7 +64,7 @@ class Cookie
      * @param string $name Cookie name
      *
      * @return string|null
-     * @author Steffen Haase <shworx.development@gmail.com
+     * @author Steffen Haase <shworx.development@gmail.com>
      */
     public static function get(string $name): ?string
     {
@@ -77,7 +77,7 @@ class Cookie
      * @param string $name Cookie name
      *
      * @return bool
-     * @author Steffen Haase <shworx.development@gmail.com
+     * @author Steffen Haase <shworx.development@gmail.com>
      */
     public static function delete(string $name): bool
     {

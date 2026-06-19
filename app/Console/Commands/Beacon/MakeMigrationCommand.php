@@ -78,7 +78,7 @@ final class MakeMigrationCommand extends Command
      *
      * @return string
      * @throws NotFoundException
-     * @author Steffen Haase <shworx.development@gmail.com
+     * @author Steffen Haase <shworx.development@gmail.com>
      */
     private function getStub(string $type): string
     {

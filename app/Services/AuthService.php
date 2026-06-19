@@ -33,7 +33,7 @@ final class AuthService
      * @param string $password
      *
      * @return bool
-     * @author Steffen Haase <shworx.development@gmail.com
+     * @author Steffen Haase <shworx.development@gmail.com>
      */
     public function attempt(string $email, string $password): LoginResult
     {
@@ -63,7 +63,7 @@ final class AuthService
      * @param User $user
      *
      * @return void
-     * @author Steffen Haase <shworx.development@gmail.com
+     * @author Steffen Haase <shworx.development@gmail.com>
      */
     public function login(User $user): void
     {
@@ -81,7 +81,7 @@ final class AuthService
      *
      * @return bool
      * @throws \Random\RandomException
-     * @author Steffen Haase <shworx.development@gmail.com
+     * @author Steffen Haase <shworx.development@gmail.com>
      */
     public function loginFromRememberToken(string $token): bool
     {
@@ -130,7 +130,7 @@ final class AuthService
      * Logout user
      *
      * @return void
-     * @author Steffen Haase <shworx.development@gmail.com
+     * @author Steffen Haase <shworx.development@gmail.com>
      */
     public function logout(): void
     {
@@ -153,7 +153,7 @@ final class AuthService
      * Returns the user or null
      *
      * @return User|null
-     * @author Steffen Haase <shworx.development@gmail.com
+     * @author Steffen Haase <shworx.development@gmail.com>
      */
     public function user(): ?User
     {
@@ -176,7 +176,7 @@ final class AuthService
      * Check if user is authenticated
      *
      * @return bool
-     * @author Steffen Haase <shworx.development@gmail.com
+     * @author Steffen Haase <shworx.development@gmail.com>
      */
     public function check(): bool
     {
@@ -187,7 +187,7 @@ final class AuthService
      * Check if user is guest
      *
      * @return bool
-     * @author Steffen Haase <shworx.development@gmail.com
+     * @author Steffen Haase <shworx.development@gmail.com>
      */
     public function guest(): bool
     {

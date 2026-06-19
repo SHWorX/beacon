@@ -138,7 +138,7 @@ abstract class Command
      * Returns the command name
      *
      * @return string
-     * @author Steffen Haase <shworx.development@gmail.com
+     * @author Steffen Haase <shworx.development@gmail.com>
      */
     public function signature(): string
     {
@@ -149,7 +149,7 @@ abstract class Command
      * Returns the command description
      *
      * @return string
-     * @author Steffen Haase <shworx.development@gmail.com
+     * @author Steffen Haase <shworx.development@gmail.com>
      */
     public function description(): string
     {
@@ -164,7 +164,7 @@ abstract class Command
      * @param bool $lineBreak [optional] Linebreak at the end (default: true)
      *
      * @return void
-     * @author Steffen Haase <shworx.development@gmail.com
+     * @author Steffen Haase <shworx.development@gmail.com>
      */
     protected function line(string $message, bool $lineBreak = true): void
     {
@@ -177,7 +177,7 @@ abstract class Command
      * @param string $message
      *
      * @return void
-     * @author Steffen Haase <shworx.development@gmail.com
+     * @author Steffen Haase <shworx.development@gmail.com>
      */
     public function success(string $message): void
     {
@@ -190,7 +190,7 @@ abstract class Command
      * @param string $message
      *
      * @return void
-     * @author Steffen Haase <shworx.development@gmail.com
+     * @author Steffen Haase <shworx.development@gmail.com>
      */
     protected function error(string $message): void
     {
@@ -203,7 +203,7 @@ abstract class Command
      * @param string $message
      *
      * @return void
-     * @author Steffen Haase <shworx.development@gmail.com
+     * @author Steffen Haase <shworx.development@gmail.com>
      */
     protected function warning(string $message): void
     {
