@@ -39,7 +39,22 @@
                     <a href="{{ route('register') }}" class="{{ isActiveRoute('register') ? 'active' : '' }}">Register</a>
                 {% else %}
                     <a href="{{ route('dashboard') }}" class="{{ isActiveRoute('dashboard') ? 'active' : '' }}">Dashboard</a>
-                    <a href="{{ route('logout') }}" class="{{ isActiveRoute('logout') ? 'active' : '' }}">Logout</a>
+                    <div class="dropdown">
+                        <button class="nav-dropdown-toggle">
+                            {{ auth().user().username }}
+                            <span class="dropdown-arrow">▾</span>
+                        </button>
+
+                        <div class="dropdown-menu">
+                            <a href="#">Profile</a>
+                            <a href="#">Settings</a>
+                            <a href="{{ route('logout') }}">Logout</a>
+{#                            <a href="{{ route('profile') }}">Profile</a>#}
+{#                            <a href="{{ route('settings') }}">Settings</a>#}
+{#                            <a href="{{ route('logout') }}">Logout</a>#}
+                        </div>
+                    </div>
+{#                    <a href="{{ route('logout') }}" class="{{ isActiveRoute('logout') ? 'active' : '' }}">Logout</a>#}
                 {% endif %}
             </div>
         </nav>

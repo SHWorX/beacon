@@ -7,9 +7,10 @@
  * Copyright:   2026 SHWorX (Steffen Haase)
  */
 
-use App\Console\Commands\Beacon\GenerateAppSecretCommand;
+use App\Console\Commands\Beacon\CreateAppSecretCommand;
 use App\Console\Commands\Beacon\GeneratePasswordHashCommand;
 use App\Console\Commands\Beacon\GenerateUuidCommand;
+use App\Console\Commands\Beacon\InstallCommand;
 use App\Console\Commands\Beacon\MakeControllerCommand;
 use App\Console\Commands\Beacon\MakeDtoCommand;
 use App\Console\Commands\Beacon\MakeMiddlewareCommand;
@@ -20,7 +21,8 @@ use App\Console\Commands\Beacon\MigrateCommand;
 use App\Console\Commands\Beacon\MigrateRollbackCommand;
 
 return [
-    GenerateAppSecretCommand::class,
+    CreateAppSecretCommand::class,
+    InstallCommand::class,
     MakeMigrationCommand::class,
     MakeControllerCommand::class,
     MakeDtoCommand::class,

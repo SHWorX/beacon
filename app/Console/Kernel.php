@@ -11,6 +11,7 @@ namespace App\Console;
 
 use App\Container\Container;
 use ReflectionException;
+use RuntimeException;
 
 final readonly class Kernel
 {
@@ -86,5 +87,32 @@ final readonly class Kernel
         }
 
         echo PHP_EOL;
+    }
+
+    /**
+     * Calls command
+     *
+     * @param string $command Command
+     * @param array $argv Command arguments
+     *
+     * @return int
+     * @throws ReflectionException
+     * @author SteffenHaase <shworx.development@gmail.com>
+     */
+    public function call(string $command, array $argv = []): int
+    {
+        $commands = require config_path('commands.php');
+
+        foreach ($commands as $commandClass) {
+            $instance = $this->container->make($commandClass);
+
+            if ($instance->name() === $command) {
+                return $instance->run($argv);
+            }
+        }
+
+        throw new RuntimeException(
+            "Command '{$command}' not found."
+        );
     }
 }
