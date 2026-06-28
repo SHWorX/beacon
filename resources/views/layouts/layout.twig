@@ -25,8 +25,8 @@
                     <img src="{{ asset('img/logo-70x70.png') }}" alt="Beacon Logo">
                 </picture>
             </a>
-            <div>
-                <span class="app-name">{{ _appName }}</span><br>
+            <div class="column">
+                <span class="app-name">{{ _appName }}</span>
                 <span class="app-slogan">{{ _appSlogan }}</span>
             </div>
         </div>
@@ -47,7 +47,7 @@
 
                         <div class="dropdown-menu">
                             <a href="#">Profile</a>
-                            <a href="#">Settings</a>
+                            <a href="{{ route('account.settings') }}">Settings</a>
                             <a href="{{ route('logout') }}">Logout</a>
 {#                            <a href="{{ route('profile') }}">Profile</a>#}
 {#                            <a href="{{ route('settings') }}">Settings</a>#}
@@ -60,10 +60,13 @@
         </nav>
     </header>
 
-    <main>
-        {% block content %}{% endblock %}
-    </main>
+    <div class="page-layout">
+        {% block sidenav %}<aside class="sidenav"></aside>{% endblock %}
 
+        <main class="content">
+            {% block content %}{% endblock %}
+        </main>
+    </div>
     <footer>
         <div class="version">{{ _appName }} v{{ _appVersion }}</div>
         <div class="copyright">{{ _appCopyright|raw }}</div>

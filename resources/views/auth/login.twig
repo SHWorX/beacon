@@ -22,7 +22,7 @@
                         name="email"
                         class="input"
                         placeholder="{{ old.name|default('you@example.org')|e }}"
-                        autocomplete="on"
+                        autocomplete="username"
                         required
                 >
                 {% if errors.email is defined %}
@@ -41,7 +41,7 @@
                         type="password"
                         name="password"
                         class="input"
-                        autocomplete="on"
+                        autocomplete="password"
                         required
                 >
                 {% if errors.password is defined %}

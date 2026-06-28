@@ -32,7 +32,7 @@ final class AuthService
      * @param string $email
      * @param string $password
      *
-     * @return bool
+     * @return LoginResult
      * @author Steffen Haase <shworx.development@gmail.com>
      */
     public function attempt(string $email, string $password): LoginResult

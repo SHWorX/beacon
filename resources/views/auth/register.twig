@@ -73,25 +73,25 @@
                 {% endif %}
                 <div class="spacer-md"></div>
 
-                <label for="confirm_password" class="bold">Password Confirmation</label>
+                <label for="password_confirm" class="bold">Password Confirmation</label>
                 <div class="spacer-xs"></div>
                 <input
-                        id="confirm_password"
+                        id="password_confirm"
                         type="password"
-                        name="confirm_password"
-                        class="input{% if errors.confirm_password is defined %} field-error{% endif %}"
+                        name="password_confirm"
+                        class="input{% if errors.password_confirm is defined %} field-error{% endif %}"
                         autocomplete="on"
                         required
                 >
-                {% if errors.confirm_password is defined %}
+                {% if errors.password_confirm is defined %}
                     <div class="form-error mt-xs">
-                        <span>{{ errors.confirm_password|first }}</span>
+                        <span>{{ errors.password_confirm|first }}</span>
                     </div>
                 {% endif %}
                 <div id="password_mismatch" class="text-danger mt-xs">Passwords do not match</div>
                 <div class="pt-xs">
-                    <div class="has-popover text-primary" data-popover="">
-                        Password policy
+                    <div class="text-primary text-center">
+                        <span class="has-popover" data-popover="">Password policy</span>
                     </div>
                     <div id="popover">
                         <div class="bb-1 pb-xs bold">Password policy</div>

@@ -10,14 +10,20 @@
 namespace App\Controllers;
 
 use App\Http\Response;
+use App\Services\AuthService;
 use Twig\Error\LoaderError;
 use Twig\Error\RuntimeError;
 use Twig\Error\SyntaxError;
 
 class HomeController extends Controller
 {
-    public function index(): Response
-    {
+    public function index(
+        AuthService $auth,
+    ): Response {
+        if ($auth->check()) {
+            return $this->redirect('/dashboard');
+        }
+
         return $this->view('home/index.twig');
     }
 

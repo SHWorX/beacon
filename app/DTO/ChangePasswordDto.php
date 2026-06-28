@@ -1,8 +1,8 @@
 <?php
 /*
- * Project:     Beacon
- * File:        RegisterDto.php
- * Date:        2026-06-13
+ * Project:     beacon
+ * File:        ChangePasswordDto.php
+ * Date:        2026-06-28
  * Author:      Steffen Haase <shworx.development@gmail.com
  * Copyright:   2026 SHWorX (Steffen Haase)
  */
@@ -13,18 +13,9 @@ use App\Models\User;
 use Symfony\Component\Validator\Constraints as Assert;
 use Symfony\Component\Validator\Context\ExecutionContextInterface;
 
-class RegisterDto
+class ChangePasswordDto
 {
     public function __construct(
-        #[Assert\NotBlank]
-        #[Assert\Length(min: 4, max: 100)]
-        public string $username,
-
-        #[Assert\NotBlank]
-        #[Assert\Email]
-        public string $email,
-
-        #[Assert\NotBlank]
 //        #[Assert\Length(min: 8)]
 //        #[Assert\Regex(
 //            pattern: '/[a-z]/',
@@ -61,57 +52,13 @@ class RegisterDto
      * @author SteffenHaase <shworx.development@gmail.com>
      */
     #[Assert\Callback]
-    public function validatePasswordsMatch(
+    public function validatePasswords(
         ExecutionContextInterface $context,
     ): void {
         if ($this->password !== $this->password_confirm) {
             $context
                 ->buildViolation('Passwords do not match.')
                 ->atPath('password_confirm')
-                ->addViolation();
-        }
-    }
-
-    /**
-     * Username exists validation
-     *
-     * @param ExecutionContextInterface $context
-     *
-     * @return void
-     * @author SteffenHaase <shworx.development@gmail.com>
-     */
-    #[Assert\Callback]
-    public function validateUsername(
-        ExecutionContextInterface $context,
-    ): void {
-        $user = User::query()->where('username', $this->username)->first();
-
-        if ($user !== null) {
-            $context
-                ->buildViolation('Username already exists.')
-                ->atPath('username')
-                ->addViolation();
-        }
-    }
-
-    /**
-     * Email exists validation
-     *
-     * @param ExecutionContextInterface $context
-     *
-     * @return void
-     * @author SteffenHaase <shworx.development@gmail.com>
-     */
-    #[Assert\Callback]
-    public function validateEmail(
-        ExecutionContextInterface $context,
-    ): void {
-        $user = User::query()->where('email', $this->email)->first();
-
-        if ($user !== null) {
-            $context
-                ->buildViolation('Email is already registered.')
-                ->atPath('email')
                 ->addViolation();
         }
     }
@@ -125,8 +72,6 @@ class RegisterDto
     public static function fromArray(array $data): self
     {
         return new self(
-            username: $data['username'] ?? '',
-            email: trim($data['email'] ?? ''),
             password: $data['password'] ?? '',
             password_confirm: $data['password_confirm'] ?? '',
         );
@@ -139,10 +84,9 @@ class RegisterDto
     public function toArray(): array
     {
         return [
-            'username' => $this->username,
-            'email' => $this->email,
             'password' => $this->password,
             'password_confirm' => $this->password_confirm,
         ];
     }
+
 }

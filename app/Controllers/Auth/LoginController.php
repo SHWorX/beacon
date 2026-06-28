@@ -29,11 +29,17 @@ class LoginController extends Controller
     /**
      * Show login form
      *
+     * @param AuthService $auth
+     *
      * @return Response
      * @author Steffen Haase <shworx.development@gmail.com>
      */
-    public function index(): Response
+    public function index(AuthService $auth): Response
     {
+        if ($auth->check()) {
+            return $this->redirect(route('dashboard'));
+        }
+
         return $this->view('auth/login.twig');
     }
 
@@ -56,6 +62,10 @@ class LoginController extends Controller
         AuthService $auth,
         Flash $flash,
     ): Response {
+        if ($auth->check()) {
+            return $this->redirect(route('dashboard'));
+        }
+
         $dto = LoginDto::fromArray($request->all());
         $validator->validate($dto);
 

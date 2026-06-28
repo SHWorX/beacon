@@ -129,14 +129,12 @@ class Kernel
         if ($e instanceof ValidationException) {
             $old = array_diff_key($e->dto()->toArray(),$e->errors());
 
-            // Unset password field in old if exists
-            if (array_key_exists('password', $old)) {
-                unset($old['password']);
-            }
-
-            // Unset confirm_password field in old if exists
-            if (array_key_exists('confirm_password', $old)) {
-                unset($old['confirm_password']);
+            // Unset any existing critical key
+            $keysToRemove = ['password', 'password_confirm', 'password_current'];
+            foreach ($keysToRemove as $key) {
+                if (array_key_exists($key, $old)) {
+                    unset($old[$key]);
+                }
             }
 
             $this->flash->set('errors', $e->errors());

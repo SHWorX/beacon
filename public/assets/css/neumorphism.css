@@ -63,6 +63,12 @@
     justify-content: space-evenly;
 }
 
+.column {
+    display: flex;
+    flex-flow: column;
+    align-content: start;
+}
+
 /* ==========================================
    BASE NEUMORPHIC SURFACE
    ========================================== */
@@ -572,6 +578,10 @@ textarea::placeholder {
 /* ==========================================
    TOOLTIP / POPOVER
    ========================================== */
+.has-popover {
+    cursor: help;
+}
+
 #popover {
     position: fixed;
     z-index: 9999;
@@ -663,6 +673,11 @@ textarea::placeholder {
     background-color: rgba(224,49,49,.10);
 }
 
+.badge-warning {
+    color: #fd7e14;
+    background-color: rgba(253, 126, 20, 0.1);
+}
+
 .badge-dot {
     display: inline-block;
     width: 10px;
@@ -681,6 +696,10 @@ textarea::placeholder {
 
 .badge-dot-primary {
     background: #4c6ef5;
+}
+
+.badge-dot-warning {
+    background: #fd7e14;
 }
 
 .badge-outline {
@@ -703,6 +722,11 @@ textarea::placeholder {
 .badge-outline-danger {
     color: #e03131;
     border: 1px solid rgba(224, 49, 49, 0.35);
+}
+
+.badge-outline-warning {
+    color: #fd7e14;
+    border: rgba(253, 126, 20, 0.35);
 }
 
 .badge-tag {
@@ -750,6 +774,66 @@ textarea::placeholder {
     background-color: #fd7e14;
 }
 
+/* ==========================================
+   ALERTS
+   ========================================== */
+.alert {
+    position: relative;
+    padding: 1rem 1.25rem;
+    margin-bottom: 1rem;
+    border-radius: var(--radius-md);
+    background: var(--surface);
+    border: 1px solid var(--border-color-light);
+    box-shadow:
+            5px 5px 10px var(--shadow-dark),
+            -5px -5px 10px var(--shadow-light);
+    color: var(--text);
+}
+
+.alert-primary {
+    color: #4c6ef5;
+    background:
+            linear-gradient(
+                    rgba(76,110,245,.08),
+                    rgba(76,110,245,.08)
+            ),
+            var(--surface);
+    border-color: rgba(76,110,245,.2);
+}
+
+.alert-success {
+    color: #2f9e44;
+    background:
+            linear-gradient(
+                    rgba(47,158,68,.08),
+                    rgba(47,158,68,.08)
+            ),
+            var(--surface);
+
+    border-color: rgba(47,158,68,.2);
+}
+
+.alert-danger {
+    color: #e03131;
+    background:
+            linear-gradient(
+                    rgba(224,49,49,.08),
+                    rgba(224,49,49,.08)
+            ),
+            var(--surface);
+    border-color: rgba(224,49,49,.2);
+}
+
+.alert-warning {
+    color: #fd7e14;
+    background:
+            linear-gradient(
+                    rgba(253,126,20,.08),
+                    rgba(253,126,20,.08)
+            ),
+            var(--surface);
+    border-color: rgba(253,126,20,.2);
+}
 /* ==========================================
    HIERARCHY ORDERED LISTS
    ========================================== */

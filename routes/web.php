@@ -7,6 +7,7 @@
  * Copyright:   2026 SHWorX (Steffen Haase)
  */
 
+use App\Controllers\Account\SettingsController;
 use App\Controllers\Auth\ForgottenPasswordController;
 use App\Controllers\Auth\LoginController;
 use App\Controllers\Auth\LogoutController;
@@ -18,9 +19,13 @@ use App\Routing\Router;
 
 /** @var Router $router */
 
+/* Landing page - NO AUTHENTICATION REQUIRED */
 $router->get('/', [HomeController::class, 'index'], 'home');
-$router->get('/about', [HomeController::class, 'about'], 'about');
 
+/*
+ * Registration, Login/Logout, Password reset, and email verification routes
+ * NO AUTHENTICATION REQUIRED
+ */
 $router->group(
     prefix: '/auth',
     callback: function (Router $router) {
@@ -43,10 +48,41 @@ $router->group(
     }
 );
 
+/*
+ * Inner application routes
+ * AUTHENTICATION REQUIRED
+ */
 $router->group(
     prefix: '',
     callback: function (Router $router) {
         $router->get('/dashboard', [DashboardController::class, 'index'], 'dashboard');
+    },
+    middleware: [AuthMiddleware::class]
+);
+
+/*
+ * Account Settings - Email Verification routes
+ * NO AUTHENTICATION REQUIRED
+ */
+$router->group(
+    prefix: '/settings',
+    callback: function (Router $router) {
+        $router->get('/verify/{token}', [SettingsController::class, 'verifyEmail'], 'settings.verify');
+        $router->get('/resend_verification', [SettingsController::class, 'showResendVerificationForm'], 'settings.resend-verification-form');
+        $router->post('/resend-verification', [SettingsController::class, 'resendVerificationEmail'], 'settings.resend-verification');
+    }
+);
+
+/*
+ * Account Settings routes
+ * AUTHENTICATION REQUIRED
+ */
+$router->group(
+    prefix: '/account',
+    callback: function (Router $router) {
+        $router->get('/settings', [SettingsController::class, 'index'], 'account.settings');
+        $router->post('/settings/email', [SettingsController::class, 'updateEmail'], 'account.settings.email.post');
+        $router->post('/settings/password', [SettingsController::class, 'updatePassword'], 'account.settings.password.post');
     },
     middleware: [AuthMiddleware::class]
 );
