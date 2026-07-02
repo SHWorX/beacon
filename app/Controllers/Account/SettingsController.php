@@ -13,6 +13,8 @@ use App\Controllers\Auth\Traits\AuthTrait;
 use App\Controllers\Controller;
 use App\DTO\ChangeEmailDto;
 use App\DTO\ChangePasswordDto;
+use App\DTO\DisableTwoFactorDto;
+use App\DTO\EnableTwoFactorDto;
 use App\DTO\ResendVerificationDto;
 use App\Enums\AuthToken;
 use App\Exceptions\InvalidEnumException;
@@ -25,9 +27,11 @@ use App\Models\RememberToken;
 use App\Models\User;
 use App\Services\AuthService;
 use App\Services\MailService;
+use App\Services\TwoFactorService;
 use App\Services\ValidationService;
 use App\Support\Flash;
 use Carbon\Carbon;
+use JsonException;
 use Random\RandomException;
 
 class SettingsController extends Controller
@@ -95,6 +99,16 @@ class SettingsController extends Controller
         return $this->view('common_notification.twig', $data);
     }
 
+    /**
+     * @param Request $request
+     * @param AuthService $auth
+     * @param ValidationService $validator
+     * @param Flash $flash
+     *
+     * @return Response
+     * @throws ValidationException
+     * @author SteffenHaase <shworx.development@gmail.com>
+     */
     public function updatePassword(
         Request $request,
         AuthService $auth,
@@ -123,6 +137,77 @@ class SettingsController extends Controller
         ];
 
         return $this->view('common_notification.twig', $data);
+    }
+
+    /**
+     * @param Request $request
+     * @param TwoFactorService $twoFactor
+     *
+     * @return Response
+     * @throws RandomException
+     * @throws JsonException
+     * @author SteffenHaase <shworx.development@gmail.com>
+     */
+    public function setupTwoFactor(Request $request, TwoFactorService $twoFactor): Response
+    {
+        $setup = $twoFactor->beginSetup($this->session);
+
+        return Response::json([
+            'setup_id' => $setup->id,
+            'secret' => $setup->secret,
+            'qr' => $twoFactor->getOtpAuthUri(auth()->user(), $setup->secret),
+        ]);
+    }
+
+    /**
+     * @param Request $request
+     * @param TwoFactorService $twoFactor
+     * @param Flash $flash
+     *
+     * @return Response
+     * @throws JsonException
+     * @throws RandomException
+     * @author SteffenHaase <shworx.development@gmail.com>
+     */
+    public function enableTwoFactor(Request $request, TwoFactorService $twoFactor, Flash $flash): Response
+    {
+        $dto = EnableTwoFactorDto::fromArray($request->all());
+
+        $setup = $twoFactor->pendingSetup($this->session);
+        if ($setup === null) {
+            $flash->error(['totp_setup' => 'Your setup session has expired.']);
+            return $this->view('account/settings.twig');
+        }
+
+        if ($setup->id !== $dto->setup_id) {
+            $flash->error(['totp_setup' => 'Invalid setup session.']);
+            return $this->view('account/settings.twig');
+        }
+
+        if (!$twoFactor->verifySecret($setup->secret, $dto->code)) {
+            $flash->error(['totp_setup' => 'Invalid authentication code.']);
+            return $this->view('account/settings.twig');
+        }
+
+        $recoveryCodes = $twoFactor->enable($this->auth->user(), $setup);
+
+        $flash->success(['recovery_codes', $recoveryCodes]);
+        return $this->view('account/settings.twig');
+    }
+
+    public function disableTwoFactor(Request $request, TwoFactorService $twoFactor, Flash $flash): Response {
+        $dto = DisableTwoFactorDto::fromArray($request->all());
+        $user = $this->auth->user();
+
+        if (!password_verify($dto->password, $user->password)) {
+            $flash->error(['totp_setup', 'Password is incorrect.']);
+            return $this->view('account/settings.twig');
+        }
+
+        $twoFactor->disable($user);
+
+        $flash->success(['totp_setup', 'Two-factor authentication has been disabled.']);
+        return $this->view('account/settings.twig');
     }
 
     /**

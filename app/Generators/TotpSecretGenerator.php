@@ -11,6 +11,9 @@ namespace App\Generators;
 
 use Random\RandomException;
 
+/**
+ * TOTP secret generator
+ */
 final readonly class TotpSecretGenerator
 {
     private const string ALPHABET = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ234567';

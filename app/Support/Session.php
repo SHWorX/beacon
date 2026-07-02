@@ -9,33 +9,63 @@
 
 namespace App\Support;
 
+use App\Services\EncryptionService;
+use JsonException;
+use Psr\Log\LoggerInterface;
+use Random\RandomException;
+
 class Session
 {
+    public function __construct(
+        private readonly EncryptionService $encryptionService,
+        private readonly LoggerInterface $logger,
+    ) {}
+
     /**
      * Get a session value
      *
-     * @param string $key Session key
+     * @param string $key         Session key
      * @param mixed|null $default [optional] Default value (default: null)
+     * @param bool $decrypt       [optional] Decrypt value (default: false)
      *
      * @return mixed
      * @author SteffenHaase <shworx.development@gmail.com>
      */
-    public function get(string $key, mixed $default = null): mixed
+    public function get(string $key, mixed $default = null, bool $decrypt = false): mixed
     {
-        return $_SESSION[$key] ?? $default;
+        $value = $_SESSION[$key];
+
+        if ($decrypt && $value !== null) {
+            try {
+                $value = $this->encryptionService->decrypt($value);
+            } catch (JsonException $e) {
+                $this->logger->error($e->getMessage() . "\nStacktrace:\n" .$e->getTraceAsString());
+            }
+        }
+
+        return $value ?? $default;
     }
 
     /**
      * Add a new session key
      *
      * @param string $key Session key
-     * @param mixed $value Value
+     * @param mixed $value The value of the key
+     * @param bool $encrypt [optional] Encrypt value (default: false)
      *
      * @return void
      * @author SteffenHaase <shworx.development@gmail.com>
      */
-    public function set(string $key, mixed $value): void
+    public function set(string $key, mixed $value, bool $encrypt = false): void
     {
+        if ($encrypt) {
+            try {
+                $value = $this->encryptionService->encrypt($value);
+            } catch (JsonException|RandomException $e) {
+                $this->logger->error($e->getMessage() . "\nStacktrace:\n" .$e->getTraceAsString());
+            }
+        }
+
         $_SESSION[$key] = $value;
     }
 

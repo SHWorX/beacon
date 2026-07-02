@@ -11,10 +11,13 @@ namespace App\Generators;
 
 use Random\RandomException;
 
+/**
+ * TOTP recovery codes generator
+ */
 final readonly class RecoveryCodeGenerator
 {
     /**
-     * Returns a set of recovery codes for TOTP
+     * Returns a set of recovery codes
      *
      * @param int $count [optional] Amount of codes to generate (default: 8)
      *

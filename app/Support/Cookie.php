@@ -9,7 +9,9 @@
 
 namespace App\Support;
 
+use App\Services\EncryptionService;
 use Carbon\Carbon;
+use Random\RandomException;
 
 class Cookie
 {
@@ -38,6 +40,7 @@ class Cookie
      * @param string $name      Cookie name
      * @param string $value     Cookie value
      * @param int|null $expires [optional] Cookie expiry
+     * @param bool $encrypt [optional] Encrypt cookie value (default: false)
      *
      * @return bool
      * @author Steffen Haase <shworx.development@gmail.com>
@@ -45,7 +48,8 @@ class Cookie
     public static function set(
         string $name,
         string $value,
-        ?int $expires = null
+        ?int $expires = null,
+        bool $encrypt = false
     ): bool {
         $options = [
             'expires' => $expires ?? Carbon::now()->addDays(30)->getTimestamp(),
@@ -56,17 +60,28 @@ class Cookie
             'samesite' => config('app.cookieSameSite'),
         ];
 
+        if ($encrypt) {
+            $encryptionService = new EncryptionService();
+
+            try {
+                $value = $encryptionService->encrypt($value);
+            } catch (JsonException|RandomException $e) {
+                $this->logger->error($e->getMessage() . "\nStacktrace:\n" .$e->getTraceAsString());
+            }
+        }
+
         return setcookie($name, $value, $options);
     }
     /**
      * Returns the content of a cookie
      *
      * @param string $name Cookie name
+     * @param bool $decrypt [optional] Decrypt cookie content (default: false)
      *
      * @return string|null
      * @author Steffen Haase <shworx.development@gmail.com>
      */
-    public static function get(string $name): ?string
+    public static function get(string $name, bool $decrypt = false): ?string
     {
         return $_COOKIE[$name] ?? null;
     }

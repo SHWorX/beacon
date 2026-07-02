@@ -16,6 +16,7 @@ use Illuminate\Database\Eloquent\Model;
 
 /**
  * @property string $username
+ * @property string $password
  * @property string $email
  * @property Carbon $email_verified_at
  * @property string $email_verification_token
@@ -43,6 +44,13 @@ class User extends Model
         'totp_recovery_codes',
     ];
 
+    protected $casts = [
+        'email_verified_at' => 'datetime',
+        'email_verification_expires_at' => 'datetime',
+        'totp_enabled_at' => 'datetime',
+        'totp_recovery_codes' => 'array',
+    ];
+
     /**
      * Check if email is verified
      *
@@ -66,5 +74,16 @@ class User extends Model
         $this->email_verification_token = null;
         $this->email_verification_expires_at = null;
         $this->save();
+    }
+
+    /**
+     * Checks if Two-factor (TOTP) is enabled
+     *
+     * @return bool
+     * @author SteffenHaase <shworx.development@gmail.com>
+     */
+    public function hasTwoFactorEnabled(): bool
+    {
+        return $this->totp_enabled_at !== null && $this->totp_secret !== null;
     }
 }
