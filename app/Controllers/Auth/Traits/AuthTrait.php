@@ -34,7 +34,7 @@ trait AuthTrait
     ): void {
         $message = $this->view->render('mail/verify_email.twig', [
             'username' => $username,
-            'url' => app_url(route('register.verify', ['token' => $token]))
+            'url' => app_url(route('auth.verify', ['token' => $token])),
         ]);
 
         $mailer->send(
@@ -63,7 +63,7 @@ trait AuthTrait
         string $email,
         string $token
     ): void {
-        $url = app_url(route('reset.token', ['token' => $token]));
+        $url = app_url(route('auth.reset.token', ['token' => $token]));
         $message = $this->view->render('mail/reset_password.twig', [
             'username' => $username,
             'url' => $url,

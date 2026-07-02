@@ -26,7 +26,9 @@ final readonly class AppServiceProvider extends ServiceProvider
 
         $this->container->singleton(
             Request::class,
-            fn () => new Request
+            fn () => new Request(
+                $this->container->make(Session::class)
+            )
         );
 
         $this->container->singleton(

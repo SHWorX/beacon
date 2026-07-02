@@ -19,8 +19,7 @@ final class MakeModelCommand extends Command
     public function handle(): int
     {
         $name = $this->argument('name');
-        $isStandard = $this->hasOption('standard');
-        $isUuid = !$this->hasOption('standard');
+        $isUuid = !$this->hasOption('standard') || $this->hasOption('uuid');
 
         if ($name === null) {
             $this->error('Model name is required.');
@@ -57,9 +56,7 @@ final class MakeModelCommand extends Command
         }
 
         $table = $this->guessTableName($class);
-        $stub = file_get_contents(resource_path(
-            $isUuid ? 'stubs/model.uuid.stub' : 'stubs/model.standard.stub'
-        ));
+        $stub = file_get_contents(resource_path($isUuid ? 'stubs/model.uuid.stub' : 'stubs/model.standard.stub'));
 
         $stub = str_replace(
             ['{{ namespace }}', '{{ class }}', '{{ table }}'],

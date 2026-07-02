@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
 
+    <meta name="app-config" content='{"apiBaseUrl": "{{ _appApiBaseUrl }}"}'>
+
     {% block metatags %}{% endblock %}
 
     <title>{% block title %}{{ _appName }}{% endblock %}</title>
@@ -35,8 +37,8 @@
             <div class="navbar">
                 {% if guest() %}
                     <a href="{{ route('home') }}" class="{{ isActiveRoute('home') ? 'active' : '' }}">Home</a>
-                    <a href="{{ route('login') }}" class="{{ isActiveRoute('login') ? 'active' : '' }}">Login</a>
-                    <a href="{{ route('register') }}" class="{{ isActiveRoute('register') ? 'active' : '' }}">Register</a>
+                    <a href="{{ route('auth.login') }}" class="{{ isActiveRoute('auth.login') ? 'active' : '' }}">Login</a>
+                    <a href="{{ route('auth.register') }}" class="{{ isActiveRoute('auth.register') ? 'active' : '' }}">Register</a>
                 {% else %}
                     <a href="{{ route('dashboard') }}" class="{{ isActiveRoute('dashboard') ? 'active' : '' }}">Dashboard</a>
                     <div class="dropdown">
@@ -72,6 +74,23 @@
         <div class="copyright">{{ _appCopyright|raw }}</div>
     </footer>
 
+    <script src="{{ asset('js/apiClient.js') }}" defer></script>
+
+    <script>
+        // Initializing page hooks
+        window.PageHooks = [];
+        window.registerPageHook = fn => window.PageHooks.push(fn);
+    </script>
+
     {% block footer_scripts %}{% endblock %}
+
+    <script>
+        // Executing page hooks after DOM is fully loaded.
+        document.addEventListener('DOMContentLoaded', async () => {
+            for (const hook of window.PageHooks) {
+                await hook();
+            }
+        });
+    </script>
 </body>
 </html>

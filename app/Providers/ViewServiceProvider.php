@@ -26,7 +26,7 @@ final readonly class ViewServiceProvider extends ServiceProvider
     {
         $this->container->singleton(
             Environment::class,
-            function () {
+            function ($container) {
                 $loader = new FilesystemLoader(resource_path('views'));
 
                 $twig = new Environment($loader, [
@@ -45,7 +45,17 @@ final readonly class ViewServiceProvider extends ServiceProvider
                     $twig->addExtension(new DebugExtension());
                 }
 
-                $twig->addGlobal('auth', auth());
+                $flash = $container->make(Flash::class);
+
+                /* GLOBALLY ACCESSIBLE TWIG VARIABLES */
+                $twig->addGlobal('old', $flash->old());
+                $twig->addGlobal('errors', $flash->errors());
+                $twig->addGlobal('_appName', config('app.name'));
+                $twig->addGlobal('_appSlogan', config('app.slogan'));
+                $twig->addGlobal('_appVersion', config('app.version'));
+                $twig->addGlobal('_appCopyright', config('app.copyright'));
+                $twig->addGlobal('_appTwoFactorEnabled', config('app.two-factor-enabled'));
+                $twig->addGlobal('_appApiBaseUrl', app_url('/api'));
 
                 return $twig;
             }
@@ -55,7 +65,6 @@ final readonly class ViewServiceProvider extends ServiceProvider
             View::class,
             fn ($container) => new View(
                 $container->make(Environment::class),
-                $container->make(Flash::class),
                 $container->make(LoggerInterface::class)
             )
         );

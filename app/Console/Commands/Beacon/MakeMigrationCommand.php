@@ -14,13 +14,17 @@ use App\Exceptions\NotFoundException;
 
 final class MakeMigrationCommand extends Command
 {
-    protected string $signature = 'make:migration {name} {--table=}';
+    protected string $signature = 'make:migration {name} {--table=} {--standard} {--uuid}';
     protected string $description = 'Create a new migration file';
+
+    private bool $isUuid;
 
     public function handle(): int
     {
         $name = $this->argument('name');
         $table = $this->option('table');
+        $this->isUuid = !$this->hasOption('standard') || $this->hasOption('uuid');
+
         if ($table === true || $table === null) {
             $this->error('Table option must be passed with a name (example: --table=my_table)');
             return 1;
@@ -32,20 +36,24 @@ final class MakeMigrationCommand extends Command
         }
 
         $timestamp = date('Y_m_d_His');
-        $file = database_path("migrations/{$timestamp}_{$name}.php");
+        $fileName = $timestamp . '_' . $name . '.php';
+        $file = database_path("migrations/{$fileName}");
 
-        if (preg_match('/^create_(.+)_table$/', $name, $matches)) {
+        if (preg_match('/^create_table_(.+)$/', $name, $matches)) {
             $type = 'create';
             $table ??= $matches[1];
-
+        } elseif (preg_match('/^create_(.+)_table$/', $name, $matches)) {
+            $type = 'create';
+            $table ??= $matches[1];
         } elseif (preg_match('/^add_.+_to_(.+)_table$/', $name, $matches)) {
             $type = 'update';
             $table ??= $matches[1];
-
+        } elseif (preg_match('/^drop_table_(.+)$/', $name, $matches)) {
+            $type = 'drop';
+            $table ??= $matches[1];
         } elseif (preg_match('/^drop_(.+)_table$/', $name, $matches)) {
             $type = 'drop';
             $table ??= $matches[1];
-
         } else {
             $type = 'blank';
         }
@@ -61,7 +69,7 @@ final class MakeMigrationCommand extends Command
         $stub = str_replace('{{table}}', $table, $stub);
 
         if (file_put_contents($file, $stub)) {
-            $this->success("Created migration: $file");
+            $this->success("Created migration: $fileName");
 
             return 0;
         }
@@ -82,7 +90,14 @@ final class MakeMigrationCommand extends Command
      */
     private function getStub(string $type): string
     {
-        $stubFile = resource_path('stubs/migration.' . $type . '.stub');
+        if ($type === 'create') {
+            $stubFile = $this->isUuid
+                ? resource_path('stubs/migration.create.uuid.stub')
+                : resource_path('stubs/migration.create.standard.stub');
+        } else {
+            $stubFile = resource_path('stubs/migration.' . $type . '.stub');
+        }
+
         if (!file_exists($stubFile)) {
             throw new NotFoundException("Stub file \"$stubFile\" not found.");
         }

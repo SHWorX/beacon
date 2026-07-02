@@ -17,7 +17,7 @@ use Random\RandomException;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-class AppExtension extends AbstractExtension
+final class AppExtension extends AbstractExtension
 {
     public function __construct(
         private readonly Router      $router,
@@ -26,6 +26,12 @@ class AppExtension extends AbstractExtension
         private readonly AuthService $auth,
     ) { }
 
+    /**
+     * Returns custom Twig functions
+     *
+     * @return array
+     * @author SteffenHaase <shworx.development@gmail.com>
+     */
     public function getFunctions(): array
     {
         return [

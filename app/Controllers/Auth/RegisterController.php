@@ -77,7 +77,7 @@ class RegisterController extends Controller
         $this->sendVerificationEmail($mailer, $dto->username, $dto->email, $verificationToken['token']);
 
         $data = [
-            'title' => 'Registration',
+            'title' => 'Verify your email address',
             'content' => '<p class="pt-sm">Your account as been successfully created.<br>To finish the registration, ' .
                 'we have sent you a verification email.<br>Please check your inbox and click on the link in the email.</p>',
         ];
@@ -85,110 +85,4 @@ class RegisterController extends Controller
         return $this->view('common_notification.twig', $data);
     }
 
-    /**
-     * Verify email address
-     *
-     * @param $token
-     *
-     * @return Response
-     * @author SteffenHaase <shworx.development@gmail.com>
-     */
-    public function verifyEmail($token): Response
-    {
-        if (!$token) {
-            return $this->view('errors/404.twig', [], 404);
-        }
-
-        $tokenHash = hash('sha256', $token);
-
-        $user = User::query()->where('email_verification_token', $tokenHash)->first();
-        if (!$user) {
-            return $this->view('errors/404.twig', [], 404);
-        }
-
-        if ($user->email_verification_expires_at < Carbon::now()) {
-            $data = [
-                'title' => 'Email Verification',
-                'content' => '<p class="pt-sm">This email verification has expired.</p>' .
-                    '<a href="' .route('register.resend-verification-form') . '" ' .
-                    'class="btn btn-primary shadow-sm mt-sm">Resend Verification Email</a>',
-            ];
-
-            return $this->view('common_notification.twig', $data);
-        }
-
-        if ($user->hasVerifiedEmail()) {
-            $data = [
-                'title' => 'Email Verification',
-                'content' => '<p class="pt-sm">This email address has already been verified.</p>' .
-                    '<a href="' . route('login') . '" class="btn btn-primary shadow-sm mt-sm">Go to Login</a>',
-            ];
-
-            return $this->view('common_notification.twig', $data);
-        }
-
-        $user->markEmailAsVerified();
-
-        $data = [
-            'title' => 'Email Verification',
-            'content' => '<p class="pt-sm">Your email address has been successfully verified.</p>' .
-                '<a href="' . route('login') . '" class="btn btn-primary shadow-sm mt-sm">Go to Login</a>',
-        ];
-        return $this->view('common_notification.twig', $data);
-    }
-
-    public function showResendVerificationForm(): Response
-    {
-        return $this->view('auth/resend_verification_form.twig');
-    }
-
-    /**
-     * Resend the verification email
-     *
-     * @param Request $request
-     * @param MailService $mailer
-     * @param ValidationService $validator
-     * @param Flash $flash
-     *
-     * @return Response
-     * @throws MailerException
-     * @throws RandomException
-     * @throws ValidationException
-     * @throws InvalidEnumException
-     * @author SteffenHaase <shworx.development@gmail.com>
-     */
-    public function resendVerificationEmail (
-        Request $request,
-        MailService $mailer,
-        ValidationService $validator,
-        Flash $flash,
-    ): Response {
-        $dto = ResendVerificationDto::fromArray($request->all());
-        $validator->validate($dto);
-
-        $user = User::query()->where('email', $dto->email)->first();
-
-        if ($user) {
-            if ($user->hasVerifiedEmail()) {
-                $flash->error(['verification' => 'This email address is already verified.']);
-                return Response::redirect(route('register.resend-verification-form'));
-            }
-
-            $verificationToken = StringHelper::getVerificationToken(AuthToken::EMAIL);
-
-            $user->update([
-                'email_verification_token' => hash('sha256', $verificationToken['token']),
-                'email_verification_expires_at' => $verificationToken['expires_at'],
-            ]);
-
-            $this->sendVerificationEmail($mailer, $user->username, $user->email, $verificationToken['token']);
-        }
-
-        $data = [
-            'title' => 'Email Verification',
-            'content' => '<p class="pt-sm">If an account exists for this email, an email verification link has been sent.</p>'
-        ];
-
-        return $this->view('common_notification.twig', $data);
-    }
 }

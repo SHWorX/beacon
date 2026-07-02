@@ -10,7 +10,15 @@
 namespace App\Models;
 
 use App\Models\Traits\HasUuid;
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Model;
+
+/**
+ * @property string $id
+ * @property string $user_id
+ * @property string $token_hash
+ * @property Carbon $expires_at
+ */
 
 class RememberToken extends Model
 {

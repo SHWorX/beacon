@@ -12,6 +12,7 @@ use App\Controllers\Auth\ForgottenPasswordController;
 use App\Controllers\Auth\LoginController;
 use App\Controllers\Auth\LogoutController;
 use App\Controllers\Auth\RegisterController;
+use App\Controllers\Auth\VerifyEmailController;
 use App\Controllers\DashboardController;
 use App\Controllers\HomeController;
 use App\Middleware\AuthMiddleware;
@@ -19,70 +20,64 @@ use App\Routing\Router;
 
 /** @var Router $router */
 
-/* Landing page - NO AUTHENTICATION REQUIRED */
+/* Landing page */
 $router->get('/', [HomeController::class, 'index'], 'home');
 
-/*
- * Registration, Login/Logout, Password reset, and email verification routes
- * NO AUTHENTICATION REQUIRED
- */
-$router->group(
-    prefix: '/auth',
-    callback: function (Router $router) {
-        $router->get('/login', [LoginController::class, 'index'], 'login');
-        $router->post('/login', [LoginController::class, 'login'], 'login.post');
-        $router->get('/logout', [LogoutController::class, 'logout'], 'logout');
-
-        $router->get('/register', [RegisterController::class, 'index'], 'register');
-        $router->post('/register', [RegisterController::class, 'register'], 'register.post');
-
-        $router->get('/verify/{token}', [RegisterController::class, 'verifyEmail'], 'register.verify');
-        $router->get('/resend_verification', [RegisterController::class, 'showResendVerificationForm'], 'register.resend-verification-form');
-        $router->post('/resend-verification', [RegisterController::class, 'resendVerificationEmail'], 'register.resend-verification');
-
-        $router->get('/forgotten', [ForgottenPasswordController::class, 'index'], 'forgotten');
-        $router->post('/forgotten', [ForgottenPasswordController::class, 'sendResetEmail'], 'forgotten.post');
-
-        $router->get('/reset/{token}', [ForgottenPasswordController::class, 'reset'], 'reset.token');
-        $router->post('/reset', [ForgottenPasswordController::class, 'resetPassword'], 'reset.post');
-    }
-);
-
-/*
- * Inner application routes
- * AUTHENTICATION REQUIRED
+/* Email Verification routes should not require auth or guest middleware, because verifications emails will be sent out
+ * during registration, and during email change in settings.
  */
 $router->group(
     prefix: '',
     callback: function (Router $router) {
-        $router->get('/dashboard', [DashboardController::class, 'index'], 'dashboard');
-    },
-    middleware: [AuthMiddleware::class]
-);
-
-/*
- * Account Settings - Email Verification routes
- * NO AUTHENTICATION REQUIRED
- */
-$router->group(
-    prefix: '/settings',
-    callback: function (Router $router) {
-        $router->get('/verify/{token}', [SettingsController::class, 'verifyEmail'], 'settings.verify');
-        $router->get('/resend_verification', [SettingsController::class, 'showResendVerificationForm'], 'settings.resend-verification-form');
-        $router->post('/resend-verification', [SettingsController::class, 'resendVerificationEmail'], 'settings.resend-verification');
+        $router->get('/verify/{token}', [VerifyEmailController::class, 'verifyEmail'], 'auth.verify');
+        $router->get('/resend-verification', [VerifyEmailController::class, 'showResendVerificationForm'], 'auth.verification.resend');
+        $router->post('/resend-verification', [VerifyEmailController::class, 'resendVerificationEmail'], 'auth.verification.resend.post')
+            ->middleware(['throttle:5,1']);
     }
 );
 
-/*
- * Account Settings routes
- * AUTHENTICATION REQUIRED
- */
+/* Registration, Login/Logout, Password reset, and email verification routes */
 $router->group(
-    prefix: '/account',
+    prefix: '/auth',
     callback: function (Router $router) {
-        $router->get('/settings', [SettingsController::class, 'index'], 'account.settings');
-        $router->post('/settings/email', [SettingsController::class, 'updateEmail'], 'account.settings.email.post');
-        $router->post('/settings/password', [SettingsController::class, 'updatePassword'], 'account.settings.password.post');
+        $router->get('/login', [LoginController::class, 'index'], 'auth.login');
+        $router->post('/login', [LoginController::class, 'login'], 'auth.login.post');
+
+        $router->get('/register', [RegisterController::class, 'index'], 'auth.register');
+        $router->post('/register', [RegisterController::class, 'register'], 'auth.register.post');
+
+        $router->get('/forgotten', [ForgottenPasswordController::class, 'index'], 'auth.forgotten');
+        $router->post('/forgotten', [ForgottenPasswordController::class, 'sendResetEmail'], 'auth.forgotten.post');
+
+        $router->get('/reset/{token}', [ForgottenPasswordController::class, 'reset'], 'auth.reset.token');
+        $router->post('/reset', [ForgottenPasswordController::class, 'resetPassword'], 'auth.reset.post');
     },
-    middleware: [AuthMiddleware::class]
+    middleware: ['guest']
+);
+
+/* All routes which requires authentication */
+$router->group(
+    prefix: '',
+    callback: function (Router $router) {
+        $router->get('/logout', [LogoutController::class, 'logout'], 'logout');
+
+        $router->group(
+            prefix: '',
+            callback: function (Router $router) {
+                $router->get('/dashboard', [DashboardController::class, 'index'], 'dashboard');
+            },
+        );
+
+        /* Account Settings routes */
+        $router->group(
+            prefix: '/account',
+            callback: function (Router $router) {
+                $router->get('/settings', [SettingsController::class, 'index'], 'account.settings');
+                $router->post('/settings/email', [SettingsController::class, 'updateEmail'], 'account.settings.email.post')
+                    ->middleware(['throttle:5,1']);
+                $router->post('/settings/password', [SettingsController::class, 'updatePassword'], 'account.settings.password.post');
+            },
+        );
+    },
+    middleware: ['auth']
 );

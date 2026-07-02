@@ -253,7 +253,7 @@ abstract class Command
      */
     public function success(string $message, bool $lineBreak = true): void
     {
-        echo "\033[32m{$message}\033[0m" . ($lineBreak === true) ? PHP_EOL : '';
+        echo "\033[32m{$message}\033[0m" . ($lineBreak === true ? PHP_EOL : '');
     }
 
     /**
@@ -267,7 +267,7 @@ abstract class Command
      */
     protected function error(string $message, bool $lineBreak = true): void
     {
-        echo "\033[31m{$message}\033[0m" . ($lineBreak === true) ? PHP_EOL : '';
+        echo "\033[31m{$message}\033[0m" . ($lineBreak === true ? PHP_EOL : '');
     }
 
     /**
@@ -281,6 +281,6 @@ abstract class Command
      */
     protected function warning(string $message, bool $lineBreak = true): void
     {
-        echo "\033[33m{$message}\033[0m" . ($lineBreak === true) ? PHP_EOL : '';
+        echo "\033[33m{$message}\033[0m" . ($lineBreak === true ? PHP_EOL : '');
     }
 }

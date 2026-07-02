@@ -8,7 +8,7 @@ return new class extends Migration
     public function up(): void
     {
         $this->schema()->create('{{table}}', function (Blueprint $table) {
-            $table->char('id', 36)->primary();
+            $table->uuid('id')->primary();
 
             $table->timestamps();
         });

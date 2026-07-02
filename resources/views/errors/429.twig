@@ -1,0 +1,8 @@
+{% extends 'layouts/layout.twig' %}
+
+{% block content %}
+    <section class="http-error">
+        <h1>HTTP 429 - To many Requests</h1>
+        <p>You have reached the request limit, please try again after: {{ retry_after }}.</p>
+    </section>
+{% endblock %}

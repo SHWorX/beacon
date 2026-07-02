@@ -75,14 +75,14 @@ class LoginController extends Controller
             case LoginResult::EMAIL_NOT_VERIFIED:
                 $flash->set('errors', [
                     'auth_error' => 'Please verify your email address.<br>' .
-                        '<a href="' . route('register.resend-verification-form') . '">Resend verification email</a>'
+                        '<a href="' . route('auth.verification.resend') . '">Resend verification email</a>'
                 ]);
 
-                return Response::redirect(route('login'));
+                return Response::redirect(route('auth.login'));
             case LoginResult::INVALID_CREDENTIALS:
                 $flash->set('errors', ['auth_error' => 'Invalid email or password.']);
 
-                return Response::redirect(route('login'));
+                return Response::redirect(route('auth.login'));
         }
 
         if ($dto->remember) {

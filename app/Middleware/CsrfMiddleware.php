@@ -22,7 +22,7 @@ readonly class CsrfMiddleware implements MiddlewareInterface
         private LoggerInterface $logger,
     ) { }
 
-    public function handle(Request $request, callable $next): Response
+    public function handle(Request $request, callable $next, mixed ...$parameters): Response
     {
         if ($request->method() === 'POST') {
             $this->logger->debug("CSRF token validation", [

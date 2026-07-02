@@ -11,10 +11,13 @@ namespace App\Http;
 
 use App\Container\Container;
 use App\Exceptions\ValidationException;
+use App\Pipeline\Pipeline;
+use App\Routing\MiddlewareDefinition;
 use App\Routing\RouteDispatcher;
 use App\Services\CsrfService;
 use App\Support\Flash;
 use App\View\View;
+use JsonException;
 use Psr\Log\LoggerInterface;
 use Random\RandomException;
 use ReflectionException;
@@ -27,7 +30,7 @@ use Twig\Error\SyntaxError;
 
 class Kernel
 {
-    /** @var array<class-string> */
+    /** @var array<MiddlewareDefinition> */
     private array $middleware = [];
 
     public function __construct(
@@ -37,11 +40,12 @@ class Kernel
         private readonly CsrfService $csrf,
         private readonly View $view,
         private readonly LoggerInterface $logger,
+        private readonly Pipeline $pipeline,
     ) { }
 
     public function addMiddleware(string $middleware): void
     {
-        $this->middleware[] = $middleware;
+        $this->middleware[] = new MiddlewareDefinition($middleware);
     }
 
     /**
@@ -51,54 +55,67 @@ class Kernel
      * @throws ReflectionException
      * @throws RuntimeError
      * @throws SyntaxError
+     * @throws JsonException
      * @author SteffenHaase <shworx.development@gmail.com>
      */
     public function handle(): Response
     {
+        $request = $this->container->make(Request::class);
+
         if (config('app.debug')) {
             $this->logger->debug(
                 'Request received',
                 [
-                    'method' => $_SERVER['REQUEST_METHOD'],
-                    'uri' => $_SERVER['REQUEST_URI'],
+                    'method' => $request->method(),
+                    'uri' => $request->uri(),
                 ]
             );
         }
 
-        $request = $this->container->make(Request::class);
-
         try {
-            $pipeline = array_reduce(
-                array_reverse($this->middleware),
-                fn (
-                    callable $next,
-                    string $middleware,
-                ) => function (Request $request) use ($next, $middleware) {
-                    return $this->container->make($middleware)->handle($request, $next);
-                },
-                fn (Request $request) => $this->dispatcher->dispatch($request)
-            );
+            $result = $this->pipeline
+                ->send($request)
+                ->through($this->middleware)
+                ->then(fn () => $this->dispatcher->dispatch());
 
-            $result = $pipeline($request);
-
-            return $this->normalize($result);
+            return $this->normalize($result, $request);
         } catch (Throwable $e) {
-            return $this->handleException($e);
+            return $this->handleException($e, $request);
         }
     }
 
-    private function normalize(mixed $result): Response
+    /**
+     * Normalize response
+     *
+     * @param mixed $result
+     * @param Request $request
+     *
+     * @return Response
+     * @throws JsonException
+     * @author SteffenHaase <shworx.development@gmail.com>
+     */
+    private function normalize(mixed $result, Request $request): Response
     {
         if ($result instanceof Response) {
             return $result;
         }
 
-        if (is_string($result)) {
-            return Response::html($result);
+        // API mode (always JSON)
+        if ($request->expectsJson()) {
+            if (is_array($result)) {
+                return Response::json(['success' => true, 'data' => $result]);
+            }
+
+            if (is_string($result)) {
+                return Response::json(['success' => true, 'message' => $result]);
+            }
+
+            return Response::json(['success' => true]);
         }
 
-        if (is_array($result)) {
-            return Response::json($result);
+        // Web mode
+        if (is_string($result)) {
+            return Response::html($result);
         }
 
         return Response::html('');
@@ -109,8 +126,10 @@ class Kernel
      * @throws RuntimeError
      * @throws LoaderError
      * @throws SyntaxError
+     * @throws ReflectionException
+     * @throws JsonException
      */
-    private function handleException(Throwable $e): Response
+    private function handleException(Throwable $e, Request $request): Response
     {
         $this->logger->error($e->getMessage() . "\nStacktrace:\n" .$e->getTraceAsString());
 
@@ -127,21 +146,26 @@ class Kernel
         }
 
         if ($e instanceof ValidationException) {
-            $old = array_diff_key($e->dto()->toArray(),$e->errors());
+            if ($request->expectsJson()) {
+                return Response::json([
+                    'success' => false,
+                    'message' => 'Validation failed',
+                    'errors' => $e->errors(),
+                ], 422);
+            }
 
-            // Unset any existing critical key
+            $old = array_diff_key($e->dto()->toArray(), $e->errors());
+
             $keysToRemove = ['password', 'password_confirm', 'password_current'];
             foreach ($keysToRemove as $key) {
-                if (array_key_exists($key, $old)) {
-                    unset($old[$key]);
-                }
+                unset($old[$key]);
             }
 
             $this->flash->set('errors', $e->errors());
             $this->flash->set('old', $old);
             $this->csrf->regenerate();
 
-            return Response::redirect($_SERVER['HTTP_REFERER'] ?? '/');
+            return Response::redirect($request->referer());
         }
 
         if ($e instanceof ResourceNotFoundException) {

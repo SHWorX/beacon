@@ -9,8 +9,14 @@
 
 namespace App\Http;
 
+use App\Support\Session;
+
 class Request
 {
+    public function __construct(
+        private readonly Session $session,
+    ) {}
+
     public function method(): string
     {
          return strtoupper($_SERVER['REQUEST_METHOD'] ?? 'GET');
@@ -138,20 +144,20 @@ class Request
         return $this->method() === 'DELETE';
     }
 
-    public function referer(): string
+    public function referer(): ?string
     {
-        return $_SERVER['HTTP_REFERER'];
+        return $_SERVER['HTTP_REFERER'] ?? null;
     }
 
     /**
      * Return all session variables
      *
-     * @return array
+     * @return Session
      * @author SteffenHaase <shworx.development@gmail.com>
      */
-    public function session(): array
+    public function session(): Session
     {
-        return $_SESSION;
+        return $this->session;
     }
 
     /**
@@ -180,5 +186,99 @@ class Request
     public function sessionSet(string $key, mixed $value): void
     {
         $_SESSION[$key] = $value;
+    }
+
+    /**
+     * Checks if the request expects a JSON response
+     *
+     * @return bool
+     * @author SteffenHaase <shworx.development@gmail.com>
+     */
+    public function expectsJson(): bool
+    {
+        $accept = $this->header('Accept', '');
+
+        return str_contains($accept, 'application/json') || str_starts_with($this->uri(), '/api');
+    }
+
+    /**
+     * Returns a header value
+     *
+     * @param string $key Header key
+     * @param mixed|null $default [optional] Default value (default: null)
+     *
+     * @return mixed
+     * @author SteffenHaase <shworx.development@gmail.com>
+     */
+    public function header(string $key, mixed $default = null): mixed
+    {
+        $key = str_replace('-', '_', strtoupper($key));
+        $key = 'HTTP_' . $key;
+
+        if (isset($_SERVER[$key])) {
+            return $_SERVER[$key];
+        }
+
+        if (function_exists('getallheaders')) {
+            $headers = getallheaders();
+
+            foreach ($headers as $name => $value) {
+                if (strcasecmp($name, str_replace('_', '-', strtolower(substr($key, 5)))) === 0) {
+                    return $value;
+                }
+            }
+        }
+
+        return $default;
+    }
+
+    /**
+     * Get the client IP address.
+     *
+     * Attempts to resolve the real IP behind proxies/load balancers.
+     *
+     * @return string|null
+     * @author SteffenHaase <shworx.development@gmail.com>
+     */
+    public function ip(): ?string
+    {
+        $keys = [
+            'HTTP_CF_CONNECTING_IP',   // Cloudflare
+            'HTTP_X_REAL_IP',
+            'HTTP_X_FORWARDED_FOR',
+            'REMOTE_ADDR',
+        ];
+
+        foreach ($keys as $key) {
+            if (!empty($_SERVER[$key])) {
+
+                // X_FORWARDED_FOR may contain a list: client, proxy1, proxy2
+                if ($key === 'HTTP_X_FORWARDED_FOR') {
+                    $ips = explode(',', $_SERVER[$key]);
+                    $ip = trim($ips[0]);
+                } else {
+                    $ip = $_SERVER[$key];
+                }
+
+                if ($this->isValidIp($ip)) {
+                    return $ip;
+                }
+            }
+        }
+
+        return null;
+    }
+
+    /**
+     * Validate IP address (IPv4 + IPv6)
+     *
+     * @param string $ip
+     *
+     * @return bool
+     * @author SteffenHaase <shworx.development@gmail.com>
+     */
+    private function isValidIp(string $ip): bool
+    {
+        return filter_var($ip, FILTER_VALIDATE_IP) !== false;
     }
 }

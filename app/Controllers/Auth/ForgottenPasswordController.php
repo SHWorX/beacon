@@ -74,10 +74,10 @@ class ForgottenPasswordController extends Controller
             if (!$user->hasVerifiedEmail()) {
                 $flash->error([
                     'verification' => 'Please verify your email address first.<br>' .
-                        '<a href="' . route('register.resend-verification-form') . '">Resend verification email</a>'
+                        '<a href="' . route('auth.verification.resend') . '">Resend verification email</a>'
                 ]);
 
-                return Response::redirect(route('forgotten'));
+                return Response::redirect(route('auth.forgotten'));
             }
 
 
@@ -128,7 +128,7 @@ class ForgottenPasswordController extends Controller
             $data = [
                 'title' => 'Password Reset',
                 'content' => '<p class="pt-sm">This password reset has expired.</p>' .
-                    '<a href="' . route('forgotten') .
+                    '<a href="' . route('auth.forgotten') .
                     '" class="btn btn-primary shadow-sm mt-sm">Request new password reset</a>',
             ];
 
@@ -175,7 +175,7 @@ class ForgottenPasswordController extends Controller
         $data = [
             'title' => 'Password Reset',
             'content' => '<p class="pt-sm">Your account password has been reset.</p>' .
-                '<a href="' . route('login') . '" class="btn btn-primary shadow-sm mt-sm">Go to Login</a>'
+                '<a href="' . route('auth.login') . '" class="btn btn-primary shadow-sm mt-sm">Go to Login</a>'
         ];
 
         return $this->view('common_notification.twig', $data);

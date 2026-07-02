@@ -16,6 +16,7 @@ use Symfony\Component\Validator\Context\ExecutionContextInterface;
 class ChangePasswordDto
 {
     public function __construct(
+        public string $password_current,
 //        #[Assert\Length(min: 8)]
 //        #[Assert\Regex(
 //            pattern: '/[a-z]/',
@@ -44,7 +45,7 @@ class ChangePasswordDto
     ) { }
 
     /**
-     * Password match validation
+     * Passwords validation
      *
      * @param ExecutionContextInterface $context
      *
@@ -55,6 +56,13 @@ class ChangePasswordDto
     public function validatePasswords(
         ExecutionContextInterface $context,
     ): void {
+        if ($this->password_current === $this->password) {
+            $context
+                ->buildViolation('The new password cannot be same as your current password.')
+                ->atPath('password')
+                ->addViolation();
+        }
+
         if ($this->password !== $this->password_confirm) {
             $context
                 ->buildViolation('Passwords do not match.')
@@ -72,6 +80,7 @@ class ChangePasswordDto
     public static function fromArray(array $data): self
     {
         return new self(
+            password_current: $data['password_current'] ?? '',
             password: $data['password'] ?? '',
             password_confirm: $data['password_confirm'] ?? '',
         );
@@ -84,6 +93,7 @@ class ChangePasswordDto
     public function toArray(): array
     {
         return [
+            'password_current' => $this->password_current,
             'password' => $this->password,
             'password_confirm' => $this->password_confirm,
         ];

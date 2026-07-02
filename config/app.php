@@ -27,4 +27,5 @@ return [
     'secret' => Env::get('APP_SECRET', ''),
     'email_verification_token_expiry' => Env::get('APP_EMAIL_VERIFICATION_TOKEN_EXPIRY', '48h'),
     'password_reset_token_expiry' => Env::get('APP_PASSWORD_RESET_TOKEN_EXPIRY', '2h'),
+    'two-factor-enabled' => Env::bool('APP_TWO_FACTOR_ENABLED'),
 ];

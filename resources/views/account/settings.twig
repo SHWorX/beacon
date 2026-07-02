@@ -6,7 +6,7 @@
             <div class="card border-radius-sm shadow-sm">
                 <ul class="sidenav-list">
                     <li><a href="#email-and-password">Email & Password</a></li>
-                    <li><a href="#two-factor">2-Factor Auth</a></li>
+                    {% if _appTwoFactorEnabled %}<li><a href="#two-factor">Two-Factor Authentication</a></li>{% endif %}
                 </ul>
             </div>
         </div>
@@ -14,8 +14,9 @@
 {% endblock %}
 
 {% block content %}
+    <span id="email-password"></span>
     <div class="flex justify-center">
-        <div class="card border-radius-sm shadow-sm">
+        <div class="card border-radius-sm shadow-sm mw-624">
             <h2>Email & Password</h2>
             <p class="pt-sm">Here you can change your email address and your password.</p>
 
@@ -23,8 +24,8 @@
 
             <h3>Change your Email</h3>
             <div class="alert alert-warning border-radius-sm shadow-sm">
-                <b>Note:</b> When you change your email address, we will send a verification<br>
-                email to your new address. You need to click on the link in this email before<br>
+                <b>Note:</b> When you change your email address, we will send a verification
+                email to your new address. You need to click on the link in this email before
                 you can log in again.
             </div>
 
@@ -89,6 +90,11 @@
                         autocomplete="current-password"
                         required
                 >
+                {% if errors.password_current is defined %}
+                    <div class="form-error mt-xs">
+                        {{ errors.password_current }}
+                    </div>
+                {% endif %}
                 <div class="spacer-sm"></div>
 
                 <label for="password" class="bold m-0-auto mt-md">New password</label>
@@ -149,9 +155,42 @@
             </form>
         </div>
     </div>
+
+    {% if _appTwoFactorEnabled %}
+    <span id="two-factor">&nbsp;</span>
+    <div class="flex justify-center mt-lg">
+        <div class="card border-radius-sm shadow-sm mw-624">
+            <h2>Two-Factor Authentication</h2>
+
+            <p class="pt-sm">
+                To improve your account security, you need to set up a second factor. This platform provides at the moment only
+                OTP (One Time Password) as second factor.
+            </p>
+
+            <hr class="divider mt-sm mb-sm">
+
+            <div class="flex justify-space-between">
+                <span><b>Status:</b> {{ two_factor_enabled === true ? 'Enabled' : 'Disabled' }}</span>
+                <a href="#" class="primary" target="_self">Enable</a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
 {% endblock %}
 
 {% block footer_scripts %}
     <script src="{{ asset('js/popover.js') }}" defer></script>
-    <script src="{{ asset('js/password-mismatch.js') }}"></script>
+    <script src="{{ asset('js/password-mismatch.js') }}" defer></script>
+
+    <script>
+        // Load user after DOM is fully loaded
+        registerPageHook(async () => {
+            try {
+                const user = await api.get('/user/me');
+                console.log('User:', user);
+            } catch (err) {
+                console.error(err);
+            }
+        });
+    </script>
 {% endblock %}

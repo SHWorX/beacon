@@ -11,6 +11,21 @@ use App\Container\Container;
 use App\Routing\Router;
 
 /** @var Container $container */
+/** @var Router $router */
 $router = $container->make(Router::class);
 
-require base_path('routes/web.php');
+$router->group(
+    prefix: '',
+    callback: function (Router $router) {
+        require base_path('routes/web.php');
+    },
+    middleware: ['csrf', 'remember']
+);
+
+$router->group(
+    prefix: '/api',
+    callback: function (Router $router) {
+        require base_path('routes/api.php');
+    },
+    middleware: ['api', 'api_auth', 'throttle:120,60'],
+);

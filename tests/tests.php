@@ -7,8 +7,26 @@
  * Copyright:   2026 SHWorX (Steffen Haase)
  */
 
-use Ramsey\Uuid\Uuid;
+$publicRoutes = [
+    'auth/reset/*',
+];
 
-require_once __DIR__ . '/../vendor/autoload.php';
+$routes = [
+    'auth/reset',
+    'auth/reset/xxx-xxx-xxx-xxx',
+    'auth/reset/',
+];
 
-echo 'UUID v7: ' . Uuid::uuid7()->toString() . PHP_EOL;
+function normalizeRoute(string $path): string {
+    if ($path !== '/') {
+        return rtrim($path, '/');
+    }
+    return $path;
+}
+
+foreach ($routes as $route) {
+    $route = normalizeRoute($route);
+    if (array_any($publicRoutes, fn($pattern) => fnmatch($pattern, $route))) {
+        echo $route . PHP_EOL;
+    }
+}

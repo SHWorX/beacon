@@ -23,19 +23,11 @@ readonly class View
 {
     public function __construct(
         private Environment $twig,
-        private Flash $flash,
         private LoggerInterface $logger,
     ) { }
 
     public function render(string $template, array $data = []): string
     {
-        $data['old'] = $this->flash->old();
-        $data['errors'] = $this->flash->errors();
-        $data['_appName'] = config('app.name');
-        $data['_appSlogan'] = config('app.slogan');
-        $data['_appVersion'] = config('app.version');
-        $data['_appCopyright'] = config('app.copyright');
-
         try {
             return $this->twig->render($template, $data);
 

@@ -10,6 +10,7 @@
 namespace App\Controllers;
 
 use App\Http\Response;
+use App\Services\AuthService;
 use App\Support\Session;
 use App\View\View;
 use Psr\Log\LoggerInterface;
@@ -17,6 +18,7 @@ use Psr\Log\LoggerInterface;
 class Controller
 {
     public function __construct(
+        protected AuthService $auth,
         protected View $view,
         protected Session $session,
         protected LoggerInterface $logger,
