@@ -24,7 +24,6 @@ $config = [
     'database' => require config_path('database.php'),
     'mailer' => require config_path('mailer.php'),
     'twig' => require config_path('twig.php'),
-    'twofactor' => require config_path('twofactor.php'),
 ];
 
 // Set timezone
