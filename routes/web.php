@@ -77,8 +77,6 @@ $router->group(
                     ->middleware(['throttle:5,1']);
                 $router->post('/settings/password', [SettingsController::class, 'updatePassword'], 'account.settings.password.post');
 
-                /* Two-factor authentication routes */
-                $router->post('/settings/two-factor/setup', [SettingsController::class, 'setupTwoFactor'], 'account.settings.twofactor.setup');
                 $router->post('/settings/two-factor/enable', [SettingsController::class, 'enableTwoFactor'], 'account.settings.twofactor.enable');
                 $router->post('/settings/two-factor/disable', [SettingsController::class, 'disableTwoFactor'], 'account.settings.twofactor.disable');
             },

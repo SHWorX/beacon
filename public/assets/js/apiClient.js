@@ -21,6 +21,14 @@ class ApiClient {
      */
     async request(endpoint, options = {})
     {
+        /**
+         * If endpoint starts with "/api/" we cut off "/api", because the baseUrl already ends with "/api".
+         * This is the case if the method "route()" is used to get a route.
+         */
+        if (endpoint.startsWith('/api/')) {
+            endpoint = endpoint.substring(4);
+        }
+
         const url = `${this.baseURL}${endpoint}`;
 
         const config = {

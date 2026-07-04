@@ -304,6 +304,10 @@ section h3 {
     max-width: 634px;
 }
 
+#twoFactorQrCode svg {
+    border-radius: var(--radius-md);
+}
+
 /* =========================
    MOBILE
 ========================= */

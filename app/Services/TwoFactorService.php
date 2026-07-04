@@ -9,6 +9,7 @@
 
 namespace App\Services;
 
+use App\Generators\QrCodeGenerator;
 use App\Generators\RecoveryCodeGenerator;
 use App\Generators\TotpSecretGenerator;
 use App\Helpers\StringHelper;
@@ -17,6 +18,7 @@ use App\Security\PendingTwoFactorSetup;
 use App\Security\Totp;
 use App\Support\Session;
 use Carbon\CarbonImmutable;
+use Endroid\QrCode\Exception\ValidationException;
 use JsonException;
 use Random\RandomException;
 
@@ -29,6 +31,7 @@ final readonly class TwoFactorService
         private EncryptionService $encryption,
         private TotpSecretGenerator $secretGenerator,
         private RecoveryCodeGenerator $recoveryGenerator,
+        private QrCodeGenerator $qrCodeGenerator,
     ) {}
 
     /**
@@ -251,5 +254,19 @@ final readonly class TwoFactorService
     public function clearPendingSetup(Session $session): void
     {
         $session->forget(self::SESSION_KEY);
+    }
+
+    /**
+     * Returns a QR code
+     *
+     * @param User $user
+     * @param PendingTwoFactorSetup $setup
+     *
+     * @return string
+     * @throws ValidationException
+     * @author SteffenHaase <shworx.development@gmail.com>
+     */
+    public function getQrCodeSvg(User $user, PendingTwoFactorSetup $setup): string {
+        return $this->qrCodeGenerator->generate($this->getOtpAuthUri($user, $setup->secret));
     }
 }

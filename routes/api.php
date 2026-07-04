@@ -9,7 +9,11 @@
 
 /** @var Router $router */
 
+use App\Controllers\Account\SettingsController;
 use App\Controllers\UserController;
 use App\Routing\Router;
 
 $router->get('/user/me', [UserController::class, 'me'], 'api.user.me');
+
+/* Two-factor authentication routes */
+$router->get('/settings/two-factor/setup', [SettingsController::class, 'setupTwoFactor'], 'api.account.settings.twofactor.setup');

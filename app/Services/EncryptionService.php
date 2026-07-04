@@ -19,7 +19,7 @@ final readonly class EncryptionService
     private const string CIPHER = 'aes-256-gcm';
 
     public function __construct() {
-        $this->appSecret = config('APP_SECRET');
+        $this->appSecret = config('app.secret');
     }
 
     /**

@@ -9,6 +9,7 @@
 
 namespace App\Providers;
 
+use App\Generators\QrCodeGenerator;
 use App\Generators\RecoveryCodeGenerator;
 use App\Generators\TotpSecretGenerator;
 use App\Providers\ServiceProvider;
@@ -44,7 +45,8 @@ readonly class TotpServiceProvider extends ServiceProvider
                 $container->make(Totp::class),
                 $container->make(EncryptionService::class),
                 $container->make(TotpSecretGenerator::class),
-                $container->make(RecoveryCodeGenerator::class)
+                $container->make(RecoveryCodeGenerator::class),
+                $container->make(QRCodeGenerator::class),
             )
         );
     }

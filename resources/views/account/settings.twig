@@ -171,8 +171,30 @@
 
             <div class="flex justify-space-between">
                 <span><b>Status:</b> {{ two_factor_enabled === true ? 'Enabled' : 'Disabled' }}</span>
-                <a href="#" class="primary" target="_self">Enable</a>
+                <a href="#" class="primary" onclick="enableTwoFactor('two-factor-modal')">Enable</a>
             </div>
+
+            {% embed 'components/modal.twig' with {
+                modal_id: 'two-factor-modal',
+                modal_title: 'Two-Factor Setup',
+                title_class: 'text-center',
+                modal_size: 'modal-md',
+                footer_justify: 'justify-center'
+            } %}
+                {% block modal_body %}
+                    <p>To start the Two-factor authentication setup, please scan the QR code below with any app, which supports TOTP.</p>
+
+                    <div class="flex justify-center mt-lg">
+                        <div class="card border-radius-md shadow-sm" id="twoFactorQrCode"></div>
+                    </div>
+
+                    <p class="mt-lg">Did you scan the code? If so, proceed with the <a href="#">next step</a>.</p>
+                {% endblock %}
+
+                {% block modal_footer %}
+                    <button class="btn btn-danger" id="modal-button-cancel" data-modal-close>Cancel</button>
+                {% endblock %}
+            {% endembed %}
         </div>
     </div>
     {% endif %}
@@ -193,4 +215,21 @@
             }
         });
     </script>
+
+    {% if _appTwoFactorEnabled %}
+        <!-- Only included if TOTP Two-Factor is enabled in app -->
+        <script>
+            async function enableTwoFactor(id) {
+                try {
+                    const data = await api.get("{{ route('api.account.settings.twofactor.setup') }}");
+                    console.log('DATA:', data);
+
+                    document.getElementById('twoFactorQrCode').innerHTML=data.qr;
+                    Modal.open(id);
+                } catch (err) {
+                    console.error(err);
+                }
+            }
+        </script>
+    {% endif %}
 {% endblock %}

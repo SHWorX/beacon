@@ -9,13 +9,11 @@
 
 namespace App\Controllers\Account;
 
-use App\Controllers\Auth\Traits\AuthTrait;
 use App\Controllers\Controller;
 use App\DTO\ChangeEmailDto;
 use App\DTO\ChangePasswordDto;
 use App\DTO\DisableTwoFactorDto;
 use App\DTO\EnableTwoFactorDto;
-use App\DTO\ResendVerificationDto;
 use App\Enums\AuthToken;
 use App\Exceptions\InvalidEnumException;
 use App\Exceptions\MailerException;
@@ -24,13 +22,11 @@ use App\Helpers\StringHelper;
 use App\Http\Request;
 use App\Http\Response;
 use App\Models\RememberToken;
-use App\Models\User;
 use App\Services\AuthService;
 use App\Services\MailService;
 use App\Services\TwoFactorService;
 use App\Services\ValidationService;
 use App\Support\Flash;
-use Carbon\Carbon;
 use JsonException;
 use Random\RandomException;
 
@@ -146,6 +142,7 @@ class SettingsController extends Controller
      * @return Response
      * @throws RandomException
      * @throws JsonException
+     * @throws \Endroid\QrCode\Exception\ValidationException
      * @author SteffenHaase <shworx.development@gmail.com>
      */
     public function setupTwoFactor(Request $request, TwoFactorService $twoFactor): Response
@@ -155,7 +152,7 @@ class SettingsController extends Controller
         return Response::json([
             'setup_id' => $setup->id,
             'secret' => $setup->secret,
-            'qr' => $twoFactor->getOtpAuthUri(auth()->user(), $setup->secret),
+            'qr' => $twoFactor->getQrCodeSvg(auth()->user(), $setup),
         ]);
     }
 

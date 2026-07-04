@@ -55,6 +55,10 @@
     --transition: 0.25s ease;
 }
 
+body.modal-open {
+    overflow: hidden;
+}
+
 .row {
     display: flex;
     flex-flow: row wrap;
@@ -866,6 +870,152 @@ code {
 }
 
 /* ==========================================
+   LINKS
+   ========================================== */
+a {
+    color: var(--text);
+    font-weight: 600;
+}
+
+a.btn {
+    display: inline-block;
+}
+
+/* ==========================================
+   ERRORS
+   ========================================== */
+.error {
+    border: 1px solid var(--color-danger);
+    background-color: rgba(255, 0, 0, 0.1);
+    color: var(--color-danger);
+    padding: var(--space-xs);
+    margin-bottom: var(--space-xs);
+}
+
+.form-error {
+    color: var(--color-danger);
+}
+
+.field-error {
+    border: 1px solid var(--color-danger);
+}
+
+/* ==========================================
+   MODALS
+   ========================================== */
+.modal {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 2rem;
+    background: rgba(0,0,0,.35);
+    backdrop-filter: blur(6px);
+    opacity: 0;
+    visibility: hidden;
+    transition: .2s ease;
+    z-index: 9999;
+}
+
+.modal.show {
+    opacity: 1;
+    visibility: visible;
+}
+
+.modal-dialog {
+    width: min(600px, 90vw);
+    background: var(--surface);
+    border: 1px solid var(--border-color-light);
+    border-radius: var(--radius-lg);
+    box-shadow:
+            12px 12px 24px var(--shadow-dark),
+            -12px -12px 24px var(--shadow-light);
+    transform: scale(.95);
+    transition: transform .2s ease;
+}
+
+.modal.show .modal-dialog {
+    transform: scale(1);
+}
+
+.modal-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1.25rem;
+    border-bottom: 1px solid var(--border-color-light);
+}
+
+.modal-body {
+    padding: 1.25rem;
+}
+
+.modal-footer {
+    display: flex;
+    justify-content: flex-end;
+    gap: .75rem;
+    padding: 1.25rem;
+    border-top: 1px solid var(--border-color-light);
+}
+
+.modal-close {
+    background: none;
+    border: 1px solid var(--border-color-light);
+    border-radius: var(--radius-xs);
+    padding: 2px 7px;
+    font-size: 1.5rem;
+    font-weight: bold;
+    line-height: 1;
+    cursor: pointer;
+    color: var(--text-light);
+}
+
+.modal-close:hover {
+    background: var(--border-color-light);
+}
+
+.modal-sm {
+    max-width: 400px;
+}
+
+.modal-md {
+    max-width: 600px;
+}
+
+.modal-lg {
+    max-width: 800px;
+}
+
+.modal-xl {
+    max-width: 1100px;
+}
+
+/* ==========================================
+   SPACERS & DIVIDERS
+   ========================================== */
+.spacer-xs {
+    height: var(--space-xs);
+}
+
+.spacer-sm {
+    height: var(--space-sm);
+}
+
+.spacer-md {
+    height: var(--space-md);
+}
+
+.spacer-lg {
+    height: var(--space-lg);
+}
+
+.divider {
+    height: 1px;
+    color: var(--text-light);
+}
+
+/* ==========================================
    FLEX
    ========================================== */
 .flex {
@@ -1152,59 +1302,3 @@ code {
 .bolder {
     font-weight: 700;
 }
-
-/* ==========================================
-   SPACERS & DIVIDERS
-   ========================================== */
-.spacer-xs {
-    height: var(--space-xs);
-}
-
-.spacer-sm {
-    height: var(--space-sm);
-}
-
-.spacer-md {
-    height: var(--space-md);
-}
-
-.spacer-lg {
-    height: var(--space-lg);
-}
-
-.divider {
-    height: 1px;
-    color: var(--text-light);
-}
-
-/* ==========================================
-   LINKS
-   ========================================== */
-a {
-    color: var(--text);
-    font-weight: 600;
-}
-
-a.btn {
-    display: inline-block;
-}
-
-/* ==========================================
-   ERRORS
-   ========================================== */
-.error {
-    border: 1px solid var(--color-danger);
-    background-color: rgba(255, 0, 0, 0.1);
-    color: var(--color-danger);
-    padding: var(--space-xs);
-    margin-bottom: var(--space-xs);
-}
-
-.form-error {
-    color: var(--color-danger);
-}
-
-.field-error {
-    border: 1px solid var(--color-danger);
-}
-
