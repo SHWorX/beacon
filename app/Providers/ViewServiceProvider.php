@@ -54,7 +54,6 @@ final readonly class ViewServiceProvider extends ServiceProvider
                 $twig->addGlobal('_appSlogan', config('app.slogan'));
                 $twig->addGlobal('_appVersion', config('app.version'));
                 $twig->addGlobal('_appCopyright', config('app.copyright'));
-                $twig->addGlobal('_appTwoFactorEnabled', config('app.two-factor-enabled'));
                 $twig->addGlobal('_appApiBaseUrl', app_url('/api'));
 
                 return $twig;

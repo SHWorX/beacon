@@ -76,9 +76,6 @@ $router->group(
                 $router->post('/settings/email', [SettingsController::class, 'updateEmail'], 'account.settings.email.post')
                     ->middleware(['throttle:5,1']);
                 $router->post('/settings/password', [SettingsController::class, 'updatePassword'], 'account.settings.password.post');
-
-                $router->post('/settings/two-factor/enable', [SettingsController::class, 'enableTwoFactor'], 'account.settings.twofactor.enable');
-                $router->post('/settings/two-factor/disable', [SettingsController::class, 'disableTwoFactor'], 'account.settings.twofactor.disable');
             },
         );
 
