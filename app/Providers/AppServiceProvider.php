@@ -10,10 +10,14 @@
 namespace App\Providers;
 
 use App\Container\Container;
+use App\Generators\QrCodeGenerator;
 use App\Http\Request;
+use App\Services\EncryptionService;
 use App\Support\Flash;
 use App\Support\Redirect;
 use App\Support\Session;
+use Illuminate\Contracts\Encryption\Encrypter;
+use Psr\Log\LoggerInterface;
 
 final readonly class AppServiceProvider extends ServiceProvider
 {
@@ -26,12 +30,17 @@ final readonly class AppServiceProvider extends ServiceProvider
 
         $this->container->singleton(
             Request::class,
-            fn () => new Request
+            fn () => new Request(
+                $this->container->make(Session::class)
+            )
         );
 
         $this->container->singleton(
             Session::class,
-            fn () => new Session()
+            fn ($container) => new Session(
+                $container->make(EncryptionService::class),
+                $container->make(LoggerInterface::class)
+            )
         );
 
         $this->container->singleton(
@@ -42,6 +51,11 @@ final readonly class AppServiceProvider extends ServiceProvider
         $this->container->singleton(
             Redirect::class,
             fn () => new Redirect()
+        );
+
+        $this->container->singleton(
+            QrCodeGenerator::class,
+            fn () => new QrCodeGenerator()
         );
     }
 }

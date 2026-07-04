@@ -7,7 +7,7 @@
  */
 
 let passwordField = document.getElementById('password');
-let confirmationField = document.getElementById('confirm_password');
+let confirmationField = document.getElementById('password_confirm');
 let unmatchedError = document.getElementById('password_mismatch');
 
 let check = function() {

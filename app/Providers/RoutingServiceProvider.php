@@ -11,6 +11,8 @@ namespace App\Providers;
 
 use App\Container\Resolver;
 use App\Http\Kernel;
+use App\Http\Request;
+use App\Pipeline\Pipeline;
 use App\Routing\RouteDispatcher;
 use App\Routing\Router;
 use App\Services\CsrfService;
@@ -38,7 +40,9 @@ final readonly class RoutingServiceProvider extends ServiceProvider
             fn () => new RouteDispatcher(
                 $this->container->make(Router::class),
                 $this->container,
-                $this->container->make(Resolver::class)
+                $this->container->make(Resolver::class),
+                $this->container->make(Request::class),
+                $this->container->make(Pipeline::class),
             )
         );
 
@@ -50,7 +54,8 @@ final readonly class RoutingServiceProvider extends ServiceProvider
                 $this->container->make(Flash::class),
                 $this->container->make(CsrfService::class),
                 $this->container->make(View::class),
-                $this->container->make(LoggerInterface::class)
+                $this->container->make(LoggerInterface::class),
+                $this->container->make(Pipeline::class),
             )
         );
     }

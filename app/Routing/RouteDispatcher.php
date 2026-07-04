@@ -12,6 +12,7 @@ namespace App\Routing;
 use App\Container\Container;
 use App\Container\Resolver;
 use App\Http\Request;
+use App\Pipeline\Pipeline;
 use ReflectionException;
 use RuntimeException;
 use Symfony\Component\Routing\Matcher\UrlMatcher;
@@ -20,47 +21,32 @@ use Symfony\Component\Routing\RequestContext;
 readonly class RouteDispatcher
 {
     public function __construct(
-        private Router    $router,
+        private Router $router,
         private Container $container,
-        private Resolver  $resolver,
+        private Resolver $resolver,
+        private Request $request,
+        private Pipeline $pipeline,
     ) { }
 
     /**
-     * @throws ReflectionException
+     * Dispatcher
+     *
+     * @return mixed
+     * @author SteffenHaase <shworx.development@gmail.com>
      */
-    public function dispatch(Request $request): mixed
+    public function dispatch(): mixed
     {
-        $context = new RequestContext();
-        $context->setMethod($request->method());
+        $context = $this->match();
+        $context = $this->resolve($context);
 
-        $matcher = new UrlMatcher($this->router->getRoutes(), $context);
-        $parameters = $matcher->match($request->uri());
-        $_SERVER['_route'] = $parameters['_route'];
-        $handler = $parameters['_handler'];
-        $middleware = $parameters['_middleware'] ?? [];
-
-        unset(
-            $parameters['_handler'],
-            $parameters['_route'],
-            $parameters['_middleware'],
-        );
-
-        $pipeline = array_reduce(
-            array_reverse($middleware),
-            fn (callable $next, string $middlewareClass) =>
-            fn (Request $request) =>
-            $this->container
-                ->make($middlewareClass)
-                ->handle($request, $next),
-            fn (Request $request) =>
-            $this->executeHandler($handler, $parameters)
-        );
-
-        return $pipeline($request);
+        return $this->execute($context);
     }
 
     /**
+     * Execute handler
+     *
      * @throws ReflectionException
+     * @throws RuntimeException
      */
     private function executeHandler(mixed $handler, array $parameters): mixed
     {
@@ -76,6 +62,8 @@ readonly class RouteDispatcher
     }
 
     /**
+     * Execute controller
+     *
      * @param array $handler
      * @param array $parameters
      *
@@ -97,5 +85,78 @@ readonly class RouteDispatcher
         $arguments = $this->resolver->resolve($callable, $parameters);
 
         return $callable(...$arguments);
+    }
+
+    /**
+     * Matcher
+     *
+     * @return array
+     * @throws RuntimeException
+     * @author SteffenHaase <shworx.development@gmail.com>
+     */
+    private function match(): array
+    {
+        $context = new RequestContext();
+        $context->setMethod($this->request->method());
+
+        $matcher = new UrlMatcher($this->router->getRoutes(), $context);
+        $parameters = $matcher->match($this->request->uri());
+
+        $routeName = $parameters['_route'] ?? null;
+        if (!$routeName) {
+            throw new RuntimeException('Route name missing.');
+        }
+
+        $_SERVER['_route'] = $parameters['_route'];
+
+        return [
+            'routeName' => $routeName,
+            'handler' => $parameters['_handler'],
+            'parameters' => $parameters,
+        ];
+    }
+
+    /**
+     * Resolver
+     *
+     * @param array $data
+     *
+     * @return RouteExecutionContext
+     * @author SteffenHaase <shworx.development@gmail.com>
+     */
+    private function resolve(array $data): RouteExecutionContext
+    {
+        $routeName = $data['routeName'];
+        $middleware = $this->router->buildRouteMiddleware($routeName);
+        $parameters = $data['parameters'];
+
+        unset(
+            $parameters['_handler'],
+            $parameters['_route']
+        );
+
+        return new RouteExecutionContext(
+            request: $this->request,
+            routeName: $routeName,
+            handler: $data['handler'],
+            parameters: $parameters,
+            middleware: $middleware,
+        );
+    }
+
+    /**
+     * Pipeline execution
+     *
+     * @param RouteExecutionContext $context
+     *
+     * @return mixed
+     * @author SteffenHaase <shworx.development@gmail.com>
+     */
+    private function execute(RouteExecutionContext $context): mixed
+    {
+        return $this->pipeline
+            ->send($this->request)
+            ->through($context->middleware)
+            ->then(fn () => $this->executeHandler($context->handler, $context->parameters));
     }
 }

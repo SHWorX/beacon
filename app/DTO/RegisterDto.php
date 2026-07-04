@@ -49,7 +49,7 @@ class RegisterDto
         public string $password,
 
         #[Assert\NotBlank]
-        public string $confirm_password,
+        public string $password_confirm,
     ) { }
 
     /**
@@ -64,10 +64,10 @@ class RegisterDto
     public function validatePasswordsMatch(
         ExecutionContextInterface $context,
     ): void {
-        if ($this->password !== $this->confirm_password) {
+        if ($this->password !== $this->password_confirm) {
             $context
                 ->buildViolation('Passwords do not match.')
-                ->atPath('confirm_password')
+                ->atPath('password_confirm')
                 ->addViolation();
         }
     }
@@ -128,7 +128,7 @@ class RegisterDto
             username: $data['username'] ?? '',
             email: trim($data['email'] ?? ''),
             password: $data['password'] ?? '',
-            confirm_password: $data['confirm_password'] ?? '',
+            password_confirm: $data['password_confirm'] ?? '',
         );
     }
 
@@ -142,7 +142,7 @@ class RegisterDto
             'username' => $this->username,
             'email' => $this->email,
             'password' => $this->password,
-            'confirm_password' => $this->confirm_password,
+            'password_confirm' => $this->password_confirm,
         ];
     }
 }

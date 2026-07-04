@@ -5,7 +5,7 @@
         <div class="card border-radius-md shadow-sm text-center">
             <h1 class="pb-sm mb-sm">Resend Verification Email</h1>
 
-            <p class="bt-1 bb-1 pt-xs pb-xs">Please fill in your email address, which you have used to register an account.</p>
+            <p class="bt-1 bb-1 pt-xs pb-xs">Please fill in the email address of your account.</p>
 
             {% if errors.verification is defined %}
                 <div class="error border-radius-sm">
@@ -13,7 +13,7 @@
                 </div>
             {% endif %}
 
-            <form action="{{ route('register.resend-verification') }}" method="POST">
+            <form action="{{ route('auth.verification.resend.post') }}" method="POST">
                 {{ csrf() }}
 
                 <label for="email" class="bold m-0-auto">Email</label>
@@ -24,7 +24,7 @@
                         name="email"
                         class="input"
                         placeholder="{{ old.name|default('you@example.org')|e }}"
-                        autocomplete="on"
+                        autocomplete="username"
                         required
                 >
                 {% if errors.email is defined %}
@@ -37,7 +37,7 @@
                 <div class="spacer-md"></div>
 
                 <div class="flex justify-center">
-                    <button class="btn shadow-sm mt-md">Resend</button>
+                    <input type="submit" class="btn btn-primary shadow-sm mt-md" value="Resend">
                 </div>
             </form>
         </div>

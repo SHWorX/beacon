@@ -1,0 +1,175 @@
+{% extends 'layouts/layout.twig' %}
+
+{% block sidenav %}
+    <aside>
+        <div class="sidenav">
+            <div class="card border-radius-sm shadow-sm">
+                <ul class="sidenav-list">
+                    <li><a href="#email-and-password">Email & Password</a></li>
+                    {% if _appTwoFactorEnabled %}<li><a href="#two-factor">Two-Factor Authentication</a></li>{% endif %}
+                </ul>
+            </div>
+        </div>
+    </aside>
+{% endblock %}
+
+{% block content %}
+    <span id="email-password"></span>
+    <div class="flex justify-center">
+        <div class="card border-radius-sm shadow-sm mw-624">
+            <h2>Email & Password</h2>
+            <p class="pt-sm">Here you can change your email address and your password.</p>
+
+            <hr class="divider mt-sm mb-sm">
+
+            <h3>Change your Email</h3>
+            <div class="alert alert-warning border-radius-sm shadow-sm">
+                <b>Note:</b> When you change your email address, we will send a verification
+                email to your new address. You need to click on the link in this email before
+                you can log in again.
+            </div>
+
+            <div class="mt-md mb-md">
+                <b>Current email:</b> {{ email }}
+            </div>
+            <form id="change-email" action="{{ route('account.settings.email.post') }}" method="POST">
+                {{ csrf() }}
+
+                <label for="email" class="bold m-0-auto">New email address</label>
+                <div class="spacer-xs"></div>
+                <input
+                        id="email"
+                        type="email"
+                        name="email"
+                        class="input{% if errors.email is defined %} field-error{% endif %}"
+                        required
+                >
+                {% if errors.email is defined %}
+                    <div class="form-error mt-xs">
+                        {% for error in errors.email %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <div class="flex justify-space-evenly">
+                    <input type="reset" class="btn btn-danger shadow-sm mt-md" value="Cancel">
+                    <input type="submit" class="btn btn-primary shadow-sm mt-md" value="Save new email address">
+                </div>
+            </form>
+
+            <hr class="divider mt-lg mb-lg">
+
+            <h3>Change your password</h3>
+
+            <div class="alert alert-warning border-radius-sm shadow-sm">
+                <b>Note:</b> When you change your password, it will also reset "Remember Me".
+            </div>
+
+            <form id="change-password" action="{{ route('account.settings.password.post') }}" method="POST">
+                {{ csrf() }}
+                <input
+                        type="email"
+                        name="username"
+                        value="{{ email }}"
+                        autocomplete="username"
+                        class="visually-hidden"
+                        tabindex="-1"
+                        readonly
+                        aria-hidden="true"
+                >
+
+                <div class="spacer-sm"></div>
+                <label for="password_current" class="bold m-0-auto">Current password</label>
+                <div class="spacer-xs"></div>
+                <input
+                        id="password_current"
+                        type="password"
+                        name="password_current"
+                        class="input{% if errors.password_current is defined %} field-error{% endif %}"
+                        autocomplete="current-password"
+                        required
+                >
+                {% if errors.password_current is defined %}
+                    <div class="form-error mt-xs">
+                        {{ errors.password_current }}
+                    </div>
+                {% endif %}
+                <div class="spacer-sm"></div>
+
+                <label for="password" class="bold m-0-auto mt-md">New password</label>
+                <div class="spacer-xs"></div>
+                <input
+                        id="password"
+                        type="password"
+                        name="password"
+                        class="input{% if errors.password is defined %} field-error{% endif %}"
+                        autocomplete="new-password"
+                        required
+                >
+                {% if errors.password is defined %}
+                    <div class="form-error mt-xs">
+                        {% for error in errors.password %}
+                            {{ error }}
+                        {% endfor %}
+                    </div>
+                {% endif %}
+
+                <div class="spacer-sm"></div>
+                <label for="password_confirm" class="bold m-0-auto">Confirmation</label>
+                <div class="spacer-xs"></div>
+                <input
+                        id="password_confirm"
+                        type="password"
+                        name="password_confirm"
+                        class="input{% if errors.password_confirm is defined %} field-error{% endif %}"
+                        autocomplete="new-password"
+                        required
+                >
+                {% if errors.password_confirm is defined %}
+                    <div class="form-error mt-xs">
+                        {{ errors.password_confirm|first }}
+                    </div>
+                {% endif %}
+                <div id="password_mismatch" class="text-danger mt-xs">Passwords do not match</div>
+                <div class="pt-xs">
+                    <div class="text-primary text-center">
+                        <span class="has-popover" data-popover="">Password policy</span>
+                    </div>
+                    <div id="popover">
+                        <div class="bb-1 pb-xs bold">Password policy</div>
+                        <ul class='pt-xs pl-sm pr-sm text-left'>
+                            <li>Min. 8 characters</li>
+                            <li>Min. 1 lowercase character</li>
+                            <li>Min. 1 uppercase character</li>
+                            <li>Min. 1 number</li>
+                            <li>Min. 1 special character</li>
+                        </ul>
+                    </div>
+                </div>
+                <div class="spacer-xs"></div>
+                <div class="flex justify-space-evenly">
+                    <input type="reset" class="btn btn-danger shadow-sm mt-md" value="Cancel">
+                    <input type="submit" class="btn btn-primary shadow-sm mt-md" value="Change Password">
+                </div>
+            </form>
+        </div>
+    </div>
+{% endblock %}
+
+{% block footer_scripts %}
+    <script src="{{ asset('js/popover.js') }}" defer></script>
+    <script src="{{ asset('js/password-mismatch.js') }}" defer></script>
+
+    <script>
+        // Load user after DOM is fully loaded
+        registerPageHook(async () => {
+            try {
+                const user = await api.get('/user/me');
+                console.log('User:', user);
+            } catch (err) {
+                console.error(err);
+            }
+        });
+    </script>
+{% endblock %}

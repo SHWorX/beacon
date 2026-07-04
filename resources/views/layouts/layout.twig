@@ -3,6 +3,8 @@
 <head>
     <meta charset="UTF-8">
 
+    <meta name="app-config" content='{"apiBaseUrl": "{{ _appApiBaseUrl }}"}'>
+
     {% block metatags %}{% endblock %}
 
     <title>{% block title %}{{ _appName }}{% endblock %}</title>
@@ -25,8 +27,8 @@
                     <img src="{{ asset('img/logo-70x70.png') }}" alt="Beacon Logo">
                 </picture>
             </a>
-            <div>
-                <span class="app-name">{{ _appName }}</span><br>
+            <div class="column">
+                <span class="app-name">{{ _appName }}</span>
                 <span class="app-slogan">{{ _appSlogan }}</span>
             </div>
         </div>
@@ -35,25 +37,61 @@
             <div class="navbar">
                 {% if guest() %}
                     <a href="{{ route('home') }}" class="{{ isActiveRoute('home') ? 'active' : '' }}">Home</a>
-                    <a href="{{ route('login') }}" class="{{ isActiveRoute('login') ? 'active' : '' }}">Login</a>
-                    <a href="{{ route('register') }}" class="{{ isActiveRoute('register') ? 'active' : '' }}">Register</a>
+                    <a href="{{ route('auth.login') }}" class="{{ isActiveRoute('auth.login') ? 'active' : '' }}">Login</a>
+                    <a href="{{ route('auth.register') }}" class="{{ isActiveRoute('auth.register') ? 'active' : '' }}">Register</a>
                 {% else %}
                     <a href="{{ route('dashboard') }}" class="{{ isActiveRoute('dashboard') ? 'active' : '' }}">Dashboard</a>
-                    <a href="{{ route('logout') }}" class="{{ isActiveRoute('logout') ? 'active' : '' }}">Logout</a>
+                    <div class="dropdown">
+                        <button class="nav-dropdown-toggle">
+                            {{ auth().user().username }}
+                            <span class="dropdown-arrow">▾</span>
+                        </button>
+
+                        <div class="dropdown-menu">
+                            <a href="#">Profile</a>
+                            <a href="{{ route('account.settings') }}">Settings</a>
+                            <a href="{{ route('logout') }}">Logout</a>
+{#                            <a href="{{ route('profile') }}">Profile</a>#}
+{#                            <a href="{{ route('settings') }}">Settings</a>#}
+{#                            <a href="{{ route('logout') }}">Logout</a>#}
+                        </div>
+                    </div>
+{#                    <a href="{{ route('logout') }}" class="{{ isActiveRoute('logout') ? 'active' : '' }}">Logout</a>#}
                 {% endif %}
             </div>
         </nav>
     </header>
 
-    <main>
-        {% block content %}{% endblock %}
-    </main>
+    <div class="page-layout">
+        {% block sidenav %}<aside class="sidenav"></aside>{% endblock %}
 
+        <main class="content">
+            {% block content %}{% endblock %}
+        </main>
+    </div>
     <footer>
         <div class="version">{{ _appName }} v{{ _appVersion }}</div>
         <div class="copyright">{{ _appCopyright|raw }}</div>
     </footer>
 
+    <script src="{{ asset('js/neumorphism-common.js') }}" defer></script>
+    <script src="{{ asset('js/apiClient.js') }}" defer></script>
+
+    <script>
+        // Initializing page hooks
+        window.PageHooks = [];
+        window.registerPageHook = fn => window.PageHooks.push(fn);
+    </script>
+
     {% block footer_scripts %}{% endblock %}
+
+    <script>
+        // Executing page hooks after DOM is fully loaded.
+        document.addEventListener('DOMContentLoaded', async () => {
+            for (const hook of window.PageHooks) {
+                await hook();
+            }
+        });
+    </script>
 </body>
 </html>

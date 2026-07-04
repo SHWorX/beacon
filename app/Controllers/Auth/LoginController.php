@@ -29,11 +29,17 @@ class LoginController extends Controller
     /**
      * Show login form
      *
+     * @param AuthService $auth
+     *
      * @return Response
      * @author Steffen Haase <shworx.development@gmail.com>
      */
-    public function index(): Response
+    public function index(AuthService $auth): Response
     {
+        if ($auth->check()) {
+            return $this->redirect(route('dashboard'));
+        }
+
         return $this->view('auth/login.twig');
     }
 
@@ -56,6 +62,10 @@ class LoginController extends Controller
         AuthService $auth,
         Flash $flash,
     ): Response {
+        if ($auth->check()) {
+            return $this->redirect(route('dashboard'));
+        }
+
         $dto = LoginDto::fromArray($request->all());
         $validator->validate($dto);
 
@@ -65,14 +75,14 @@ class LoginController extends Controller
             case LoginResult::EMAIL_NOT_VERIFIED:
                 $flash->set('errors', [
                     'auth_error' => 'Please verify your email address.<br>' .
-                        '<a href="' . route('register.resend-verification-form') . '">Resend verification email</a>'
+                        '<a href="' . route('auth.verification.resend') . '">Resend verification email</a>'
                 ]);
 
-                return Response::redirect(route('login'));
+                return Response::redirect(route('auth.login'));
             case LoginResult::INVALID_CREDENTIALS:
                 $flash->set('errors', ['auth_error' => 'Invalid email or password.']);
 
-                return Response::redirect(route('login'));
+                return Response::redirect(route('auth.login'));
         }
 
         if ($dto->remember) {

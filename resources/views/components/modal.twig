@@ -1,0 +1,35 @@
+<div class="modal" id="{{ modal_id }}" aria-hidden="true">
+    <div class="modal-backdrop" data-modal-close></div>
+
+    <div
+        class="modal-dialog{% if modal_size is defined %} {{ modal_size }}{% endif %}"
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="modal-title"
+    >
+        <div class="modal-header">
+            {% block modal_header %}
+                <h2 id="modal-title" {% if title_class is defined %}class="{{ title_class }}{% endif %}">{{ modal_title }}</h2>
+
+                <button
+                        class="modal-close"
+                        type="button"
+                        data-modal-close
+                        aria-label="Close">
+                    ×
+                </button>
+            {% endblock %}
+        </div>
+
+        <div class="modal-body">
+            {% block modal_body %}{% endblock %}
+        </div>
+
+        <div class="modal-footer{% if footer_justify is defined %} {{ footer_justify }}{% endif %}">
+            {% block modal_footer %}
+                <button class="btn btn-danger" id="modal-button-cancel" data-modal-close>Cancel</button>
+                <button class="btn btn-primary" id="modal-button-ok">Save</button>
+            {% endblock %}
+        </div>
+    </div>
+</div>

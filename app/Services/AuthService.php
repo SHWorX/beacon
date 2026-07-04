@@ -16,6 +16,7 @@ use App\Models\User;
 use App\Support\Cookie;
 use App\Support\Session;
 use Carbon\Carbon;
+use Random\RandomException;
 
 final class AuthService
 {
@@ -32,7 +33,7 @@ final class AuthService
      * @param string $email
      * @param string $password
      *
-     * @return bool
+     * @return LoginResult
      * @author Steffen Haase <shworx.development@gmail.com>
      */
     public function attempt(string $email, string $password): LoginResult
@@ -80,7 +81,7 @@ final class AuthService
      * @param string $token
      *
      * @return bool
-     * @throws \Random\RandomException
+     * @throws RandomException
      * @author Steffen Haase <shworx.development@gmail.com>
      */
     public function loginFromRememberToken(string $token): bool
@@ -192,5 +193,16 @@ final class AuthService
     public function guest(): bool
     {
         return !$this->check();
+    }
+
+    /**
+     * Returns the user ID
+     *
+     * @return string|null
+     * @author SteffenHaase <shworx.development@gmail.com>
+     */
+    public function userId(): ?string
+    {
+        return $this->session->get(self::SESSION_KEY) ?? null;
     }
 }

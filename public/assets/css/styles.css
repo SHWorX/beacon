@@ -33,7 +33,7 @@ header {
 }
 
 main {
-    padding: var(--space-md) 0;
+    padding: var(--space-md);
     margin-bottom: var(--space-lg);
 }
 
@@ -53,6 +53,26 @@ footer {
     -webkit-backdrop-filter: blur(8px);
     backdrop-filter: blur(8px);
     transform: translateZ(0);
+}
+
+a {
+    font-weight: normal;
+}
+
+a.primary {
+    color: #4c6ef5;
+}
+
+a.success {
+    color: #2f9e44;
+}
+
+a.warning {
+    color: #fd7e14;
+}
+
+a.danger {
+    color: #e03131;
 }
 
 nav {
@@ -89,9 +109,89 @@ nav a:hover::after {
     width: 100%;
 }
 
+.content {
+    flex: 1;
+}
+
+.nav-dropdown-toggle {
+    background: none;
+    border: none;
+    padding: 0;
+    font: inherit;
+    color: inherit;
+    cursor: pointer;
+    font-weight: 700;
+}
+
+.dropdown {
+    position: relative;
+    display: inline-block;
+}
+
+.dropdown-menu {
+    position: absolute;
+    top: calc(100% + 12px);
+    left: 0;
+    min-width: 180px;
+    padding: var(--space-sm);
+    background: var(--surface);
+    border: 1px solid var(--border-color-light);
+    border-radius: var(--radius-md);
+    box-shadow:
+            8px 8px 16px var(--shadow-dark),
+            -8px -8px 16px var(--shadow-light);
+    opacity: 0;
+    visibility: hidden;
+    transform: translateY(8px);
+    transition:
+            opacity .2s ease,
+            transform .2s ease,
+            visibility .2s ease;
+    z-index: 1000;
+}
+
+.dropdown:hover .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown:focus-within .dropdown-menu {
+    opacity: 1;
+    visibility: visible;
+    transform: translateY(0);
+}
+
+.dropdown-menu a {
+    display: block;
+    margin: 0;
+    padding: .75rem 1rem;
+    border-radius: var(--radius-sm);
+    white-space: nowrap;
+}
+
+.dropdown-menu a::after {
+    display: none;
+}
+
+.dropdown-menu a:hover,
+.dropdown-menu a:focus-visible {
+    background: rgba(76, 110, 245, 0.08);
+}
+
+.dropdown-arrow {
+    font-size: .75rem;
+    margin-left: .35rem;
+}
 section.login {
     width: 400px;
     margin: 6% auto;
+}
+
+section h1,
+section h2,
+section h3 {
+    margin: 0;
 }
 
 .active::after {
@@ -121,6 +221,7 @@ section.login {
     font-size: 3rem;
     margin-left: var(--space-sm);
     letter-spacing: .9rem;
+    line-height: 3.2rem;
 }
 
 .app-slogan {
@@ -148,6 +249,62 @@ section.login {
 
 .logo-brand-slogan {
     object-fit: cover;
+}
+
+.page-layout {
+    display: flex;
+    flex-direction: row;
+    /*gap: var(--space-lg);*/
+}
+
+.sidenav {
+    max-width: 250px;
+    padding: var(--space-md) 0;
+}
+
+.sidenav-list {
+    list-style: none;
+}
+
+.sidenav-list li {
+    margin-bottom: 2px;
+}
+
+.sidenav-list li a {
+    position: relative;
+    text-decoration: none;
+    font-weight: normal;
+}
+
+.sidenav-list li a::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    bottom: -2px;
+    width: 0;
+    height: 2px;
+    background: var(--text-light);
+    transition: width 0.3s ease;
+}
+
+.sidenav-list li a:hover::after {
+    width: 100%;
+}
+
+.visually-hidden {
+    position: absolute;
+    left: -9999px;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+}
+
+.mw-624 {
+    max-width: 634px;
+}
+
+#twoFactorQrCode svg {
+    border-radius: var(--radius-md);
 }
 
 /* =========================
@@ -199,5 +356,15 @@ section.login {
 
     .card p {
         margin-bottom: var(--space-sm);
+    }
+
+    .page-layout {
+        flex-direction: column;
+        gap: var(--space-xs);
+    }
+
+    .sidenav {
+        margin: 0 auto;
+        padding: 0;
     }
 }

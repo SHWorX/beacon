@@ -156,6 +156,77 @@ abstract class Command
         return $this->description;
     }
 
+    /**
+     * Ask helper
+     *
+     * @param string $question
+     * @param string|null $default
+     *
+     * @return string
+     * @author SteffenHaase <shworx.development@gmail.com>
+     */
+    protected function ask(string $question, ?string $default = null): string
+    {
+        $prompt = $default === null ? "{$question} " : "{$question} [{$default}] ";
+//        $this->success($prompt, false);
+        fwrite(STDOUT, "\033[32m" . $prompt . "\033[0m");
+
+        $answer = trim(fgets(STDIN));
+        return $answer !== '' ? $answer : ($default ?? '');
+    }
+
+    /**
+     * Confirm helper
+     *
+     * @param string $question
+     * @param bool $default
+     *
+     * @return bool
+     * @author SteffenHaase <shworx.development@gmail.com>
+     */
+    protected function confirm(string $question, bool $default = false): bool
+    {
+        $suffix = $default ? ' [Y/n]: ' : ' [y/N]: ';
+        fwrite(STDOUT, "\033[32m" . $question . $suffix . "\033[0m");
+
+        $answer = strtolower(trim(fgets(STDIN)));
+        if ($answer === '') {
+            return $default;
+        }
+
+        return in_array($answer, ['y', 'yes'], true);
+    }
+
+    /**
+     * Choice helper
+     *
+     * @param string $question Question
+     * @param array $choices Available Choices
+     * @param int $default [optional] Default value (default: 0)
+     *
+     * @return string
+     * @author SteffenHaase <shworx.development@gmail.com>
+     */
+    protected function choice(string $question, array $choices, int $default = 0): string
+    {
+        $this->success($question, false);
+        fwrite(STDOUT, "\033[32m" . $question . "\033[0m");
+
+        foreach ($choices as $index => $choice) {
+            fwrite(STDOUT, "\033[32m" . sprintf('  [%d] %s', $index + 1, $choice) . "\033[0m\n");
+        }
+
+        while (true) {
+            $answer = $this->ask('Select option', (string) ($default + 1));
+            $selected = (int) $answer - 1;
+
+            if (isset($choices[$selected])) {
+                return $choices[$selected];
+            }
+
+            fwrite(STDOUT, "\033[31m" . $question . "\033[0m\n");
+        }
+    }
 
     /**
      * Prints a line
@@ -168,45 +239,48 @@ abstract class Command
      */
     protected function line(string $message, bool $lineBreak = true): void
     {
-        echo $message . ($lineBreak === true ? PHP_EOL : ' ');
+        echo $message . ($lineBreak === true ? PHP_EOL : '');
     }
 
     /**
      * Print a "success" message
      *
      * @param string $message
+     * @param bool $lineBreak [optional] Linebreak at the end (default: true)
      *
      * @return void
      * @author Steffen Haase <shworx.development@gmail.com>
      */
-    public function success(string $message): void
+    public function success(string $message, bool $lineBreak = true): void
     {
-        echo "\033[32m{$message}\033[0m" . PHP_EOL;
+        echo "\033[32m{$message}\033[0m" . ($lineBreak === true ? PHP_EOL : '');
     }
 
     /**
-     * Print a "error" message
+     * Print an "error" message
      *
      * @param string $message
+     * @param bool $lineBreak [optional] Linebreak at the end (default: true)
      *
      * @return void
      * @author Steffen Haase <shworx.development@gmail.com>
      */
-    protected function error(string $message): void
+    protected function error(string $message, bool $lineBreak = true): void
     {
-        echo "\033[31m{$message}\033[0m" . PHP_EOL;
+        echo "\033[31m{$message}\033[0m" . ($lineBreak === true ? PHP_EOL : '');
     }
 
     /**
      * Print a "warning" message
      *
      * @param string $message
+     * @param bool $lineBreak [optional] Linebreak at the end (default: true)
      *
      * @return void
      * @author Steffen Haase <shworx.development@gmail.com>
      */
-    protected function warning(string $message): void
+    protected function warning(string $message, bool $lineBreak = true): void
     {
-        echo "\033[33m{$message}\033[0m" . PHP_EOL;
+        echo "\033[33m{$message}\033[0m" . ($lineBreak === true ? PHP_EOL : '');
     }
 }

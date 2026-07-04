@@ -37,6 +37,9 @@ Whether you're building a personal website, business application, administration
 - MariaDB / MySQL
 - Docker (optional)
 
+## Documentation
+The full documentation of Beacon is available at: https://beacon.shworx.com/documentation
+
 ## Installation
 1. Create a new Beacon project:
 ```shell
@@ -83,13 +86,17 @@ project-directory
 │    ├── DTO                // Contains all the DTO's
 │    ├── Enums
 │    ├── Exceptions
+│    ├── Generators
 │    ├── Helpers
 │    ├── Http
 │    ├── Interfaces
 │    ├── Middleware
 │    ├── Models             // Contains all Models
+│    ├── Pipeline
 │    ├── Providers
+│    ├── Repositories
 │    ├── Routing
+│    ├── Security
 │    ├── Services
 │    ├── Support
 │    └── View
@@ -100,16 +107,17 @@ project-directory
 │    └── migrations
 ├── docker
 ├── public
-│    ├── assets
-│    │    ├── css
-│    │    ├── js
-│    │    ├── favicons      
-│    │    └── img
+│    └── assets
+│         ├── css
+│         ├── js
+│         ├── favicons      
+│         └── img
 ├── resources
 │    ├── stubs
 │    └── views              // Contains all the Twig templates
 ├── routes
-│    └── web.php            // This is where the routes are defined
+│    ├── api.php            // This is where the API routes are defined
+│    └── web.php            // This is where the web routes are defined
 ├── storage
 └── tests
 ```
@@ -146,7 +154,7 @@ $router->group(
     callback: function (Router $router) {
         $router->get('/dashboard', [DashboardController::class, 'index'], 'dashboard');
     },
-    middleware: [AuthMiddleware::class]
+    middleware: ['auth']
 );
 ```
 

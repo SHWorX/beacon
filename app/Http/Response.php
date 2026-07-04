@@ -9,18 +9,19 @@
 
 namespace App\Http;
 
+use JsonException;
+
 final readonly class Response
 {
     /**
      * Constructor
-     * @param string $content Content
-     * @param int $status HTTP Status
+     *
      * @param array $headers Headers
      */
     public function __construct(
+        private array  $headers = [],
         private string $content = '',
         private int    $status = 200,
-        private array  $headers = []
     ) { }
 
     /**
@@ -34,7 +35,7 @@ final readonly class Response
      */
     public static function html(string $content, int $status = 200): self
     {
-        return new self($content, $status, ['Content-Type' => 'text/html; charset=UTF-8']);
+        return new self(['Content-Type' => 'text/html; charset=UTF-8'], $content, $status);
     }
 
     /**
@@ -44,13 +45,14 @@ final readonly class Response
      * @param int $status [optional] The HTTP status code (default: 200)
      *
      * @return Response
+     * @throws JsonException
      * @author SteffenHaase <shworx.development@gmail.com>
      */
     public static function json(array $data, int $status = 200): self
     {
-        $data = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES);
+        $data = json_encode($data, JSON_PRETTY_PRINT | JSON_UNESCAPED_SLASHES | JSON_THROW_ON_ERROR);
 
-        return new self($data, $status, ['Content-Type' => 'application/json']);
+        return new self(['Content-Type' => 'application/json'], $data, $status);
     }
 
 
@@ -65,7 +67,7 @@ final readonly class Response
      */
     public static function redirect(string $url, int $status = 302): self
     {
-        return new self('', $status, ['Location' => $url]);
+        return new self(['Location' => $url], '', $status);
     }
 
     /**

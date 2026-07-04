@@ -17,6 +17,7 @@ use App\Enums\AuthToken;
 use App\Exceptions\InvalidEnumException;
 use App\Exceptions\MailerException;
 use App\Exceptions\ValidationException;
+use App\Helpers\StringHelper;
 use App\Http\Request;
 use App\Http\Response;
 use App\Models\PasswordResetToken;
@@ -73,14 +74,14 @@ class ForgottenPasswordController extends Controller
             if (!$user->hasVerifiedEmail()) {
                 $flash->error([
                     'verification' => 'Please verify your email address first.<br>' .
-                        '<a href="' . route('register.resend-verification-form') . '">Resend verification email</a>'
+                        '<a href="' . route('auth.verification.resend') . '">Resend verification email</a>'
                 ]);
 
-                return Response::redirect(route('forgotten'));
+                return Response::redirect(route('auth.forgotten'));
             }
 
 
-            $token = $this->getToken(AuthToken::PASSWORD);
+            $token = StringHelper::getVerificationToken(AuthToken::PASSWORD);
 
             PasswordResetToken::query()->where('user_id', $user->id)->delete();
             PasswordResetToken::query()->create([
@@ -96,7 +97,7 @@ class ForgottenPasswordController extends Controller
             'title' => 'Password Reset',
             'content' => '<p class="pt-sm">If an account exists for this email, a password reset link has been sent.</p>',
         ];
-        return $this->view('auth/common_notification.twig', $data);
+        return $this->view('common_notification.twig', $data);
     }
 
     /**
@@ -127,11 +128,11 @@ class ForgottenPasswordController extends Controller
             $data = [
                 'title' => 'Password Reset',
                 'content' => '<p class="pt-sm">This password reset has expired.</p>' .
-                    '<a href="' . route('forgotten') .
+                    '<a href="' . route('auth.forgotten') .
                     '" class="btn btn-primary shadow-sm mt-sm">Request new password reset</a>',
             ];
 
-            return $this->view('auth/common_notification.twig', $data);
+            return $this->view('common_notification.twig', $data);
         }
 
         return $this->view('auth/reset_password.twig', ['token' => $token]);
@@ -174,8 +175,9 @@ class ForgottenPasswordController extends Controller
         $data = [
             'title' => 'Password Reset',
             'content' => '<p class="pt-sm">Your account password has been reset.</p>' .
-                '<a href="' . route('login') . '" class="btn btn-primary shadow-sm mt-sm">Go to Login</a>'
+                '<a href="' . route('auth.login') . '" class="btn btn-primary shadow-sm mt-sm">Go to Login</a>'
         ];
-        return $this->view('auth/common_notification.twig', $data);
+
+        return $this->view('common_notification.twig', $data);
     }
 }

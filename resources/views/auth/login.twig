@@ -7,11 +7,11 @@
 
             {% if errors.auth_error is defined %}
                 <div class="error border-radius-sm">
-                    {{ errors.auth_error|first|raw }}
+                    {{ errors.auth_error|raw }}
                 </div>
             {% endif %}
 
-            <form action="{{ route('login.post') }}" method="POST">
+            <form action="{{ route('auth.login.post') }}" method="POST">
                 {{ csrf() }}
 
                 <label for="email" class="bold m-0-auto">Email</label>
@@ -22,7 +22,7 @@
                         name="email"
                         class="input"
                         placeholder="{{ old.name|default('you@example.org')|e }}"
-                        autocomplete="on"
+                        autocomplete="username"
                         required
                 >
                 {% if errors.email is defined %}
@@ -41,7 +41,7 @@
                         type="password"
                         name="password"
                         class="input"
-                        autocomplete="on"
+                        autocomplete="password"
                         required
                 >
                 {% if errors.password is defined %}
@@ -61,8 +61,8 @@
                 <div class="spacer-sm"></div>
 
                 <div class="row justify-center">
-                    <a href="{{ route('forgotten') }}">Forgotten password?</a>
-                    <a href="{{ route('register') }}">Create new account</a>
+                    <a href="{{ route('auth.forgotten') }}">Forgotten password?</a>
+                    <a href="{{ route('auth.register') }}">Create new account</a>
                 </div>
 
                 <div class="flex justify-center">

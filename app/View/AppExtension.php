@@ -17,15 +17,21 @@ use Random\RandomException;
 use Twig\Extension\AbstractExtension;
 use Twig\TwigFunction;
 
-class AppExtension extends AbstractExtension
+final class AppExtension extends AbstractExtension
 {
     public function __construct(
-        private Router      $router,
-        private CsrfService $csrf,
-        private Flash       $flash,
-        private AuthService $auth,
+        private readonly Router      $router,
+        private readonly CsrfService $csrf,
+        private readonly Flash       $flash,
+        private readonly AuthService $auth,
     ) { }
 
+    /**
+     * Returns custom Twig functions
+     *
+     * @return array
+     * @author SteffenHaase <shworx.development@gmail.com>
+     */
     public function getFunctions(): array
     {
         return [
@@ -39,6 +45,7 @@ class AppExtension extends AbstractExtension
             new TwigFunction('csrf', [$this, 'csrf'], ['is_safe' => ['html']]),
             new TwigFunction('asset', [$this, 'asset']),
             new TwigFunction('app_url', [$this, 'app_url']),
+            new TwigFunction('auth', [$this, 'auth']),
         ];
     }
 
@@ -175,5 +182,16 @@ class AppExtension extends AbstractExtension
     public function app_url(?string $path = null): string
     {
         return app_url($path);
+    }
+
+    /**
+     * Returns the auth service object
+     *
+     * @return AuthService
+     * @author SteffenHaase <shworx.development@gmail.com>
+     */
+    public function auth(): AuthService
+    {
+        return $this->auth;
     }
 }
