@@ -23,7 +23,7 @@ header {
     border-bottom: 1px solid var(--text-light);
     position: sticky;
     top: 0;
-    padding: var(--space-xs) 0;
+    padding: 0;
     background: var(--surface);
     isolation: isolate;
     -webkit-backdrop-filter: blur(8px);
@@ -63,12 +63,11 @@ nav {
 
 nav a {
     font-weight: 700;
-    letter-spacing: 2px;
     color: var(--text);
     text-decoration: none;
     transition: 0.3s ease;
     position: relative;
-    margin-right: var(--space-md);
+    margin-right: var(--space-sm);
 }
 
 nav a::after {
