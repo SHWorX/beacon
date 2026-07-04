@@ -15,7 +15,6 @@ use App\Providers\DatabaseProvider;
 use App\Providers\LoggingServiceProvider;
 use App\Providers\MailServiceProvider;
 use App\Providers\RoutingServiceProvider;
-use App\Providers\TotpServiceProvider;
 use App\Providers\ValidationServiceProvider;
 use App\Providers\ViewServiceProvider;
 
@@ -30,5 +29,4 @@ return [
     CsrfServiceProvider::class,
     ValidationServiceProvider::class,
     AuthServiceProvider::class,
-    TotpServiceProvider::class,
 ];
