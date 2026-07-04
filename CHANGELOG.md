@@ -2,6 +2,45 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.3.0]
+
+### Added
+- New command InstallCommand (not finished yet)
+- New command helpers: ask(), confirm(), choice()
+- New CSS styles for dropdown navigation element incl. sub menu
+- New HTTP 429 error
+- Dedicated (internal) API routes
+- JavaScript API client for usage in templates
+- User account settings page to change email and password
+- Correct "autocomplete" usages to forms
+- Missing CSS declarations
+- Alerts to Neumorphism
+- Redirect in Login and Home controller to dashboard if user is already authenticated
+- Middleware aliases
+- Rate limiting for routes
+- New global Twig variable "_appApiBaseUrl"
+
+### Fixed
+- Wrong version declaration in CHANGELOG.md for 1.2.6
+- The docker container "beacon-webserver" write now Nginx logs directly to `docker/logs/*.log` (before the logs was only accessible via `docker logs beacon-webserver`)
+- `auth_error` handling in view `auth/login.twig`
+- Fixed blank console outputs
+
+### Changed
+- Moved app secret generation into separate generator class
+- Middleware can now not only be attached to route groups, but also to single routes
+- Grouping of web routes
+- Changed first paragraph in `resources/views/mail/verify_email.twig`, cause the template is now used for email validation during registration, and changing email under settings
+- All web routes have now the CSRF middleware by default
+
+### Changed (Breaking)
+- Moved `common_notification.twig` template from `resources/views/auth` to `resources/views`
+- Moved verification token generation from `app/Controller/Auth/AuthTrait` to `app/Helpers/StringHelper`
+- Unified password field names in registration and account settings page and related DTOs/Controllers
+- Middleware implementation and handling
+- Attaching middleware to routes and route groups does now happen via aliases instead of classes
+- Routes **need** a "name" definition now
+
 ## [1.2.6] - 2026-06-18
 
 ### Added
