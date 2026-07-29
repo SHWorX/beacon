@@ -4,6 +4,11 @@ All notable changes to this project will be documented in this file.
 
 ## [1.3.0]
 
+### Changed
+- Updated composer.json to use the latest minor versions of dependencies
+
+## [1.3.0]
+
 ### Added
 - New command InstallCommand (not finished yet)
 - New command helpers: ask(), confirm(), choice()
