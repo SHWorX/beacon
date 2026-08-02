@@ -33,6 +33,10 @@ class Session
      */
     public function get(string $key, mixed $default = null, bool $decrypt = false): mixed
     {
+        if (!$this->has($key)) {
+            return $default;
+        }
+
         $value = $_SESSION[$key];
 
         if ($decrypt && $value !== null) {
