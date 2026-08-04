@@ -7,7 +7,7 @@ services:
     ports:
       - "80:80"
       - "443:443"
-    hostname: image-archive.local
+    hostname: beacon.local
     working_dir: /var/www/main
     tty: true
     volumes:
@@ -26,8 +26,8 @@ services:
       - /etc/localtime:/etc/localtime:ro
       - maria-storage:/var/lib/mysql
     environment:
-      MYSQL_DATABASE: "${DB_DATABASE:-image_archive}"
-      MYSQL_USER: "${DB_USERNAME:-image_archive}"
+      MYSQL_DATABASE: "${DB_DATABASE:-beacon}"
+      MYSQL_USER: "${DB_USERNAME:-beacon}"
       MYSQL_PASSWORD: "${DB_PASSWORD:-secret}"
       MYSQL_ROOT_PASSWORD: "${DB_ROOT_PASSWORD:-secret}"
     ports:
