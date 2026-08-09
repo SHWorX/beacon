@@ -2,6 +2,10 @@
 
 ![Logo with Brand and Slogan](./public/assets/img/logo-brand-and-slogan-800x237.png)
 
+![Packagist Version](https://img.shields.io/packagist/v/shworx/beacon?color=00a1ff)
+![Packagist License](https://img.shields.io/packagist/l/shworx/beacon)
+
+
 ## About Beacon
 Beacon is a modern PHP application starter framework designed for developers who value simplicity, maintainability, and rapid development.
 
