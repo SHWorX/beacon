@@ -27,22 +27,24 @@ final readonly class DatabaseProvider extends ServiceProvider
             Manager::class,
             function () {
                 $capsule = new Manager();
-                $capsule->addConnection([
-                    'driver'    => config('database.driver'),
-                    'host'      => config('database.host'),
-                    'port'      => config('database.port'),
-                    'database'  => config('database.database'),
-                    'username'  => config('database.username'),
-                    'password'  => config('database.password'),
-                    'charset'   => config('database.charset'),
-                    'collation' => config('database.collation'),
-                    'prefix'    => config('database.prefix', ''),
-                ]);
 
-                $capsule->setEventDispatcher(
-                    new Dispatcher(new IlluminateContainer())
-                );
+                $connection = [
+                    'driver'   => config('database.driver'),
+                    'host'     => config('database.host'),
+                    'port'     => config('database.port'),
+                    'database' => config('database.database'),
+                    'username' => config('database.username'),
+                    'password' => config('database.password'),
+                    'charset'  => config('database.charset'),
+                    'prefix'   => config('database.prefix', ''),
+                ];
 
+                if (config('database.driver') === 'mysql') {
+                    $connection['collation'] = config('database.collation');
+                }
+
+                $capsule->addConnection($connection);
+                $capsule->setEventDispatcher(new Dispatcher(new IlluminateContainer()));
                 $capsule->setAsGlobal();
                 $capsule->bootEloquent();
 

@@ -8,7 +8,7 @@ return new class extends Migration
     public function up(): void
     {
         $this->schema()->create('rate_limits', function (Blueprint $table) {
-            $table->string('key', 191)->primary()->unique();
+            $table->string('key', 191)->primary();
             $table->integer('hits')->default(0);
             $table->timestamp('window_start');
             $table->timestamp('expires_at');
