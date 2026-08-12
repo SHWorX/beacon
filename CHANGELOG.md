@@ -9,6 +9,7 @@ All notable changes to this project will be documented in this file.
 
 ### Changed
 - Removed `unique()` call on primary column from `rate_limit` migration (already covered/implied by `primary()` call)
+- Removed dummy "Profile" link from top navigation
 
 ### Fixed
 - Fixed wrong hostname in docker-compose.yml
