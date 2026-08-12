@@ -2,7 +2,28 @@
 
 All notable changes to this project will be documented in this file.
 
-## [1.3.0]
+## [1.4.0]
+
+### Added
+- Added support for PostgreSQL
+
+### Changed
+- Removed `unique()` call on primary column from `rate_limit` migration (already covered/implied by `primary()` call)
+
+### Fixed
+- Fixed wrong hostname in docker-compose.yml
+
+## [1.3.3]
+
+### Fixed
+- Fixed wrong hostname in docker-compose.yml
+
+## [1.3.2]
+
+### Fixed
+- Fixed undefined array key issue in app/Support/Session.php
+
+## [1.3.1]
 
 ### Changed
 - Updated composer.json to use the latest minor versions of dependencies
