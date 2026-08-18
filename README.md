@@ -5,6 +5,16 @@
 ![Packagist Version](https://img.shields.io/packagist/v/shworx/beacon?color=00a1ff)
 ![Packagist License](https://img.shields.io/packagist/l/shworx/beacon)
 
+> **Important note**
+>
+> The current version 1.4 will be the final stable feature release in the 1.x branch. Development will now focus on the 
+> upcoming Beacon v2.0 release, which will introduce a new architecture separating the Beacon framework from the 
+> application and application skeleton layers.
+>
+> The 1.4 release may continue to receive patch-level updates for bug fixes and other
+> critical issues.
+>
+> **No further feature development is planned for the 1.x branch.**
 
 ## About Beacon
 Beacon is a modern PHP application starter framework designed for developers who value simplicity, maintainability, and rapid development.
