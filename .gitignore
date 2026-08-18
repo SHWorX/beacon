@@ -4,6 +4,7 @@
 .composer
 .CURRENT_CHANGES.md
 composer.lock
+docs/internal
 vendor
 
 phpdoc.dist.xml
