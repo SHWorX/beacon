@@ -10,7 +10,6 @@
 namespace App\Providers;
 
 use App\Container\Container;
-use App\Generators\QrCodeGenerator;
 use App\Http\Request;
 use App\Services\EncryptionService;
 use App\Support\Flash;
@@ -51,11 +50,6 @@ final readonly class AppServiceProvider extends ServiceProvider
         $this->container->singleton(
             Redirect::class,
             fn () => new Redirect()
-        );
-
-        $this->container->singleton(
-            QrCodeGenerator::class,
-            fn () => new QrCodeGenerator()
         );
     }
 }
