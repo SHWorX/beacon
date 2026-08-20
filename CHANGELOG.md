@@ -2,6 +2,11 @@
 
 All notable changes to this project will be documented in this file.
 
+## [1.4.2]
+
+## Fixed
+- Fixed "undefined array key" error in csrf middleware
+
 ## [1.4.1]
 
 > **Important note**
