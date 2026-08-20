@@ -25,7 +25,8 @@ class CsrfService
         return $_SESSION['_csrf'];
     }
 
-    public function validate(?string $token): bool {
+    public function validate(?string $token): bool
+    {
         return isset($_SESSION['_csrf'])
             && $token !== null
             && hash_equals($_SESSION['_csrf'], $token);
@@ -40,5 +41,4 @@ class CsrfService
 
         return $_SESSION['_csrf'];
     }
-
 }

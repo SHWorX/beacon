@@ -25,15 +25,15 @@ readonly class CsrfMiddleware implements MiddlewareInterface
     public function handle(Request $request, callable $next, mixed ...$parameters): Response
     {
         if ($request->method() === 'POST') {
+            $token = $request->post('_csrf');
+            $valid = $this->csrf->validate($token);
+
             $this->logger->debug("CSRF token validation", [
-                'token' => $request->post('_csrf'),
-                'session_token' => $_SESSION['_csrf'],
-                'hash_equals' => hash_equals($_SESSION['_csrf'], $request->post('_csrf')),
+                'token' => $token . ':' . $_SESSION['_csrf'] ?? 'na',
+                'valid' => $valid,
             ]);
 
-            $token = $request->post('_csrf');
-
-            if (!$this->csrf->validate($token)) {
+            if (!$valid) {
                 return Response::html('<h1>HTTP 419 - CSRF Token Mismatch</h1>', 419);
             }
         }
