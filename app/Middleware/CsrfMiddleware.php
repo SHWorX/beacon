@@ -29,7 +29,7 @@ readonly class CsrfMiddleware implements MiddlewareInterface
             $valid = $this->csrf->validate($token);
 
             $this->logger->debug("CSRF token validation", [
-                'token' => $token . ':' . $_SESSION['_csrf'] ?? 'na',
+                'token' => $token . ':' . $request->sessionGet('_csrf'),
                 'valid' => $valid,
             ]);
 
